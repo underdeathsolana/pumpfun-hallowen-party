@@ -211,7 +211,8 @@ function initializeSpiders() {
 
 // Countdown Timer
 function initializeCountdown() {
-    const targetDate = new Date(CONFIG.event.date).getTime();
+    // Halloween 2025: October 31, 2025, 20:00 (8:00 PM)
+    const targetDate = new Date('2025-10-31T20:00:00').getTime();
     
     function updateCountdown() {
         const now = new Date().getTime();
@@ -293,42 +294,15 @@ function initializeScrollAnimations() {
     });
 }
 
-// Costume AI with OpenAI Integration
+// Costume AI - Pure Frontend with 200+ Templates
 function initializeCostumeAI() {
     const getCostumeBtn = document.getElementById('getCostumeBtn');
     const closeResultBtn = document.getElementById('closeResult');
     const costumeResult = document.getElementById('costumeResult');
     const resultText = document.getElementById('resultText');
     const typingIndicator = document.getElementById('typingIndicator');
-    const apiKeyInput = document.getElementById('apiKey');
-    const saveApiKeyCheckbox = document.getElementById('saveApiKey');
-    const clearApiKeyBtn = document.getElementById('clearApiKey');
-    const savedKeyStatus = document.getElementById('savedKeyStatus');
     
-    // Check if there's a saved API key
-    checkSavedApiKey();
-    
-    function checkSavedApiKey() {
-        const savedKey = CONFIG.getApiKey();
-        if (savedKey) {
-            apiKeyInput.value = savedKey;
-            savedKeyStatus.style.display = 'inline';
-            clearApiKeyBtn.style.display = 'inline-block';
-            saveApiKeyCheckbox.checked = true;
-        }
-    }
-    
-    // Clear saved API key
-    clearApiKeyBtn.addEventListener('click', function() {
-        if (confirm('Hapus API key yang tersimpan?')) {
-            CONFIG.clearApiKey();
-            apiKeyInput.value = '';
-            savedKeyStatus.style.display = 'none';
-            clearApiKeyBtn.style.display = 'none';
-            saveApiKeyCheckbox.checked = false;
-            alert('✓ API key berhasil dihapus!');
-        }
-    });
+    // No API key needed - pure frontend!
     
     getCostumeBtn.addEventListener('click', async function() {
         const userName = document.getElementById('userName').value.trim();
@@ -376,40 +350,6 @@ function initializeCostumeAI() {
     closeResultBtn.addEventListener('click', function() {
         costumeResult.style.display = 'none';
     });
-}
-
-// OpenAI API Integration
-async function getCostumeFromOpenAI(userName, apiKey) {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-            model: CONFIG.openai.model,
-            messages: [
-                {
-                    role: 'system',
-                    content: CONFIG.openai.systemPrompt
-                },
-                {
-                    role: 'user',
-                    content: `My name is ${userName}. What Halloween costume should I wear to the ${CONFIG.event.name}?`
-                }
-            ],
-            max_tokens: CONFIG.openai.maxTokens,
-            temperature: CONFIG.openai.temperature
-        })
-    });
-    
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error?.message || 'OpenAI API request failed');
-    }
-    
-    const data = await response.json();
-    return data.choices[0].message.content;
 }
 
 // 200+ RANDOM COSTUME TEMPLATES - PURE FRONTEND!
