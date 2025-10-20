@@ -55,3 +55,6 @@ QUICK_TEST.html
 # Documentation files (semua file .md)
 *.md
 !README.md
+
+# Text files (semua file .txt)
+*.txt
