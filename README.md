@@ -42,69 +42,66 @@ Website interaktif untuk Halloween party dengan tema horror dan fitur AI untuk s
 
 ## 🚀 Cara Menggunakan
 
-### 1. Setup OpenAI (Opsional tapi Recommended)
+### 1. Install Dependencies (Untuk Developer)
 
-**Untuk Developer:**
 ```bash
-# 1. Copy file environment
+# Install Node.js packages
+npm install
+```
+
+### 2. Setup Environment Variables (Untuk Developer)
+
+```bash
+# 1. Copy file environment example
 cp .env.example .env
 
-# 2. Edit .env dan tambahkan API key Anda
+# 2. Edit .env dan tambahkan OpenAI API key
 # OPENAI_API_KEY=sk-proj-your-key-here
-
-# 3. Atau edit config.js langsung
 ```
 
-**Untuk User:**
-- Dapatkan API key gratis di [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
-- Kredit gratis $5 untuk 3 bulan!
+📖 **Panduan lengkap untuk developer**: Lihat [BACKEND_SETUP.md](BACKEND_SETUP.md)
 
-📖 **Panduan lengkap**: Lihat [SETUP_OPENAI.md](SETUP_OPENAI.md)
+### 3. Jalankan Website
 
-### 2. Buka Website
-Buka file `index.html` di browser modern (Chrome, Firefox, Edge, Safari)
-
-**Atau jalankan dengan local server:**
+**Cara Mudah (Recommended):**
 ```bash
-# Python
-python -m http.server 8000
-
-# Node.js
-npx serve
-
-# PHP  
-php -S localhost:8000
+# Windows - Double click salah satu:
+start.bat
+# atau
+.\start.ps1
 ```
 
-### 3. Aktifkan Suara
+Script akan otomatis:
+- Start backend server (port 3000)
+- Start frontend server (port 8000)
+- Buka browser otomatis
+
+**Manual:**
+```bash
+# Terminal 1 - Backend
+node server.js
+
+# Terminal 2 - Frontend  
+python -m http.server 8000
+```
+
+### 4. Aktifkan Suara
 Klik tombol 🔊 di pojok kanan atas untuk mengaktifkan efek suara horror
 
-### 4. Gunakan AI Costume Consultant
+### 5. Gunakan AI Costume Consultant
 
-#### Mode 1: Dengan OpenAI API (Recommended):
+**Untuk User (SUPER SIMPLE):**
 1. Masukkan nama Anda
-2. Masukkan API key (sk-...)
-3. ✓ Centang "Simpan API Key di browser" (opsional)
-4. Klik "Get My Costume Suggestion"
-5. Dapatkan saran kostum ultra-personal dari ChatGPT!
+2. Klik "Get My Costume Suggestion"
+3. Dapatkan saran kostum dari AI! ✨
 
-**Keuntungan:**
-- Saran super personal dan kreatif
-- Setiap nama dapat response unik
-- API key tersimpan aman di browser Anda
-
-#### Mode 2: Tanpa OpenAI API (Gratis):
-1. Masukkan nama Anda
-2. Biarkan field API Key kosong
-3. Klik "Get My Costume Suggestion"
-4. Dapatkan saran kostum dari AI built-in
-
-**Keuntungan:**
-- 100% gratis, tidak perlu registrasi
-- Tetap dapat saran bagus
+**Tidak perlu API key!** 🎉
+- AI berjalan di backend server
 - Privacy terjaga
+- Rate limited untuk mencegah abuse
+- Fallback system jika API error
 
-### 4. Jelajahi Website
+### 6. Jelajahi Website
 - Scroll untuk melihat semua section dengan smooth animation
 - Klik tombol "Enter If You Dare" untuk efek surprise
 - Hover pada elemen untuk efek interaktif
@@ -118,13 +115,19 @@ untuk mengaktifkan mode rahasia! 🌈
 
 ## 🛠️ Teknologi
 
+### Frontend
 - **HTML5**: Struktur semantic modern
 - **CSS3**: Animasi, gradients, transforms, custom properties
 - **Vanilla JavaScript**: No framework, pure JS
-- **OpenAI API**: Integrasi ChatGPT GPT-3.5/GPT-4 (opsional)
-- **LocalStorage API**: Simpan API key dengan aman
 - **Canvas API**: Animasi laba-laba
-- **Fetch API**: Request ke OpenAI
+- **Fetch API**: Request ke backend
+
+### Backend
+- **Node.js**: Runtime environment
+- **Express.js**: Web server framework
+- **OpenAI API**: Integrasi ChatGPT GPT-3.5-turbo
+- **Security**: Rate limiting, Helmet, CORS protection
+- **dotenv**: Environment variable management
 
 ## 📱 Browser Support
 
@@ -144,27 +147,17 @@ Website ini menggunakan Google Fonts:
 
 ### Setup OpenAI API Key (Developer Mode)
 
-**File `config.js`:**
-```javascript
-const CONFIG = {
-    openai: {
-        apiKey: 'sk-proj-your-key-here',  // Paste key di sini
-        model: 'gpt-3.5-turbo',           // Atau gpt-4
-        maxTokens: 300,
-        temperature: 0.9
-    }
-};
+**File `.env`:**
+```bash
+OPENAI_API_KEY=sk-proj-your-key-here
 ```
 
-⚠️ **Jangan commit file dengan API key!** Gunakan `.gitignore`
+⚠️ **PENTING**: File `.env` sudah ada di `.gitignore` - tidak akan ter-commit ke GitHub!
 
 ### Mengubah Tanggal Party
-Edit file `config.js`:
+Edit file `script.js`, cari bagian countdown:
 ```javascript
-event: {
-    name: 'Pump Fun Halloween Party',
-    date: 'October 31, 2025 20:00:00'  // Ubah tanggal di sini
-}
+const countdownDate = new Date('October 31, 2025 20:00:00').getTime();
 ```
 
 ### Mengubah Warna
@@ -192,47 +185,81 @@ Ganti URL audio di `index.html`:
 
 ```
 HALOOWEN/
-├── index.html          # Halaman utama
-├── style.css           # Styling dan animasi
-├── script.js           # JavaScript interaktif
-├── config.js           # Konfigurasi (API key, settings)
-├── .env                # Environment variables (jangan commit!)
-├── .env.example        # Template environment
-├── .gitignore          # File yang diabaikan Git
-├── README.md           # Dokumentasi utama
-└── SETUP_OPENAI.md     # Panduan setup OpenAI
+├── index.html              # Halaman utama
+├── style.css               # Styling dan animasi
+├── script.js               # JavaScript frontend
+├── api-client.js           # API client untuk backend
+├── server.js               # Backend Express server
+├── package.json            # Node.js dependencies
+├── .env                    # Environment variables (TIDAK DI COMMIT!)
+├── .env.example            # Template environment
+├── .gitignore              # File yang diabaikan Git
+├── start.ps1               # PowerShell starter script
+├── start.bat               # Batch starter script
+├── README.md               # Dokumentasi utama
+├── BACKEND_README.md       # API documentation
+├── BACKEND_SETUP.md        # Setup guide untuk deployment
+└── FINAL_SUMMARY.md        # Summary lengkap
 ```
 
 ## ⚠️ Catatan Penting
 
+### Untuk User (Pengunjung Website)
+- **Tidak perlu API key!** Website siap pakai langsung
+- Cukup masukkan nama dan klik button untuk saran kostum
+- Rate limited: 10 requests per 5 menit (fair usage)
+
+### Untuk Developer
+
 1. **OpenAI API Key**: 
    - API key bersifat **PRIBADI**, jangan share!
-   - Dapatkan gratis dengan kredit $5 trial di OpenAI
-   - Website tetap berfungsi 100% tanpa API key
-   - Key tersimpan aman di browser, tidak dikirim ke server
-   - Baca [SETUP_OPENAI.md](SETUP_OPENAI.md) untuk panduan lengkap
+   - Dapatkan gratis dengan kredit $5 trial di [platform.openai.com](https://platform.openai.com/api-keys)
+   - Key disimpan di `.env` file (server-side only)
+   - Tidak pernah terekspos ke frontend/user
+   - Baca [BACKEND_SETUP.md](BACKEND_SETUP.md) untuk panduan lengkap
 
 2. **Keamanan**:
-   - Jangan commit file `.env` atau `config.js` yang berisi API key
-   - Gunakan `.gitignore` yang sudah disediakan
-   - Regenerate key jika tidak sengaja terpublish
+   - File `.env` sudah protected di `.gitignore`
+   - JANGAN commit file `.env` dengan API key!
+   - Rate limiting aktif (10 req/5min per IP)
+   - Helmet security headers enabled
+   - Input validation & sanitization
 
-3. **Audio Autoplay**:
+3. **API Documentation**:
+   - Endpoint details: [BACKEND_README.md](BACKEND_README.md)
+   - POST `/api/costume-suggestion` - Main AI endpoint
+   - POST `/api/fallback-suggestion` - Fallback tanpa OpenAI
+   - GET `/api/health` - Health check
+
+4. **Audio Autoplay**:
    - Browser modern memblokir autoplay audio
    - User harus klik tombol sound toggle dulu
 
-3. **Performance**:
+5. **Performance**:
    - Animasi optimized untuk performance
    - Canvas animation efficient
-   - No heavy libraries
+   - Backend response < 5 detik
+   - Request timeout: 30 detik
 
-## 📝 Credits
+## � Dokumentasi Lengkap
+
+- **[BACKEND_README.md](BACKEND_README.md)** - API documentation & endpoints
+- **[BACKEND_SETUP.md](BACKEND_SETUP.md)** - Deployment & setup guide
+- **[FINAL_SUMMARY.md](FINAL_SUMMARY.md)** - Comprehensive summary
+
+## �📝 Credits
 
 Dibuat dengan 💀 untuk Pump Fun Halloween Party 2025
 
+### Tech Stack
+- Frontend: HTML5, CSS3, Vanilla JavaScript
+- Backend: Node.js, Express.js
+- AI: OpenAI GPT-3.5-turbo
+- Security: Helmet, CORS, Rate Limiting
+
 ### Assets
 - Audio: Mixkit (royalty-free)
-- Fonts: Google Fonts
+- Fonts: Google Fonts (Creepster, Nosifer, Butcherman)
 - Icons: Unicode Emoji
 
 ## 🎃 Have a Spooky Party! 🎃
@@ -242,3 +269,5 @@ Selamat menikmati party Halloween yang seram dan menyenangkan!
 ---
 
 **Note**: Website ini dibuat untuk tujuan entertainment dan celebration Halloween. Semua efek horror dirancang untuk fun, bukan untuk menakuti sungguhan! 👻
+
+**Security Note**: API key tidak pernah terekspos ke client. Backend server menangani semua request OpenAI dengan aman.

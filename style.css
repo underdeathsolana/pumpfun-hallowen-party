@@ -519,6 +519,22 @@ section {
     box-shadow: 0 10px 40px rgba(139, 0, 255, 0.6);
 }
 
+.backend-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(139, 0, 255, 0.1);
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.backend-info p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ghost-white);
+    opacity: 0.9;
+}
+
 .costume-result {
     max-width: 700px;
     margin: 40px auto 0;

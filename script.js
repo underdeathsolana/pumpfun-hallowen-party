@@ -332,23 +332,10 @@ function initializeCostumeAI() {
     
     getCostumeBtn.addEventListener('click', async function() {
         const userName = document.getElementById('userName').value.trim();
-        let apiKey = apiKeyInput.value.trim();
         
         if (!userName) {
             alert('Please enter your name!');
             return;
-        }
-        
-        // Save API key if checkbox is checked
-        if (saveApiKeyCheckbox.checked && apiKey && apiKey.startsWith('sk-')) {
-            CONFIG.saveApiKey(apiKey);
-            savedKeyStatus.style.display = 'inline';
-            clearApiKeyBtn.style.display = 'inline-block';
-        }
-        
-        // Try to get saved API key if input is empty
-        if (!apiKey) {
-            apiKey = CONFIG.getApiKey();
         }
         
         // Show result container with typing indicator
@@ -363,29 +350,23 @@ function initializeCostumeAI() {
         }, 100);
         
         try {
-            let suggestion;
-            
-            if (CONFIG.features.enableOpenAI && apiKey && apiKey.startsWith('sk-')) {
-                // Use OpenAI API if key is provided
-                suggestion = await getCostumeFromOpenAI(userName, apiKey);
-            } else {
-                // Use fallback AI-like suggestions
-                suggestion = getFallbackCostumeSuggestion(userName);
-            }
+            // Call backend API - tidak perlu API key!
+            // Backend akan handle OpenAI API call dengan API key yang aman
+            const suggestion = await getCostumeFromBackend(userName);
             
             // Simulate typing effect
             setTimeout(() => {
                 typingIndicator.style.display = 'none';
                 resultText.style.display = 'block';
                 typeWriter(suggestion, resultText);
-            }, 2000);
+            }, 1500);
             
         } catch (error) {
             console.error('Error:', error);
             typingIndicator.style.display = 'none';
             resultText.style.display = 'block';
             resultText.innerHTML = `
-                <p style="color: var(--blood-red);">❌ Oops! Something went wrong with the AI.</p>
+                <p style="color: var(--blood-red);">❌ Oops! Something went wrong.</p>
                 <p>Don't worry! Here's a backup suggestion:</p>
                 <p>${getFallbackCostumeSuggestion(userName)}</p>
             `;

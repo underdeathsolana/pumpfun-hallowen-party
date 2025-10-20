@@ -74,26 +74,17 @@
             <div class="costume-form">
                 <div class="input-group">
                     <label for="userName">Enter Your Name:</label>
-                    <input type="text" id="userName" placeholder="e.g., Sarah, Michael, Luna..." class="input-field">
-                </div>
-                
-                <div class="input-group">
-                    <label for="apiKey">OpenAI API Key (Optional - untuk fitur AI lebih personal):</label>
-                    <input type="password" id="apiKey" placeholder="sk-..." class="input-field">
+                    <input type="text" id="userName" placeholder="e.g., Sarah, Michael, Luna..." class="input-field" maxlength="50">
                     <small class="input-help">
-                        Dapatkan API key gratis di <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a><br>
-                        <span id="savedKeyStatus" style="color: var(--primary-color); display: none;">✓ API Key tersimpan</span>
+                        ✨ Powered by AI - No API key needed! Just enter your name and get instant costume suggestions! ✨
                     </small>
-                    <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
-                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
-                            <input type="checkbox" id="saveApiKey" style="width: auto; cursor: pointer;">
-                            <span>Simpan API Key di browser (aman, hanya di device Anda)</span>
-                        </label>
-                        <button type="button" id="clearApiKey" class="btn-small" style="display: none;">Clear Saved Key</button>
-                    </div>
                 </div>
                 
                 <button class="btn btn-costume" id="getCostumeBtn">🔮 Get My Costume Suggestion 🔮</button>
+                
+                <div class="backend-info">
+                    <p>🔒 Your privacy is protected - All AI processing happens securely on our server</p>
+                </div>
             </div>
 
             <div class="costume-result" id="costumeResult" style="display:none;">
@@ -218,7 +209,9 @@
     <!-- Cursor Effect -->
     <div class="cursor-effect" id="cursorEffect"></div>
 
+    <!-- Load scripts -->
     <script src="config.js"></script>
+    <script src="api-client.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,8 +1,23 @@
 # Environment variables
 .env
 
+# Configuration with API keys
+config.js
+config.local.js
+
 # API Keys
 *.key
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Server logs
+server.log
+*.log
 
 # OS
 .DS_Store
@@ -21,3 +36,13 @@ package-lock.json
 # Logs
 *.log
 npm-debug.log*
+
+# Vercel deployment files (local only, tidak di-push ke GitHub)
+.vercel
+*_DEPLOY/
+*-deploy.zip
+pump-halloween*.zip
+DEPLOY_VERCEL.md
+prepare-vercel.ps1
+prepare-vercel.bat
+vercel.json
