@@ -1105,74 +1105,210 @@ function openImageModal(imageSrc, caption) {
     modalCaption.textContent = caption;
     modal.classList.add('active');
     
-    // HORROR EFFECT: Random chance when opening gallery
-    if (soundEnabled && Math.random() > 0.5) {
-        // Random horror effect saat buka gambar!
-        const galleryHorrors = [
+    // 🎃 UPGRADED HORROR EFFECTS - LEBIH MENGAGETKAN! 🎃
+    // PROBABILITY: 80% chance (was 50%)
+    if (soundEnabled && Math.random() > 0.2) {
+        // EXTREME HORROR EFFECTS dengan kombinasi visual + audio!
+        const extremeHorrors = [
+            // 1. JUMP SCARE COMBO - Gambar + Scream + Shake
             () => {
-                // Creepy whisper sound
-                if (ghostSound) {
-                    ghostSound.currentTime = 0;
-                    ghostSound.volume = 0.4;
-                    ghostSound.play().catch(e => console.log('Ghost failed:', e));
+                console.log('😱💥 JUMP SCARE COMBO!');
+                
+                // Full jump scare dengan gambar mengagetkan
+                const jumpImages = [
+                    'https://i.imgur.com/rQCq6qJ.jpg', // Scary face 1
+                    'https://i.imgur.com/8kNrGH0.jpg', // Scary face 2
+                    'https://i.imgur.com/xP4bDfF.jpg', // Scary face 3
+                    'https://i.pinimg.com/originals/d4/32/f7/d432f7e8f8f8e8f8e8f8e8f8e8f8e8f8.gif' // Horror GIF
+                ];
+                
+                const jumpOverlay = document.getElementById('jumpScareOverlay');
+                const jumpImage = document.getElementById('jumpScareImage');
+                
+                if (jumpOverlay && jumpImage) {
+                    jumpImage.src = jumpImages[Math.floor(Math.random() * jumpImages.length)];
+                    jumpOverlay.classList.add('active');
+                    
+                    // Screen shake
+                    document.body.style.animation = 'shake 0.5s';
+                    
+                    setTimeout(() => {
+                        jumpOverlay.classList.remove('active');
+                        document.body.style.animation = '';
+                    }, 800);
                 }
-                console.log('👻 Gallery ghost whisper...');
+                
+                // LOUD scream
+                if (jumpScareSound) {
+                    jumpScareSound.currentTime = 0;
+                    jumpScareSound.volume = 0.9; // LOUD!
+                    jumpScareSound.play().catch(e => console.log('Jump scare failed:', e));
+                } else {
+                    // Fallback scream
+                    const screams = [screamSound, screamSound2, screamSound3].filter(s => s);
+                    if (screams.length > 0) {
+                        const scream = screams[Math.floor(Math.random() * screams.length)];
+                        scream.currentTime = 0;
+                        scream.volume = 0.8;
+                        scream.play().catch(e => console.log('Scream failed:', e));
+                    }
+                }
             },
+            
+            // 2. BLOOD SPLATTER + SCREAM
             () => {
-                // Door creak + eyes flash
-                if (doorCreak) {
-                    doorCreak.currentTime = 0;
-                    doorCreak.volume = 0.5;
-                    doorCreak.play().catch(e => console.log('Door failed:', e));
+                console.log('🩸� BLOOD SPLATTER ATTACK!');
+                
+                const blood = document.getElementById('bloodSplatter');
+                if (blood) {
+                    blood.classList.add('active');
+                    setTimeout(() => blood.classList.remove('active'), 2000);
                 }
-                // Quick eyes flash
+                
+                // Blood sound + scream combo
+                if (bloodSplatterSound) {
+                    bloodSplatterSound.currentTime = 0;
+                    bloodSplatterSound.volume = 0.7;
+                    bloodSplatterSound.play().catch(e => console.log('Blood failed:', e));
+                }
+                
+                setTimeout(() => {
+                    const screams = [screamSound, screamSound2, screamSound3].filter(s => s);
+                    if (screams.length > 0) {
+                        const scream = screams[Math.floor(Math.random() * screams.length)];
+                        scream.currentTime = 0;
+                        scream.volume = 0.6;
+                        scream.play().catch(e => console.log('Scream failed:', e));
+                    }
+                }, 200);
+            },
+            
+            // 3. CREEPY EYES + GHOST + CHAIN COMBO
+            () => {
+                console.log('👁️👻⛓️ EYES + GHOST + CHAIN HORROR!');
+                
+                // Eyes appear longer
                 const eyes = document.getElementById('creepyEyes');
                 if (eyes) {
                     eyes.classList.add('active');
-                    setTimeout(() => eyes.classList.remove('active'), 1000);
+                    setTimeout(() => eyes.classList.remove('active'), 3000); // 3 detik!
                 }
-                console.log('👁️ Quick eyes flash!');
-            },
-            () => {
-                // Chain rattle
-                if (chainSound) {
-                    chainSound.currentTime = 0;
-                    chainSound.volume = 0.35;
-                    chainSound.play().catch(e => console.log('Chain failed:', e));
+                
+                // Ghost sound
+                if (ghostSound) {
+                    ghostSound.currentTime = 0;
+                    ghostSound.volume = 0.6;
+                    ghostSound.play().catch(e => console.log('Ghost failed:', e));
                 }
-                console.log('⛓️ Chain rattle...');
+                
+                // Chain sound delayed
+                setTimeout(() => {
+                    if (chainSound) {
+                        chainSound.currentTime = 0;
+                        chainSound.volume = 0.5;
+                        chainSound.play().catch(e => console.log('Chain failed:', e));
+                    }
+                }, 800);
             },
+            
+            // 4. SHADOW FIGURE + DOOR CREAK + RED FLASH
             () => {
-                // Scream!
+                console.log('👤🚪⚡ SHADOW + DOOR + FLASH COMBO!');
+                
+                // Shadow walks across
+                const shadow = document.getElementById('shadowFigure');
+                if (shadow) {
+                    shadow.classList.add('active');
+                    setTimeout(() => shadow.classList.remove('active'), 4000);
+                }
+                
+                // Door creak
+                if (doorCreak) {
+                    doorCreak.currentTime = 0;
+                    doorCreak.volume = 0.7;
+                    doorCreak.play().catch(e => console.log('Door failed:', e));
+                }
+                
+                // Red flash at the end
+                setTimeout(() => {
+                    const flash = document.getElementById('redFlash');
+                    if (flash) {
+                        flash.classList.add('active');
+                        setTimeout(() => flash.classList.remove('active'), 400);
+                    }
+                }, 3500);
+            },
+            
+            // 5. TRIPLE SCREAM + MULTIPLE FLASHES
+            () => {
+                console.log('😱😱😱 TRIPLE SCREAM MADNESS!');
+                
                 const screams = [screamSound, screamSound2, screamSound3].filter(s => s);
-                if (screams.length > 0) {
-                    const scream = screams[Math.floor(Math.random() * screams.length)];
-                    scream.currentTime = 0;
-                    scream.volume = 0.4;
-                    scream.play().catch(e => console.log('Scream failed:', e));
+                
+                // First scream
+                if (screams[0]) {
+                    screams[0].currentTime = 0;
+                    screams[0].volume = 0.5;
+                    screams[0].play().catch(e => console.log('Scream 1 failed:', e));
                 }
-                console.log('😱 Gallery scream!');
-            },
-            () => {
+                
                 // Red flash
                 const flash = document.getElementById('redFlash');
                 if (flash) {
                     flash.classList.add('active');
-                    setTimeout(() => flash.classList.remove('active'), 300);
+                    setTimeout(() => flash.classList.remove('active'), 200);
                 }
-                console.log('⚡ Gallery red flash!');
+                
+                // Second scream + flash
+                setTimeout(() => {
+                    if (screams[1]) {
+                        screams[1].currentTime = 0;
+                        screams[1].volume = 0.6;
+                        screams[1].play().catch(e => console.log('Scream 2 failed:', e));
+                    }
+                    if (flash) {
+                        flash.classList.add('active');
+                        setTimeout(() => flash.classList.remove('active'), 200);
+                    }
+                }, 600);
+                
+                // Third scream + flash
+                setTimeout(() => {
+                    if (screams[2]) {
+                        screams[2].currentTime = 0;
+                        screams[2].volume = 0.7;
+                        screams[2].play().catch(e => console.log('Scream 3 failed:', e));
+                    }
+                    if (flash) {
+                        flash.classList.add('active');
+                        setTimeout(() => flash.classList.remove('active'), 300);
+                    }
+                }, 1200);
+            },
+            
+            // 6. RANDOM FULL HORROR (uses existing triggerRandomHorrorEffect)
+            () => {
+                console.log('🎲🎃 RANDOM FULL HORROR!');
+                if (typeof triggerRandomHorrorEffect === 'function') {
+                    triggerRandomHorrorEffect();
+                }
             }
         ];
         
-        // Trigger random horror
-        const randomHorror = galleryHorrors[Math.floor(Math.random() * galleryHorrors.length)];
-        setTimeout(randomHorror, 300); // Delay sedikit setelah buka
+        // Pick random extreme horror
+        const randomHorror = extremeHorrors[Math.floor(Math.random() * extremeHorrors.length)];
+        setTimeout(randomHorror, 200); // Quick trigger!
+        
     } else {
-        // Normal door creak
-        if (soundEnabled && doorCreak) {
-            doorCreak.currentTime = 0;
-            doorCreak.volume = 0.3;
-            doorCreak.play().catch(e => console.log('Door sound failed:', e));
+        // Even "normal" gets a creepy sound (20% of time)
+        if (soundEnabled) {
+            const ambientSounds = [doorCreak, ghostSound, windSound].filter(s => s);
+            if (ambientSounds.length > 0) {
+                const ambient = ambientSounds[Math.floor(Math.random() * ambientSounds.length)];
+                ambient.currentTime = 0;
+                ambient.volume = 0.4;
+                ambient.play().catch(e => console.log('Ambient failed:', e));
+            }
         }
     }
     
@@ -1467,9 +1603,9 @@ function initializeHorrorTestButton() {
     console.log('✅ Horror test button initialized');
 }
 
-// Initialize Gallery Horror Effects
+// 🎃 UPGRADED Gallery Horror Effects - LEBIH MENGAGETKAN! 🎃
 function initializeGalleryHorror() {
-    console.log('🖼️ Initializing gallery horror effects...');
+    console.log('🖼️👻 Initializing EXTREME gallery horror effects...');
     
     const galleryItems = document.querySelectorAll('.gallery-item');
     
@@ -1479,43 +1615,141 @@ function initializeGalleryHorror() {
     }
     
     galleryItems.forEach((item, index) => {
-        // Hover sound effect
+        // 💀 HOVER EFFECT - 50% chance (was 30%)
         item.addEventListener('mouseenter', function() {
-            if (soundEnabled && Math.random() > 0.7) {
-                // Random whisper/ambient sound
-                const hoverSounds = [ghostSound, windSound, chainSound].filter(s => s);
+            if (soundEnabled && Math.random() > 0.5) {
+                // Louder ambient sounds
+                const hoverSounds = [ghostSound, windSound, chainSound, doorCreak].filter(s => s);
                 if (hoverSounds.length > 0) {
                     const sound = hoverSounds[Math.floor(Math.random() * hoverSounds.length)];
                     sound.currentTime = 0;
-                    sound.volume = 0.15; // Very quiet
-                    sound.play().catch(() => {}); // Silent fail
+                    sound.volume = 0.3; // Louder (was 0.15)
+                    sound.play().catch(() => {});
                 }
+                
+                // Visual shake effect
+                this.style.animation = 'galleryShiver 0.3s ease';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 300);
+            }
+            
+            // Rare jump scare on hover (5% chance!)
+            if (soundEnabled && Math.random() > 0.95) {
+                console.log('😱 RARE HOVER JUMP SCARE!');
+                setTimeout(() => {
+                    const flash = document.getElementById('redFlash');
+                    if (flash) {
+                        flash.classList.add('active');
+                        setTimeout(() => flash.classList.remove('active'), 150);
+                    }
+                    if (screamSound3) {
+                        screamSound3.currentTime = 0;
+                        screamSound3.volume = 0.4;
+                        screamSound3.play().catch(() => {});
+                    }
+                }, 50);
             }
         });
         
-        // Click animation enhancement
+        // 😱 CLICK EFFECT - 70% chance (was 40%)
         item.addEventListener('click', function() {
-            // Add click animation
-            this.style.animation = 'none';
+            // Visual feedback
+            this.style.transform = 'scale(0.95)';
             setTimeout(() => {
-                this.style.animation = '';
-            }, 10);
+                this.style.transform = '';
+            }, 150);
             
-            // Random chance for extra horror
-            if (soundEnabled && Math.random() > 0.6) {
-                // Quick scream or creepy sound
+            // LOUD click horror (70% chance!)
+            if (soundEnabled && Math.random() > 0.3) {
                 setTimeout(() => {
-                    const clickSounds = [screamSound, screamSound2, ghostSound].filter(s => s);
-                    if (clickSounds.length > 0) {
-                        const sound = clickSounds[Math.floor(Math.random() * clickSounds.length)];
-                        sound.currentTime = 0;
-                        sound.volume = 0.25;
-                        sound.play().catch(() => {});
-                    }
+                    // More intense sounds
+                    const clickHorrors = [
+                        () => {
+                            // Loud scream
+                            const screams = [screamSound, screamSound2, screamSound3].filter(s => s);
+                            if (screams.length > 0) {
+                                const scream = screams[Math.floor(Math.random() * screams.length)];
+                                scream.currentTime = 0;
+                                scream.volume = 0.5; // Louder (was 0.25)
+                                scream.play().catch(() => {});
+                            }
+                            console.log('😱 Click scream!');
+                        },
+                        () => {
+                            // Ghost + chain combo
+                            if (ghostSound) {
+                                ghostSound.currentTime = 0;
+                                ghostSound.volume = 0.4;
+                                ghostSound.play().catch(() => {});
+                            }
+                            setTimeout(() => {
+                                if (chainSound) {
+                                    chainSound.currentTime = 0;
+                                    chainSound.volume = 0.35;
+                                    chainSound.play().catch(() => {});
+                                }
+                            }, 200);
+                            console.log('👻⛓️ Ghost + chain combo!');
+                        },
+                        () => {
+                            // Blood splatter sound
+                            if (bloodSplatterSound) {
+                                bloodSplatterSound.currentTime = 0;
+                                bloodSplatterSound.volume = 0.4;
+                                bloodSplatterSound.play().catch(() => {});
+                            }
+                            console.log('🩸 Blood click!');
+                        },
+                        () => {
+                            // Jump scare sound
+                            if (jumpScareSound) {
+                                jumpScareSound.currentTime = 0;
+                                jumpScareSound.volume = 0.5;
+                                jumpScareSound.play().catch(() => {});
+                            }
+                            // Quick red flash
+                            const flash = document.getElementById('redFlash');
+                            if (flash) {
+                                flash.classList.add('active');
+                                setTimeout(() => flash.classList.remove('active'), 200);
+                            }
+                            console.log('💥 Click jump scare!');
+                        }
+                    ];
+                    
+                    // Pick random horror
+                    const horror = clickHorrors[Math.floor(Math.random() * clickHorrors.length)];
+                    horror();
                 }, 100);
             }
         });
+        
+        // 🎃 RANDOM TIMED HORROR on specific cards (rare!)
+        if (index % 4 === 0) { // Every 4th card
+            setTimeout(() => {
+                item.addEventListener('mouseenter', function spookyEnter() {
+                    if (soundEnabled && Math.random() > 0.85) {
+                        console.log(`🎃 Card ${index + 1} is CURSED!`);
+                        // Eyes appear briefly
+                        const eyes = document.getElementById('creepyEyes');
+                        if (eyes) {
+                            eyes.classList.add('active');
+                            setTimeout(() => eyes.classList.remove('active'), 1500);
+                        }
+                        if (ghostSound) {
+                            ghostSound.currentTime = 0;
+                            ghostSound.volume = 0.5;
+                            ghostSound.play().catch(() => {});
+                        }
+                        // Remove this special listener after triggering once
+                        item.removeEventListener('mouseenter', spookyEnter);
+                    }
+                });
+            }, 1000);
+        }
     });
     
-    console.log(`✅ Gallery horror initialized for ${galleryItems.length} items`);
+    console.log(`✅ EXTREME Gallery horror initialized for ${galleryItems.length} items`);
+    console.log('💀 50% hover chance, 70% click chance, rare jump scares enabled!');
 }

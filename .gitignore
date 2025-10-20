@@ -51,3 +51,7 @@ TESTING_CHECKLIST.md
 UI_UPDATE_SUMMARY.md
 README.md
 QUICK_TEST.html
+
+# Documentation files (semua file .md)
+*.md
+!README.md
