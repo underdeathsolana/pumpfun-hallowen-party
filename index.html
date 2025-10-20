@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎃 Pump Fun Halloween Party 🎃</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="fog"></div>
+    <div class="fog fog-2"></div>
+    <div class="lightning"></div>
+    <canvas id="spiders"></canvas>
+    
+    <!-- Audio Elements -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-horror-ambience-2834.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="screamSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-horror-scream-397.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="thunderSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-thunder-rumble-1291.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Sound Control -->
+    <button id="soundToggle" class="sound-toggle">
+        <span class="sound-on">🔊</span>
+        <span class="sound-off" style="display:none;">🔇</span>
+    </button>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <span class="pumpkin-logo">🎃</span>
+                <h1 class="logo-text">PUMP FUN HALLOWEEN PARTY</h1>
+                <span class="pumpkin-logo">🎃</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating-ghosts">
+            <div class="ghost">👻</div>
+            <div class="ghost">👻</div>
+            <div class="ghost">👻</div>
+            <div class="ghost">👻</div>
+            <div class="ghost">👻</div>
+        </div>
+        
+        <div class="hero-content">
+            <h2 class="hero-title glitch" data-text="DARE TO ENTER?">DARE TO ENTER?</h2>
+            <p class="hero-subtitle">Join the most terrifying party of the year!</p>
+            <p class="event-date">🕷️ October 31st, 2025 🕷️</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" id="enterBtn">Enter If You Dare</button>
+                <button class="btn btn-secondary" id="costumeBtn">Get Costume Ideas</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Costume Suggestion Section -->
+    <section class="costume-section" id="costumeSection">
+        <div class="container">
+            <h2 class="section-title">🎭 AI Costume Consultant 🎭</h2>
+            <p class="section-subtitle">Tell us your name, and our AI will suggest the perfect Halloween costume for you!</p>
+            
+            <div class="costume-form">
+                <div class="input-group">
+                    <label for="userName">Enter Your Name:</label>
+                    <input type="text" id="userName" placeholder="e.g., Sarah, Michael, Luna..." class="input-field">
+                </div>
+                
+                <div class="input-group">
+                    <label for="apiKey">OpenAI API Key (Optional - untuk fitur AI lebih personal):</label>
+                    <input type="password" id="apiKey" placeholder="sk-..." class="input-field">
+                    <small class="input-help">
+                        Dapatkan API key gratis di <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a><br>
+                        <span id="savedKeyStatus" style="color: var(--primary-color); display: none;">✓ API Key tersimpan</span>
+                    </small>
+                    <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer;">
+                            <input type="checkbox" id="saveApiKey" style="width: auto; cursor: pointer;">
+                            <span>Simpan API Key di browser (aman, hanya di device Anda)</span>
+                        </label>
+                        <button type="button" id="clearApiKey" class="btn-small" style="display: none;">Clear Saved Key</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn-costume" id="getCostumeBtn">🔮 Get My Costume Suggestion 🔮</button>
+            </div>
+
+            <div class="costume-result" id="costumeResult" style="display:none;">
+                <div class="result-card">
+                    <div class="result-header">
+                        <h3>Your Perfect Halloween Costume</h3>
+                        <button class="close-btn" id="closeResult">✕</button>
+                    </div>
+                    <div class="result-content">
+                        <div class="typing-indicator" id="typingIndicator">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="result-text" id="resultText"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Party Info Section -->
+    <section class="info-section">
+        <div class="container">
+            <h2 class="section-title">🦇 Party Details 🦇</h2>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-icon">🕐</div>
+                    <h3>Time</h3>
+                    <p>8:00 PM - Until Dawn</p>
+                    <p class="card-detail">Don't be late or miss the fun!</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">🏚️</div>
+                    <h3>Location</h3>
+                    <p>The Haunted Mansion</p>
+                    <p class="card-detail">666 Spooky Street</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">💀</div>
+                    <h3>Dress Code</h3>
+                    <p>Your Scariest Costume</p>
+                    <p class="card-detail">Prizes for the best!</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="card-icon">🎵</div>
+                    <h3>Entertainment</h3>
+                    <p>Live DJ & Horror Games</p>
+                    <p class="card-detail">Dance till you drop... dead!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section">
+        <div class="container">
+            <h2 class="section-title">⏳ Time Until Terror ⏳</h2>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-value" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-value" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">📸 Last Year's Horror 📸</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">🎃</div>
+                    <p>Best Costume Winner</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">👻</div>
+                    <p>Haunted Dance Floor</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">🧛</div>
+                    <p>Vampire VIP Lounge</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">🧟</div>
+                    <p>Zombie Zone</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">🎃 Pump Fun Halloween Party 2025 🎃</p>
+            <p class="footer-subtitle">Dare to have fun... if you survive!</p>
+            <div class="footer-icons">
+                <span>👻</span>
+                <span>🦇</span>
+                <span>🕷️</span>
+                <span>💀</span>
+                <span>🧛</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cursor Effect -->
+    <div class="cursor-effect" id="cursorEffect"></div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

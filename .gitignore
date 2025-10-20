@@ -1,0 +1,23 @@
+# Environment variables
+.env
+
+# API Keys
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (jika menggunakan Node.js di masa depan)
+node_modules/
+package-lock.json
+
+# Logs
+*.log
+npm-debug.log*
