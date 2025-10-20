@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     updateMiniCountdown();
     randomizeBackground();
     initializeHorrorEffects();
+    initializeHorrorTestButton(); // Add test button
+    initializeGalleryHorror(); // Add gallery horror effects
     console.log('✅ All systems ready!');
     console.log('👻 Horror mode activated - prepare to be scared!');
 });
@@ -54,14 +56,53 @@ function initializeSoundEffects() {
     soundToggle.addEventListener('click', function() {
         soundEnabled = !soundEnabled;
         console.log('🔊 Sound toggled:', soundEnabled);
+        console.log('📍 Current state:', {
+            soundEnabled,
+            backgroundMusic: !!backgroundMusic,
+            screamSounds: screamSounds.length,
+            ambientSounds: ambientSounds.length
+        });
         
         if (soundEnabled) {
             soundOn.style.display = 'none';
             soundOff.style.display = 'inline';
             
+            // Load horror audio elements NOW (when sound enabled)
+            jumpScareSound = document.getElementById('jumpScareSound');
+            bloodSplatterSound = document.getElementById('bloodSplatterSound');
+            
+            // Try to preload horror audio
+            if (jumpScareSound) {
+                jumpScareSound.load();
+                jumpScareSound.volume = 0.01; // Very quiet test
+                jumpScareSound.play().then(() => {
+                    jumpScareSound.pause();
+                    jumpScareSound.currentTime = 0;
+                    jumpScareSound.volume = 0.8;
+                    console.log('✅ Jump scare audio ready');
+                }).catch(() => console.log('⚠️ Jump scare audio waiting'));
+            }
+            
+            if (bloodSplatterSound) {
+                bloodSplatterSound.load();
+                bloodSplatterSound.volume = 0.01;
+                bloodSplatterSound.play().then(() => {
+                    bloodSplatterSound.pause();
+                    bloodSplatterSound.currentTime = 0;
+                    bloodSplatterSound.volume = 0.6;
+                    console.log('✅ Blood audio ready');
+                }).catch(() => console.log('⚠️ Blood audio waiting'));
+            }
+            
+            console.log('🔪 Horror audio loaded:', {
+                jumpScare: !!jumpScareSound,
+                bloodSplatter: !!bloodSplatterSound
+            });
+            
             // Play background music
             backgroundMusic.play().then(() => {
                 console.log('✅ Background music started');
+                console.log('🎵 Now playing...');
             }).catch(e => console.error('❌ Audio play failed:', e));
             
             // Play random scream sounds more frequently
@@ -1064,11 +1105,75 @@ function openImageModal(imageSrc, caption) {
     modalCaption.textContent = caption;
     modal.classList.add('active');
     
-    // Play sound effect if enabled
-    if (soundEnabled && doorCreak) {
-        doorCreak.currentTime = 0;
-        doorCreak.volume = 0.3;
-        doorCreak.play().catch(e => console.log('Door sound failed:', e));
+    // HORROR EFFECT: Random chance when opening gallery
+    if (soundEnabled && Math.random() > 0.5) {
+        // Random horror effect saat buka gambar!
+        const galleryHorrors = [
+            () => {
+                // Creepy whisper sound
+                if (ghostSound) {
+                    ghostSound.currentTime = 0;
+                    ghostSound.volume = 0.4;
+                    ghostSound.play().catch(e => console.log('Ghost failed:', e));
+                }
+                console.log('👻 Gallery ghost whisper...');
+            },
+            () => {
+                // Door creak + eyes flash
+                if (doorCreak) {
+                    doorCreak.currentTime = 0;
+                    doorCreak.volume = 0.5;
+                    doorCreak.play().catch(e => console.log('Door failed:', e));
+                }
+                // Quick eyes flash
+                const eyes = document.getElementById('creepyEyes');
+                if (eyes) {
+                    eyes.classList.add('active');
+                    setTimeout(() => eyes.classList.remove('active'), 1000);
+                }
+                console.log('👁️ Quick eyes flash!');
+            },
+            () => {
+                // Chain rattle
+                if (chainSound) {
+                    chainSound.currentTime = 0;
+                    chainSound.volume = 0.35;
+                    chainSound.play().catch(e => console.log('Chain failed:', e));
+                }
+                console.log('⛓️ Chain rattle...');
+            },
+            () => {
+                // Scream!
+                const screams = [screamSound, screamSound2, screamSound3].filter(s => s);
+                if (screams.length > 0) {
+                    const scream = screams[Math.floor(Math.random() * screams.length)];
+                    scream.currentTime = 0;
+                    scream.volume = 0.4;
+                    scream.play().catch(e => console.log('Scream failed:', e));
+                }
+                console.log('😱 Gallery scream!');
+            },
+            () => {
+                // Red flash
+                const flash = document.getElementById('redFlash');
+                if (flash) {
+                    flash.classList.add('active');
+                    setTimeout(() => flash.classList.remove('active'), 300);
+                }
+                console.log('⚡ Gallery red flash!');
+            }
+        ];
+        
+        // Trigger random horror
+        const randomHorror = galleryHorrors[Math.floor(Math.random() * galleryHorrors.length)];
+        setTimeout(randomHorror, 300); // Delay sedikit setelah buka
+    } else {
+        // Normal door creak
+        if (soundEnabled && doorCreak) {
+            doorCreak.currentTime = 0;
+            doorCreak.volume = 0.3;
+            doorCreak.play().catch(e => console.log('Door sound failed:', e));
+        }
     }
     
     // Prevent body scroll
@@ -1112,8 +1217,8 @@ const jumpScareImages = [
 function initializeHorrorEffects() {
     console.log('👻 Initializing horror effects...');
     
-    jumpScareSound = document.getElementById('jumpScareSound');
-    bloodSplatterSound = document.getElementById('bloodSplatterSound');
+    // Audio elements akan diload saat sound button clicked
+    // Tidak perlu load disini karena belum ada user interaction
     
     // Enable horror effects when sound is enabled
     horrorEffectsEnabled = true;
@@ -1161,8 +1266,15 @@ function initializeHorrorEffects() {
 
 // Jump Scare Effect
 function triggerJumpScare() {
+    if (!soundEnabled) return; // Skip if sound disabled
+    
     const overlay = document.getElementById('jumpScareOverlay');
     const image = document.getElementById('jumpScareImage');
+    
+    if (!overlay || !image) {
+        console.error('❌ Jump scare elements not found!');
+        return;
+    }
     
     // Random image
     const randomImage = jumpScareImages[Math.floor(Math.random() * jumpScareImages.length)];
@@ -1172,11 +1284,14 @@ function triggerJumpScare() {
     overlay.classList.add('active');
     document.body.classList.add('horror-active');
     
-    // Play sound
-    if (jumpScareSound) {
-        jumpScareSound.currentTime = 0;
-        jumpScareSound.volume = 0.8;
-        jumpScareSound.play().catch(e => console.log('Jump scare sound failed:', e));
+    // Play sound with fallback
+    const sound = jumpScareSound || screamSound; // Fallback to scream
+    if (sound) {
+        sound.currentTime = 0;
+        sound.volume = 0.8;
+        sound.play().catch(e => console.log('Jump scare sound failed:', e));
+    } else {
+        console.warn('⚠️ No jump scare sound available');
     }
     
     console.log('😱 JUMP SCARE!');
@@ -1190,15 +1305,25 @@ function triggerJumpScare() {
 
 // Blood Splatter Effect
 function triggerBloodSplatter() {
+    if (!soundEnabled) return; // Skip if sound disabled
+    
     const bloodSplatter = document.getElementById('bloodSplatter');
+    
+    if (!bloodSplatter) {
+        console.error('❌ Blood splatter element not found!');
+        return;
+    }
     
     bloodSplatter.classList.add('active');
     
-    // Play sound
-    if (bloodSplatterSound) {
-        bloodSplatterSound.currentTime = 0;
-        bloodSplatterSound.volume = 0.6;
-        bloodSplatterSound.play().catch(e => console.log('Blood sound failed:', e));
+    // Play sound with fallback
+    const sound = bloodSplatterSound || screamSound2; // Fallback
+    if (sound) {
+        sound.currentTime = 0;
+        sound.volume = 0.6;
+        sound.play().catch(e => console.log('Blood sound failed:', e));
+    } else {
+        console.warn('⚠️ No blood splatter sound available');
     }
     
     console.log('🩸 Blood splatter!');
@@ -1211,7 +1336,14 @@ function triggerBloodSplatter() {
 
 // Creepy Eyes Effect
 function triggerCreepyEyes() {
+    if (!soundEnabled) return; // Skip if sound disabled
+    
     const eyes = document.getElementById('creepyEyes');
+    
+    if (!eyes) {
+        console.error('❌ Creepy eyes element not found!');
+        return;
+    }
     
     eyes.classList.add('active');
     
@@ -1220,6 +1352,8 @@ function triggerCreepyEyes() {
         ghostSound.currentTime = 0;
         ghostSound.volume = 0.5;
         ghostSound.play().catch(e => console.log('Ghost sound failed:', e));
+    } else {
+        console.warn('⚠️ No ghost sound available');
     }
     
     console.log('👀 Creepy eyes watching...');
@@ -1232,7 +1366,14 @@ function triggerCreepyEyes() {
 
 // Shadow Figure Walking
 function triggerShadowFigure() {
+    if (!soundEnabled) return; // Skip if sound disabled
+    
     const shadow = document.getElementById('shadowFigure');
+    
+    if (!shadow) {
+        console.error('❌ Shadow figure element not found!');
+        return;
+    }
     
     shadow.classList.add('active');
     
@@ -1241,6 +1382,8 @@ function triggerShadowFigure() {
         chainSound.currentTime = 0;
         chainSound.volume = 0.4;
         chainSound.play().catch(e => console.log('Chain sound failed:', e));
+    } else {
+        console.warn('⚠️ No chain sound available');
     }
     
     console.log('👤 Shadow figure walking...');
@@ -1253,7 +1396,14 @@ function triggerShadowFigure() {
 
 // Red Flash Effect
 function triggerRedFlash() {
+    if (!soundEnabled) return; // Skip if sound disabled
+    
     const flash = document.getElementById('redFlash');
+    
+    if (!flash) {
+        console.error('❌ Red flash element not found!');
+        return;
+    }
     
     flash.classList.add('active');
     document.body.classList.add('horror-mode');
@@ -1271,6 +1421,7 @@ function triggerRedFlash() {
 function triggerRandomHorrorEffect() {
     if (!soundEnabled) {
         console.log('⚠️ Enable sound first for horror effects!');
+        alert('⚠️ Please enable sound first! Click the 🔊 button.');
         return;
     }
     
@@ -1286,8 +1437,85 @@ function triggerRandomHorrorEffect() {
     randomEffect();
 }
 
-// Add to initialization
-document.addEventListener('DOMContentLoaded', function() {
-    // ... existing code ...
-    initializeHorrorEffects();
-});
+// Initialize Horror Test Button
+function initializeHorrorTestButton() {
+    const testBtn = document.getElementById('horrorTestBtn');
+    
+    if (!testBtn) {
+        console.warn('⚠️ Horror test button not found');
+        return;
+    }
+    
+    testBtn.addEventListener('click', function() {
+        console.log('🧪 Testing horror effect manually...');
+        
+        if (!soundEnabled) {
+            alert('⚠️ Please enable sound first!\n\nClick the 🔊 button in the top-right corner.');
+            return;
+        }
+        
+        // Trigger random horror effect
+        triggerRandomHorrorEffect();
+        
+        // Visual feedback
+        this.style.transform = 'scale(0.8) rotate(180deg)';
+        setTimeout(() => {
+            this.style.transform = '';
+        }, 200);
+    });
+    
+    console.log('✅ Horror test button initialized');
+}
+
+// Initialize Gallery Horror Effects
+function initializeGalleryHorror() {
+    console.log('🖼️ Initializing gallery horror effects...');
+    
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    if (!galleryItems || galleryItems.length === 0) {
+        console.warn('⚠️ No gallery items found');
+        return;
+    }
+    
+    galleryItems.forEach((item, index) => {
+        // Hover sound effect
+        item.addEventListener('mouseenter', function() {
+            if (soundEnabled && Math.random() > 0.7) {
+                // Random whisper/ambient sound
+                const hoverSounds = [ghostSound, windSound, chainSound].filter(s => s);
+                if (hoverSounds.length > 0) {
+                    const sound = hoverSounds[Math.floor(Math.random() * hoverSounds.length)];
+                    sound.currentTime = 0;
+                    sound.volume = 0.15; // Very quiet
+                    sound.play().catch(() => {}); // Silent fail
+                }
+            }
+        });
+        
+        // Click animation enhancement
+        item.addEventListener('click', function() {
+            // Add click animation
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = '';
+            }, 10);
+            
+            // Random chance for extra horror
+            if (soundEnabled && Math.random() > 0.6) {
+                // Quick scream or creepy sound
+                setTimeout(() => {
+                    const clickSounds = [screamSound, screamSound2, ghostSound].filter(s => s);
+                    if (clickSounds.length > 0) {
+                        const sound = clickSounds[Math.floor(Math.random() * clickSounds.length)];
+                        sound.currentTime = 0;
+                        sound.volume = 0.25;
+                        sound.play().catch(() => {});
+                    }
+                }, 100);
+            }
+        });
+    });
+    
+    console.log(`✅ Gallery horror initialized for ${galleryItems.length} items`);
+}

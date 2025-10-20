@@ -165,6 +165,40 @@ body::before {
     box-shadow: 0 0 30px rgba(255, 107, 0, 0.8);
 }
 
+/* Horror Test Button */
+.horror-test-btn {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    z-index: 9999;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #8b0000;
+    background: rgba(139, 0, 0, 0.9);
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+    animation: horrorPulse 2s ease-in-out infinite;
+}
+
+.horror-test-btn:hover {
+    transform: scale(1.15) rotate(360deg);
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+    background: rgba(255, 0, 0, 0.9);
+}
+
+@keyframes horrorPulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+    }
+}
+
 /* Floating Logo (Top Left) */
 .floating-logo {
     position: fixed;
@@ -1141,20 +1175,43 @@ section {
     border-radius: 15px;
     aspect-ratio: 1;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
 }
 
 .gallery-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 40px rgba(255, 107, 0, 0.5);
+    transform: translateY(-10px) rotate(1deg);
+    box-shadow: 
+        0 15px 50px rgba(255, 107, 0, 0.6),
+        0 0 30px rgba(139, 0, 0, 0.4);
+    border-color: rgba(255, 107, 0, 0.5);
+    animation: galleryShiver 0.3s ease;
+}
+
+@keyframes galleryShiver {
+    0%, 100% { transform: translateY(-10px) rotate(1deg); }
+    25% { transform: translateY(-10px) rotate(-1deg); }
+    50% { transform: translateY(-11px) rotate(1deg); }
+    75% { transform: translateY(-10px) rotate(-0.5deg); }
 }
 
 .gallery-item:hover .gallery-image {
-    transform: scale(1.1);
+    transform: scale(1.15);
+    filter: brightness(1.2) contrast(1.1) saturate(1.3);
+}
+
+.gallery-item:active {
+    transform: scale(0.95) rotate(0deg);
+    transition: transform 0.1s ease;
+}
+
+.gallery-item:active .gallery-image {
+    transform: scale(1.0);
+    filter: brightness(0.8) contrast(1.3) saturate(0.8);
 }
 
 .gallery-image {
-    transition: transform 0.5s ease;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .gallery-overlay {

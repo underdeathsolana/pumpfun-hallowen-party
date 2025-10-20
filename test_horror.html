@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Horror Effects Test Page</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: white;
+            font-family: 'Courier New', monospace;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #ff6b00;
+            text-align: center;
+            font-size: 48px;
+            text-shadow: 0 0 20px #ff6b00;
+        }
+        
+        .test-section {
+            background: rgba(139, 0, 0, 0.2);
+            border: 2px solid #ff6b00;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .test-section h2 {
+            color: #00ff88;
+            margin-top: 0;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .test-btn {
+            padding: 20px;
+            background: linear-gradient(135deg, #8b0000, #ff6b00);
+            border: 2px solid #ff6b00;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .test-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.8);
+        }
+        
+        .test-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .status {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 4px solid #00ff88;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .status.error {
+            background: rgba(255, 0, 0, 0.1);
+            border-left-color: #ff0000;
+        }
+        
+        .status.warning {
+            background: rgba(255, 255, 0, 0.1);
+            border-left-color: #ffff00;
+        }
+        
+        .console-output {
+            background: #000;
+            border: 1px solid #00ff88;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+        
+        .console-output div {
+            margin: 5px 0;
+            padding: 3px 0;
+        }
+        
+        .log { color: #00ff88; }
+        .warn { color: #ffff00; }
+        .error { color: #ff0000; }
+        .info { color: #00ffff; }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checklist li:hover {
+            background: rgba(255, 107, 0, 0.2);
+        }
+        
+        .checklist li.checked {
+            background: rgba(0, 255, 136, 0.2);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(139, 0, 255, 0.2);
+            border: 2px solid #8b00ff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 HORROR EFFECTS TEST SUITE 🧪</h1>
+    
+    <div class="test-section">
+        <h2>📊 System Status</h2>
+        <div id="systemStatus" class="status">
+            ⏳ Initializing...
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="testsRun">0</div>
+                <div class="stat-label">Tests Run</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="testsPass">0</div>
+                <div class="stat-label">Passed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="testsFail">0</div>
+                <div class="stat-label">Failed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="soundStatus">OFF</div>
+                <div class="stat-label">Sound</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎮 Quick Tests</h2>
+        <div class="button-grid">
+            <button class="test-btn" onclick="testJumpScare()">😱 Jump Scare</button>
+            <button class="test-btn" onclick="testBloodSplatter()">🩸 Blood Splatter</button>
+            <button class="test-btn" onclick="testCreepyEyes()">👀 Creepy Eyes</button>
+            <button class="test-btn" onclick="testShadowFigure()">👤 Shadow Figure</button>
+            <button class="test-btn" onclick="testRedFlash()">⚡ Red Flash</button>
+            <button class="test-btn" onclick="testRandomEffect()">🎲 Random Effect</button>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔊 Audio Tests</h2>
+        <div class="button-grid">
+            <button class="test-btn" onclick="testBackgroundMusic()">🎵 Background Music</button>
+            <button class="test-btn" onclick="testScreamSound()">😱 Scream Sound</button>
+            <button class="test-btn" onclick="testGhostSound()">👻 Ghost Sound</button>
+            <button class="test-btn" onclick="testChainSound()">⛓️ Chain Sound</button>
+            <button class="test-btn" onclick="testAllAudio()">🔊 Test All Audio</button>
+            <button class="test-btn" onclick="stopAllAudio()">⏹️ Stop All</button>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>✅ Test Checklist</h2>
+        <ul class="checklist">
+            <li onclick="toggleCheck(this)">☐ Sound button works (click 🔊)</li>
+            <li onclick="toggleCheck(this)">☐ Background music starts playing</li>
+            <li onclick="toggleCheck(this)">☐ Jump scare appears with image</li>
+            <li onclick="toggleCheck(this)">☐ Jump scare sound plays loud</li>
+            <li onclick="toggleCheck(this)">☐ Screen shakes during jump scare</li>
+            <li onclick="toggleCheck(this)">☐ Blood splatter animates</li>
+            <li onclick="toggleCheck(this)">☐ Blood splatter sound plays</li>
+            <li onclick="toggleCheck(this)">☐ Creepy eyes appear and blink</li>
+            <li onclick="toggleCheck(this)">☐ Eye pupils move around</li>
+            <li onclick="toggleCheck(this)">☐ Ghost sound plays with eyes</li>
+            <li onclick="toggleCheck(this)">☐ Shadow figure walks across screen</li>
+            <li onclick="toggleCheck(this)">☐ Chain sound plays with shadow</li>
+            <li onclick="toggleCheck(this)">☐ Red flash appears briefly</li>
+            <li onclick="toggleCheck(this)">☐ Horror test button (😱) works</li>
+            <li onclick="toggleCheck(this)">☐ No console errors</li>
+            <li onclick="toggleCheck(this)">☐ All audio elements loaded</li>
+            <li onclick="toggleCheck(this)">☐ All HTML elements exist</li>
+            <li onclick="toggleCheck(this)">☐ Random horror effects trigger</li>
+            <li onclick="toggleCheck(this)">☐ Fallback sounds work</li>
+            <li onclick="toggleCheck(this)">☐ Mobile responsive</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>📝 Console Output</h2>
+        <div class="console-output" id="consoleOutput">
+            <div class="info">🧪 Test console initialized...</div>
+            <div class="log">✅ Waiting for tests...</div>
+        </div>
+        <button class="test-btn" onclick="clearConsole()" style="width: 200px; margin-top: 10px;">🗑️ Clear Console</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>🚀 Automated Tests</h2>
+        <div class="button-grid">
+            <button class="test-btn" onclick="runFullTest()">🧪 Run Full Test Suite</button>
+            <button class="test-btn" onclick="stressTest()">💪 Stress Test (10x)</button>
+            <button class="test-btn" onclick="timingTest()">⏱️ Timing Test</button>
+            <button class="test-btn" onclick="generateReport()">📊 Generate Report</button>
+        </div>
+    </div>
+
+    <script>
+        // Test Statistics
+        let stats = {
+            testsRun: 0,
+            testsPass: 0,
+            testsFail: 0,
+            soundEnabled: false
+        };
+        
+        // Update stats display
+        function updateStats() {
+            document.getElementById('testsRun').textContent = stats.testsRun;
+            document.getElementById('testsPass').textContent = stats.testsPass;
+            document.getElementById('testsFail').textContent = stats.testsFail;
+            document.getElementById('soundStatus').textContent = stats.soundEnabled ? 'ON' : 'OFF';
+        }
+        
+        // Log to console
+        function log(message, type = 'log') {
+            const output = document.getElementById('consoleOutput');
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearConsole() {
+            document.getElementById('consoleOutput').innerHTML = '<div class="info">🗑️ Console cleared</div>';
+        }
+        
+        function toggleCheck(element) {
+            element.classList.toggle('checked');
+            const checked = document.querySelectorAll('.checklist li.checked').length;
+            const total = document.querySelectorAll('.checklist li').length;
+            log(`✅ Checklist: ${checked}/${total} completed`, 'log');
+        }
+        
+        // Test Functions
+        function testJumpScare() {
+            stats.testsRun++;
+            log('🧪 Testing Jump Scare...', 'info');
+            
+            if (typeof triggerJumpScare === 'function') {
+                try {
+                    triggerJumpScare();
+                    stats.testsPass++;
+                    log('✅ Jump Scare triggered successfully!', 'log');
+                } catch (e) {
+                    stats.testsFail++;
+                    log(`❌ Jump Scare failed: ${e.message}`, 'error');
+                }
+            } else {
+                stats.testsFail++;
+                log('❌ triggerJumpScare function not found!', 'error');
+                log('💡 Make sure you opened this from the main website', 'warn');
+            }
+            
+            updateStats();
+        }
+        
+        function testBloodSplatter() {
+            stats.testsRun++;
+            log('🧪 Testing Blood Splatter...', 'info');
+            
+            if (typeof triggerBloodSplatter === 'function') {
+                try {
+                    triggerBloodSplatter();
+                    stats.testsPass++;
+                    log('✅ Blood Splatter triggered!', 'log');
+                } catch (e) {
+                    stats.testsFail++;
+                    log(`❌ Blood Splatter failed: ${e.message}`, 'error');
+                }
+            } else {
+                stats.testsFail++;
+                log('❌ triggerBloodSplatter function not found!', 'error');
+            }
+            
+            updateStats();
+        }
+        
+        function testCreepyEyes() {
+            stats.testsRun++;
+            log('🧪 Testing Creepy Eyes...', 'info');
+            
+            if (typeof triggerCreepyEyes === 'function') {
+                try {
+                    triggerCreepyEyes();
+                    stats.testsPass++;
+                    log('✅ Creepy Eyes triggered!', 'log');
+                } catch (e) {
+                    stats.testsFail++;
+                    log(`❌ Creepy Eyes failed: ${e.message}`, 'error');
+                }
+            } else {
+                stats.testsFail++;
+                log('❌ triggerCreepyEyes function not found!', 'error');
+            }
+            
+            updateStats();
+        }
+        
+        function testShadowFigure() {
+            stats.testsRun++;
+            log('🧪 Testing Shadow Figure...', 'info');
+            
+            if (typeof triggerShadowFigure === 'function') {
+                try {
+                    triggerShadowFigure();
+                    stats.testsPass++;
+                    log('✅ Shadow Figure triggered!', 'log');
+                } catch (e) {
+                    stats.testsFail++;
+                    log(`❌ Shadow Figure failed: ${e.message}`, 'error');
+                }
+            } else {
+                stats.testsFail++;
+                log('❌ triggerShadowFigure function not found!', 'error');
+            }
+            
+            updateStats();
+        }
+        
+        function testRedFlash() {
+            stats.testsRun++;
+            log('🧪 Testing Red Flash...', 'info');
+            
+            if (typeof triggerRedFlash === 'function') {
+                try {
+                    triggerRedFlash();
+                    stats.testsPass++;
+                    log('✅ Red Flash triggered!', 'log');
+                } catch (e) {
+                    stats.testsFail++;
+                    log(`❌ Red Flash failed: ${e.message}`, 'error');
+                }
+            } else {
+                stats.testsFail++;
+                log('❌ triggerRedFlash function not found!', 'error');
+            }
+            
+            updateStats();
+        }
+        
+        function testRandomEffect() {
+            stats.testsRun++;
+            log('🧪 Testing Random Effect...', 'info');
+            
+            if (typeof triggerRandomHorrorEffect === 'function') {
+                try {
+                    triggerRandomHorrorEffect();
+                    stats.testsPass++;
+                    log('✅ Random Effect triggered!', 'log');
+                } catch (e) {
+                    stats.testsFail++;
+                    log(`❌ Random Effect failed: ${e.message}`, 'error');
+                }
+            } else {
+                stats.testsFail++;
+                log('❌ triggerRandomHorrorEffect function not found!', 'error');
+            }
+            
+            updateStats();
+        }
+        
+        function testBackgroundMusic() {
+            log('🧪 Testing background music...', 'info');
+            log('⚠️ Click sound button on main page first!', 'warn');
+        }
+        
+        function testScreamSound() {
+            log('🧪 Testing scream sound...', 'info');
+            log('⚠️ Click sound button on main page first!', 'warn');
+        }
+        
+        function testGhostSound() {
+            log('🧪 Testing ghost sound...', 'info');
+            log('⚠️ Click sound button on main page first!', 'warn');
+        }
+        
+        function testChainSound() {
+            log('🧪 Testing chain sound...', 'info');
+            log('⚠️ Click sound button on main page first!', 'warn');
+        }
+        
+        function testAllAudio() {
+            log('🧪 Testing all audio elements...', 'info');
+            log('⚠️ Open main website and enable sound first!', 'warn');
+        }
+        
+        function stopAllAudio() {
+            log('⏹️ Stopping all audio...', 'info');
+        }
+        
+        function runFullTest() {
+            log('🚀 Running full test suite...', 'info');
+            log('⚠️ This will trigger all effects in sequence', 'warn');
+            
+            setTimeout(() => testJumpScare(), 500);
+            setTimeout(() => testBloodSplatter(), 2000);
+            setTimeout(() => testCreepyEyes(), 4000);
+            setTimeout(() => testShadowFigure(), 9000);
+            setTimeout(() => testRedFlash(), 13000);
+            setTimeout(() => {
+                log('✅ Full test suite completed!', 'log');
+                log(`📊 Results: ${stats.testsPass}/${stats.testsRun} passed`, 'info');
+            }, 14000);
+        }
+        
+        function stressTest() {
+            log('💪 Starting stress test (10x rapid fire)...', 'warn');
+            
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    testRandomEffect();
+                    log(`💥 Stress test ${i + 1}/10`, 'info');
+                }, i * 1500);
+            }
+            
+            setTimeout(() => {
+                log('✅ Stress test completed!', 'log');
+            }, 15500);
+        }
+        
+        function timingTest() {
+            log('⏱️ Starting timing test...', 'info');
+            
+            const start = performance.now();
+            testJumpScare();
+            const end = performance.now();
+            
+            log(`⏱️ Jump scare execution time: ${(end - start).toFixed(2)}ms`, 'info');
+        }
+        
+        function generateReport() {
+            log('📊 Generating test report...', 'info');
+            
+            const report = {
+                timestamp: new Date().toISOString(),
+                testsRun: stats.testsRun,
+                passed: stats.testsPass,
+                failed: stats.testsFail,
+                successRate: stats.testsRun > 0 ? ((stats.testsPass / stats.testsRun) * 100).toFixed(2) + '%' : 'N/A',
+                soundEnabled: stats.soundEnabled
+            };
+            
+            log('📄 Test Report:', 'info');
+            log(JSON.stringify(report, null, 2), 'log');
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(JSON.stringify(report, null, 2))
+                .then(() => log('📋 Report copied to clipboard!', 'log'))
+                .catch(() => log('❌ Failed to copy report', 'error'));
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🎃 Horror Effects Test Suite initialized', 'log');
+            log('💡 Open this page FROM the main website for full functionality', 'warn');
+            log('📝 Click items in checklist to mark as completed', 'info');
+            
+            const statusDiv = document.getElementById('systemStatus');
+            statusDiv.className = 'status';
+            statusDiv.innerHTML = '✅ System Ready - Open this page from main website to test!';
+            
+            updateStats();
+        });
+    </script>
+</body>
+</html>
