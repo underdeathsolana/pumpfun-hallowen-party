@@ -1,5 +1,6 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎃 Initializing Halloween Party...');
     initializeSoundEffects();
     initializeCursorEffect();
     initializeSpiders();
@@ -7,44 +8,109 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeButtons();
     initializeScrollAnimations();
     initializeCostumeAI();
+    updateMiniCountdown();
+    randomizeBackground();
+    initializeHorrorEffects();
+    console.log('✅ All systems ready!');
+    console.log('👻 Horror mode activated - prepare to be scared!');
 });
 
 // Sound Effects Management
 let soundEnabled = false;
-const backgroundMusic = document.getElementById('backgroundMusic');
-const screamSound = document.getElementById('screamSound');
-const thunderSound = document.getElementById('thunderSound');
+let backgroundMusic, screamSound, screamSound2, screamSound3;
+let thunderSound, ghostSound, doorCreak, windSound, chainSound, costumeRevealSound;
+let screamSounds = [];
+let ambientSounds = [];
 
 function initializeSoundEffects() {
+    console.log('🔊 Initializing sound effects...');
+    
+    // Get all audio elements
+    backgroundMusic = document.getElementById('backgroundMusic');
+    screamSound = document.getElementById('screamSound');
+    screamSound2 = document.getElementById('screamSound2');
+    screamSound3 = document.getElementById('screamSound3');
+    thunderSound = document.getElementById('thunderSound');
+    ghostSound = document.getElementById('ghostSound');
+    doorCreak = document.getElementById('doorCreak');
+    windSound = document.getElementById('windSound');
+    chainSound = document.getElementById('chainSound');
+    costumeRevealSound = document.getElementById('costumeRevealSound');
+    
+    // Array of all scream sounds for variety
+    screamSounds = [screamSound, screamSound2, screamSound3];
+    ambientSounds = [ghostSound, doorCreak, windSound, chainSound];
+    
+    console.log('✅ Audio elements loaded:', {
+        backgroundMusic: !!backgroundMusic,
+        screams: screamSounds.length,
+        ambient: ambientSounds.length
+    });
+    
     const soundToggle = document.getElementById('soundToggle');
     const soundOn = soundToggle.querySelector('.sound-on');
     const soundOff = soundToggle.querySelector('.sound-off');
     
     soundToggle.addEventListener('click', function() {
         soundEnabled = !soundEnabled;
+        console.log('🔊 Sound toggled:', soundEnabled);
         
         if (soundEnabled) {
             soundOn.style.display = 'none';
             soundOff.style.display = 'inline';
-            backgroundMusic.play().catch(e => console.log('Audio play failed:', e));
             
-            // Random scream sounds
+            // Play background music
+            backgroundMusic.play().then(() => {
+                console.log('✅ Background music started');
+            }).catch(e => console.error('❌ Audio play failed:', e));
+            
+            // Play random scream sounds more frequently
             setInterval(() => {
-                if (soundEnabled && Math.random() > 0.7) {
-                    screamSound.play().catch(e => console.log('Scream failed:', e));
+                if (soundEnabled && Math.random() > 0.6) {
+                    const randomScream = screamSounds[Math.floor(Math.random() * screamSounds.length)];
+                    if (randomScream) {
+                        randomScream.currentTime = 0;
+                        randomScream.play().catch(e => console.log('Scream failed:', e));
+                    }
                 }
-            }, 20000);
+            }, 12000); // Every 12 seconds
+            
+            // Random ambient sounds (ghost, door, wind, chains)
+            setInterval(() => {
+                if (soundEnabled && Math.random() > 0.5) {
+                    const randomAmbient = ambientSounds[Math.floor(Math.random() * ambientSounds.length)];
+                    if (randomAmbient) {
+                        randomAmbient.currentTime = 0;
+                        randomAmbient.volume = 0.6;
+                        randomAmbient.play().catch(e => console.log('Ambient failed:', e));
+                    }
+                }
+            }, 10000); // Every 10 seconds
             
             // Thunder sounds on lightning
             setInterval(() => {
-                if (soundEnabled) {
+                if (soundEnabled && Math.random() > 0.7 && thunderSound) {
+                    thunderSound.currentTime = 0;
                     thunderSound.play().catch(e => console.log('Thunder failed:', e));
                 }
             }, 15000);
+            
+            // Random wind howling
+            setInterval(() => {
+                if (soundEnabled && Math.random() > 0.6 && windSound) {
+                    windSound.currentTime = 0;
+                    windSound.volume = 0.4;
+                    windSound.play().catch(e => console.log('Wind failed:', e));
+                }
+            }, 18000);
         } else {
             soundOn.style.display = 'inline';
             soundOff.style.display = 'none';
-            backgroundMusic.pause();
+            if (backgroundMusic) backgroundMusic.pause();
+            // Stop all sounds
+            screamSounds.forEach(sound => sound && sound.pause());
+            ambientSounds.forEach(sound => sound && sound.pause());
+            if (thunderSound) thunderSound.pause();
         }
     });
 }
@@ -334,6 +400,14 @@ function initializeCostumeAI() {
                 resultText.style.display = 'block';
                 resultText.innerHTML = suggestion; // Direct HTML rendering
                 resultText.style.opacity = '0';
+                
+                // Play costume reveal sound
+                if (soundEnabled && costumeRevealSound) {
+                    costumeRevealSound.currentTime = 0;
+                    costumeRevealSound.volume = 0.7;
+                    costumeRevealSound.play().catch(e => console.log('Reveal sound failed:', e));
+                }
+                
                 setTimeout(() => {
                     resultText.style.transition = 'opacity 0.5s ease-in';
                     resultText.style.opacity = '1';
@@ -840,3 +914,380 @@ notificationStyle.textContent = `
     }
 `;
 document.head.appendChild(notificationStyle);
+
+// ===== FEATURE CARDS FUNCTIONS =====
+
+// Roadmap Modal/Page
+function openRoadmap() {
+    const roadmapDetails = [
+        { phase: 'Phase 1: Launch', details: '🎃 Token deployment on Pump.fun\n🎃 Website and social media launch\n🎃 Community building begins' },
+        { phase: 'Phase 2: NFT Drop', details: '🎨 Exclusive Halloween NFT collection\n🎨 Holder rewards and airdrops\n🎨 NFT marketplace integration' },
+        { phase: 'Phase 3: CEX Listings', details: '📈 Major exchange listings\n📈 Marketing campaign expansion\n📈 Partnership announcements' },
+        { phase: 'Phase 4: Global Dominance', details: '🌍 International marketing\n🌍 DeFi integrations\n🌍 Metaverse Halloween events' }
+    ];
+    
+    let roadmapHTML = '<div style="background: rgba(0,0,0,0.95); color: white; padding: 40px; border-radius: 20px; max-width: 800px; margin: 20px auto; border: 2px solid #ff6b00;">';
+    roadmapHTML += '<h2 style="text-align: center; font-size: 36px; color: #ff6b00; font-family: Fredoka One; margin-bottom: 30px;">🗺️ ROADMAP</h2>';
+    
+    roadmapDetails.forEach((item, index) => {
+        roadmapHTML += `
+            <div style="background: rgba(255,107,0,0.1); padding: 20px; margin: 20px 0; border-left: 5px solid #ff6b00; border-radius: 10px;">
+                <h3 style="color: #ff6b00; font-size: 24px; font-family: Bebas Neue; margin-bottom: 10px;">${item.phase}</h3>
+                <p style="white-space: pre-line; line-height: 1.8; font-size: 16px;">${item.details}</p>
+            </div>
+        `;
+    });
+    
+    roadmapHTML += '<button onclick="this.parentElement.remove()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #ff6b00, #8b00ff); border: none; border-radius: 50px; color: white; font-size: 18px; cursor: pointer; margin-top: 20px; font-family: Bebas Neue; letter-spacing: 2px;">CLOSE</button>';
+    roadmapHTML += '</div>';
+    
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; overflow-y: auto; padding: 20px; display: flex; align-items: center; justify-content: center;';
+    modal.innerHTML = roadmapHTML;
+    document.body.appendChild(modal);
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+// Tokenomics Modal/Page
+function openTokenomics() {
+    const tokenomicsHTML = `
+        <div style="background: rgba(0,0,0,0.95); color: white; padding: 40px; border-radius: 20px; max-width: 800px; margin: 20px auto; border: 2px solid #00ff88;">
+            <h2 style="text-align: center; font-size: 36px; color: #00ff88; font-family: Fredoka One; margin-bottom: 30px;">💰 TOKENOMICS</h2>
+            
+            <div style="background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,255,255,0.1)); padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h3 style="font-size: 24px; color: #00ffff; font-family: Bebas Neue; letter-spacing: 2px;">TOTAL SUPPLY</h3>
+                    <p style="font-size: 48px; font-weight: bold; color: #00ff88; font-family: Bebas Neue;">1,000,000,000</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+                    <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px; border: 1px solid #00ff88;">
+                        <h4 style="color: #00ff88; font-family: Bebas Neue; font-size: 20px;">💧 Liquidity Pool</h4>
+                        <p style="font-size: 32px; font-weight: bold; color: #00ffff;">40%</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px; border: 1px solid #00ff88;">
+                        <h4 style="color: #00ff88; font-family: Bebas Neue; font-size: 20px;">👥 Community</h4>
+                        <p style="font-size: 32px; font-weight: bold; color: #00ffff;">35%</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px; border: 1px solid #00ff88;">
+                        <h4 style="color: #00ff88; font-family: Bebas Neue; font-size: 20px;">📢 Marketing</h4>
+                        <p style="font-size: 32px; font-weight: bold; color: #00ffff;">15%</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px; border: 1px solid #00ff88;">
+                        <h4 style="color: #00ff88; font-family: Bebas Neue; font-size: 20px;">👨‍💼 Team</h4>
+                        <p style="font-size: 32px; font-weight: bold; color: #00ffff;">10%</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: rgba(0,255,136,0.05); padding: 25px; border-radius: 15px; border: 2px solid #00ff88;">
+                <h3 style="text-align: center; color: #00ffff; font-family: Bebas Neue; font-size: 24px; margin-bottom: 20px;">✨ SPECIAL FEATURES</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.3); border-radius: 8px;">🔒 Locked Liquidity - 100% Safe</li>
+                    <li style="padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.3); border-radius: 8px;">🔥 Auto Burn Mechanism</li>
+                    <li style="padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.3); border-radius: 8px;">💎 Holder Rewards Program</li>
+                    <li style="padding: 10px; margin: 10px 0; background: rgba(0,0,0,0.3); border-radius: 8px;">🚀 Community Driven Growth</li>
+                </ul>
+            </div>
+            
+            <button onclick="this.parentElement.remove()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #00ff88, #00ffff); border: none; border-radius: 50px; color: #000; font-size: 18px; cursor: pointer; margin-top: 30px; font-family: Bebas Neue; letter-spacing: 2px; font-weight: bold;">CLOSE</button>
+        </div>
+    `;
+    
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; overflow-y: auto; padding: 20px; display: flex; align-items: center; justify-content: center;';
+    modal.innerHTML = tokenomicsHTML;
+    document.body.appendChild(modal);
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+// Pump.fun Launch Function
+function goToPumpFun() {
+    showNotification('🚀 Launching to Pump.fun on October 31, 2025!');
+    
+    // You can uncomment this when you have actual Pump.fun link
+    // setTimeout(() => {
+    //     window.open('https://pump.fun/your-token-address', '_blank');
+    // }, 2000);
+}
+
+// Update mini countdown
+function updateMiniCountdown() {
+    const launchDate = new Date('2025-10-31T20:00:00Z').getTime();
+    
+    setInterval(() => {
+        const now = new Date().getTime();
+        const distance = launchDate - now;
+        
+        if (distance > 0) {
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            
+            const miniDaysEl = document.getElementById('miniDays');
+            const miniHoursEl = document.getElementById('miniHours');
+            const miniMinsEl = document.getElementById('miniMins');
+            
+            if (miniDaysEl) miniDaysEl.textContent = days;
+            if (miniHoursEl) miniHoursEl.textContent = hours;
+            if (miniMinsEl) miniMinsEl.textContent = minutes;
+        }
+    }, 1000);
+}
+
+// Randomize background image
+function randomizeBackground() {
+    const bgClasses = ['bg-image-1', 'bg-image-2', 'bg-image-3', 'bg-image-4', 'bg-image-5'];
+    const randomBg = bgClasses[Math.floor(Math.random() * bgClasses.length)];
+    document.body.classList.add(randomBg);
+    console.log('🎨 Background set to:', randomBg);
+}
+
+// ===== IMAGE ZOOM MODAL =====
+
+function openImageModal(imageSrc, caption) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    
+    modalImage.src = imageSrc;
+    modalCaption.textContent = caption;
+    modal.classList.add('active');
+    
+    // Play sound effect if enabled
+    if (soundEnabled && doorCreak) {
+        doorCreak.currentTime = 0;
+        doorCreak.volume = 0.3;
+        doorCreak.play().catch(e => console.log('Door sound failed:', e));
+    }
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+    
+    console.log('🖼️ Opened image:', caption);
+}
+
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    modal.classList.remove('active');
+    
+    // Re-enable body scroll
+    document.body.style.overflow = 'auto';
+    
+    console.log('❌ Closed image modal');
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeImageModal();
+    }
+});
+
+// ===== RESIDENT EVIL HORROR EFFECTS =====
+
+let horrorEffectsEnabled = false;
+let jumpScareSound, bloodSplatterSound;
+
+// Horror jump scare images (using gallery images for now, can be changed)
+const jumpScareImages = [
+    'images/3.png',
+    'images/5.png',
+    'images/7.png',
+    'images/9.png',
+    'images/11.png'
+];
+
+// Initialize horror effects
+function initializeHorrorEffects() {
+    console.log('👻 Initializing horror effects...');
+    
+    jumpScareSound = document.getElementById('jumpScareSound');
+    bloodSplatterSound = document.getElementById('bloodSplatterSound');
+    
+    // Enable horror effects when sound is enabled
+    horrorEffectsEnabled = true;
+    
+    // Random horror events
+    if (horrorEffectsEnabled) {
+        // Jump scare every 30-60 seconds
+        setInterval(() => {
+            if (soundEnabled && horrorEffectsEnabled && Math.random() > 0.7) {
+                triggerJumpScare();
+            }
+        }, 45000);
+        
+        // Creepy eyes every 40-80 seconds
+        setInterval(() => {
+            if (soundEnabled && horrorEffectsEnabled && Math.random() > 0.6) {
+                triggerCreepyEyes();
+            }
+        }, 60000);
+        
+        // Blood splatter random
+        setInterval(() => {
+            if (soundEnabled && horrorEffectsEnabled && Math.random() > 0.8) {
+                triggerBloodSplatter();
+            }
+        }, 35000);
+        
+        // Shadow figure walking
+        setInterval(() => {
+            if (soundEnabled && horrorEffectsEnabled && Math.random() > 0.7) {
+                triggerShadowFigure();
+            }
+        }, 50000);
+        
+        // Red flash
+        setInterval(() => {
+            if (soundEnabled && horrorEffectsEnabled && Math.random() > 0.75) {
+                triggerRedFlash();
+            }
+        }, 40000);
+    }
+    
+    console.log('✅ Horror effects ready!');
+}
+
+// Jump Scare Effect
+function triggerJumpScare() {
+    const overlay = document.getElementById('jumpScareOverlay');
+    const image = document.getElementById('jumpScareImage');
+    
+    // Random image
+    const randomImage = jumpScareImages[Math.floor(Math.random() * jumpScareImages.length)];
+    image.src = randomImage;
+    
+    // Activate overlay
+    overlay.classList.add('active');
+    document.body.classList.add('horror-active');
+    
+    // Play sound
+    if (jumpScareSound) {
+        jumpScareSound.currentTime = 0;
+        jumpScareSound.volume = 0.8;
+        jumpScareSound.play().catch(e => console.log('Jump scare sound failed:', e));
+    }
+    
+    console.log('😱 JUMP SCARE!');
+    
+    // Remove after 1 second
+    setTimeout(() => {
+        overlay.classList.remove('active');
+        document.body.classList.remove('horror-active');
+    }, 1000);
+}
+
+// Blood Splatter Effect
+function triggerBloodSplatter() {
+    const bloodSplatter = document.getElementById('bloodSplatter');
+    
+    bloodSplatter.classList.add('active');
+    
+    // Play sound
+    if (bloodSplatterSound) {
+        bloodSplatterSound.currentTime = 0;
+        bloodSplatterSound.volume = 0.6;
+        bloodSplatterSound.play().catch(e => console.log('Blood sound failed:', e));
+    }
+    
+    console.log('🩸 Blood splatter!');
+    
+    // Remove after animation
+    setTimeout(() => {
+        bloodSplatter.classList.remove('active');
+    }, 1000);
+}
+
+// Creepy Eyes Effect
+function triggerCreepyEyes() {
+    const eyes = document.getElementById('creepyEyes');
+    
+    eyes.classList.add('active');
+    
+    // Play ghost sound
+    if (ghostSound) {
+        ghostSound.currentTime = 0;
+        ghostSound.volume = 0.5;
+        ghostSound.play().catch(e => console.log('Ghost sound failed:', e));
+    }
+    
+    console.log('👀 Creepy eyes watching...');
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        eyes.classList.remove('active');
+    }, 5000);
+}
+
+// Shadow Figure Walking
+function triggerShadowFigure() {
+    const shadow = document.getElementById('shadowFigure');
+    
+    shadow.classList.add('active');
+    
+    // Play chain sound
+    if (chainSound) {
+        chainSound.currentTime = 0;
+        chainSound.volume = 0.4;
+        chainSound.play().catch(e => console.log('Chain sound failed:', e));
+    }
+    
+    console.log('👤 Shadow figure walking...');
+    
+    // Remove after animation
+    setTimeout(() => {
+        shadow.classList.remove('active');
+    }, 4000);
+}
+
+// Red Flash Effect
+function triggerRedFlash() {
+    const flash = document.getElementById('redFlash');
+    
+    flash.classList.add('active');
+    document.body.classList.add('horror-mode');
+    
+    console.log('⚡ Red flash!');
+    
+    // Remove after animation
+    setTimeout(() => {
+        flash.classList.remove('active');
+        document.body.classList.remove('horror-mode');
+    }, 500);
+}
+
+// Trigger random horror effect (can be called manually)
+function triggerRandomHorrorEffect() {
+    if (!soundEnabled) {
+        console.log('⚠️ Enable sound first for horror effects!');
+        return;
+    }
+    
+    const effects = [
+        triggerJumpScare,
+        triggerBloodSplatter,
+        triggerCreepyEyes,
+        triggerShadowFigure,
+        triggerRedFlash
+    ];
+    
+    const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+    randomEffect();
+}
+
+// Add to initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing code ...
+    initializeHorrorEffects();
+});

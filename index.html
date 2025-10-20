@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Poppins:wght@300;400;600;700;900&family=Bebas+Neue&family=Bungee+Shade&family=Fredoka+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Background Effects -->
@@ -17,21 +17,73 @@
     <canvas id="spiders"></canvas>
     
     <!-- Audio Elements -->
-    <audio id="backgroundMusic" loop>
+    <audio id="backgroundMusic" loop preload="auto">
         <source src="https://assets.mixkit.co/music/preview/mixkit-horror-ambience-2834.mp3" type="audio/mpeg">
     </audio>
-    <audio id="screamSound">
+    <audio id="screamSound" preload="auto">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-horror-scream-397.mp3" type="audio/mpeg">
     </audio>
-    <audio id="thunderSound">
+    <audio id="screamSound2" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-female-scream-397.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="screamSound3" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-creepy-laugh-2859.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="thunderSound" preload="auto">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-thunder-rumble-1291.mp3" type="audio/mpeg">
     </audio>
+    <audio id="ghostSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-ghost-cry-264.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="doorCreak" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-creaking-door-331.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="windSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wind-howling-2879.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="chainSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-chains-rattle-2854.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="costumeRevealSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-spell-2869.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="jumpScareSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-horror-lose-2028.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bloodSplatterSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-blood-spatter-2357.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Horror Jump Scare Elements -->
+    <div id="jumpScareOverlay" class="jump-scare-overlay">
+        <img id="jumpScareImage" src="" alt="">
+    </div>
+    
+    <div id="bloodSplatter" class="blood-splatter"></div>
+    
+    <div id="creepyEyes" class="creepy-eyes">
+        <div class="eye left-eye">
+            <div class="pupil"></div>
+        </div>
+        <div class="eye right-eye">
+            <div class="pupil"></div>
+        </div>
+    </div>
+    
+    <div id="shadowFigure" class="shadow-figure"></div>
+    
+    <div id="redFlash" class="red-flash"></div>
 
     <!-- Sound Control -->
     <button id="soundToggle" class="sound-toggle">
         <span class="sound-on">🔊</span>
         <span class="sound-off" style="display:none;">🔇</span>
     </button>
+
+    <!-- Floating Logo (Top Left) -->
+    <div class="floating-logo">
+        <img src="logo/1.png" alt="Pump Fun Logo">
+    </div>
 
     <!-- Header -->
     <header class="header">
@@ -190,6 +242,136 @@
         </div>
     </section>
 
+    <!-- Roadmap, Tokenomics, Pump.fun Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title gradient-text">🚀 Join The Halloween Revolution 🚀</h2>
+            <p class="section-subtitle">Experience the future of spooky fun!</p>
+            
+            <div class="feature-cards">
+                <!-- Roadmap Card -->
+                <div class="feature-card roadmap-card">
+                    <div class="card-icon">🗺️</div>
+                    <h3 class="card-title">Roadmap</h3>
+                    <div class="card-content">
+                        <div class="roadmap-item">
+                            <span class="phase">Phase 1</span>
+                            <p>🎃 Launch on Pump.fun</p>
+                            <p>👻 Community Building</p>
+                        </div>
+                        <div class="roadmap-item">
+                            <span class="phase">Phase 2</span>
+                            <p>🧛 NFT Collection Drop</p>
+                            <p>🕷️ Staking Rewards</p>
+                        </div>
+                        <div class="roadmap-item">
+                            <span class="phase">Phase 3</span>
+                            <p>🔥 Major CEX Listings</p>
+                            <p>🎭 Metaverse Integration</p>
+                        </div>
+                        <div class="roadmap-item">
+                            <span class="phase">Phase 4</span>
+                            <p>🌙 Global Dominance</p>
+                            <p>💀 Halloween Forever!</p>
+                        </div>
+                    </div>
+                    <button class="feature-btn roadmap-btn" onclick="openRoadmap()">
+                        <span>View Full Roadmap</span>
+                        <span class="btn-icon">📜</span>
+                    </button>
+                </div>
+
+                <!-- Tokenomics Card -->
+                <div class="feature-card tokenomics-card">
+                    <div class="card-icon">💰</div>
+                    <h3 class="card-title">Tokenomics</h3>
+                    <div class="card-content">
+                        <div class="token-info">
+                            <div class="token-stat">
+                                <span class="stat-label">Total Supply</span>
+                                <span class="stat-value">1,000,000,000</span>
+                            </div>
+                            <div class="token-stat">
+                                <span class="stat-label">Liquidity Pool</span>
+                                <span class="stat-value gradient-text">40%</span>
+                            </div>
+                            <div class="token-stat">
+                                <span class="stat-label">Community</span>
+                                <span class="stat-value gradient-text">35%</span>
+                            </div>
+                            <div class="token-stat">
+                                <span class="stat-label">Marketing</span>
+                                <span class="stat-value gradient-text">15%</span>
+                            </div>
+                            <div class="token-stat">
+                                <span class="stat-label">Team</span>
+                                <span class="stat-value gradient-text">10%</span>
+                            </div>
+                        </div>
+                        <div class="token-features">
+                            <div class="feature-tag">🔒 Locked Liquidity</div>
+                            <div class="feature-tag">🔥 Auto Burn</div>
+                            <div class="feature-tag">💎 Holder Rewards</div>
+                        </div>
+                    </div>
+                    <button class="feature-btn tokenomics-btn" onclick="openTokenomics()">
+                        <span>Full Tokenomics</span>
+                        <span class="btn-icon">📊</span>
+                    </button>
+                </div>
+
+                <!-- Pump.fun Card -->
+                <div class="feature-card pumpfun-card">
+                    <div class="card-icon pump-icon">🎃</div>
+                    <h3 class="card-title">Launch on Pump.fun</h3>
+                    <div class="card-content">
+                        <div class="launch-banner">
+                            <div class="launch-badge">COMING SOON</div>
+                            <p class="launch-date">October 31, 2025</p>
+                            <p class="launch-time">20:00 UTC</p>
+                        </div>
+                        <div class="pump-features">
+                            <div class="pump-feature">
+                                <span class="pump-emoji">⚡</span>
+                                <span>Fair Launch</span>
+                            </div>
+                            <div class="pump-feature">
+                                <span class="pump-emoji">🔐</span>
+                                <span>No Presale</span>
+                            </div>
+                            <div class="pump-feature">
+                                <span class="pump-emoji">🚀</span>
+                                <span>Community Driven</span>
+                            </div>
+                            <div class="pump-feature">
+                                <span class="pump-emoji">💪</span>
+                                <span>Anti-Rug</span>
+                            </div>
+                        </div>
+                        <div class="countdown-mini">
+                            <div class="mini-count">
+                                <span id="miniDays">11</span>
+                                <label>Days</label>
+                            </div>
+                            <div class="mini-count">
+                                <span id="miniHours">00</span>
+                                <label>Hrs</label>
+                            </div>
+                            <div class="mini-count">
+                                <span id="miniMins">00</span>
+                                <label>Min</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="feature-btn pumpfun-btn" onclick="goToPumpFun()">
+                        <span>Join on Pump.fun</span>
+                        <span class="btn-icon">🚀</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Gallery Section -->
     <section class="gallery-section" id="gallery">
         <div class="container">
@@ -197,81 +379,102 @@
             <p class="section-subtitle">Explore our spooky collection of Halloween NFTs</p>
             
             <div class="gallery-grid">
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/3.png', 'Spooky #001')">
                     <img src="images/3.png" alt="Halloween NFT 1" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #001</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/4.png', 'Spooky #002')">
                     <img src="images/4.png" alt="Halloween NFT 2" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #002</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/5.png', 'Spooky #003')">
                     <img src="images/5.png" alt="Halloween NFT 3" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #003</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/6.png', 'Spooky #004')">
                     <img src="images/6.png" alt="Halloween NFT 4" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #004</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/7.png', 'Spooky #005')">
                     <img src="images/7.png" alt="Halloween NFT 5" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #005</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/8.png', 'Spooky #006')">
                     <img src="images/8.png" alt="Halloween NFT 6" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #006</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/9.png', 'Spooky #007')">
                     <img src="images/9.png" alt="Halloween NFT 7" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #007</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/10.png', 'Spooky #008')">
                     <img src="images/10.png" alt="Halloween NFT 8" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #008</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/11.png', 'Spooky #009')">
                     <img src="images/11.png" alt="Halloween NFT 9" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #009</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/12.png', 'Spooky #010')">
                     <img src="images/12.png" alt="Halloween NFT 10" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #010</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/13.png', 'Spooky #011')">
                     <img src="images/13.png" alt="Halloween NFT 11" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #011</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageModal('images/14.png', 'Spooky #012')">
                     <img src="images/14.png" alt="Halloween NFT 12" class="gallery-image">
                     <div class="gallery-overlay">
                         <h3>Spooky #012</h3>
+                        <p class="zoom-hint">🔍 Click to zoom</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Image Zoom Modal -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <span class="modal-close">&times;</span>
+        <div class="modal-content-wrapper">
+            <img id="modalImage" class="modal-image" src="" alt="">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
