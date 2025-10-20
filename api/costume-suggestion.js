@@ -1,13 +1,6 @@
-// Vercel Serverless Function untuk Costume Suggestion
-require('dotenv').config();
-const OpenAI = require('openai');
+// Vercel Serverless Function - Simplified & Reliable Version
 
-// Initialize OpenAI
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
-
-// Helper function untuk generate fallback
+// Helper function untuk generate fallback suggestions
 function generateFallbackSuggestion(userName) {
     const firstLetter = userName.charAt(0).toUpperCase();
     
@@ -76,20 +69,17 @@ function generateFallbackSuggestion(userName) {
     `;
 }
 
+// Main serverless function handler
 module.exports = async (req, res) => {
-    // Set CORS headers
+    // CORS headers
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    );
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     // Handle OPTIONS request
     if (req.method === 'OPTIONS') {
-        res.status(200).end();
-        return;
+        return res.status(200).end();
     }
 
     // Only allow POST
@@ -103,82 +93,92 @@ module.exports = async (req, res) => {
     try {
         const { userName } = req.body;
 
-        // Validasi input
+        // Validate input
         if (!userName || userName.trim() === '') {
             return res.status(400).json({ 
                 error: 'Name is required',
-                message: 'Please provide your name to get costume suggestion.'
+                message: 'Please provide your name'
             });
         }
 
         if (userName.length > 50) {
             return res.status(400).json({ 
                 error: 'Name too long',
-                message: 'Please provide a name with maximum 50 characters.'
+                message: 'Name must be less than 50 characters'
             });
         }
 
         const sanitizedName = userName.trim().replace(/[<>]/g, '');
+        console.log(`[${new Date().toISOString()}] Processing: ${sanitizedName}`);
 
-        console.log(`Generating costume for: ${sanitizedName}`);
+        // Try OpenAI if API key exists
+        let suggestion = null;
+        let usedOpenAI = false;
 
-        // Check if OpenAI API key is available
-        if (!process.env.OPENAI_API_KEY) {
-            console.log('No API key, using fallback');
-            const suggestion = generateFallbackSuggestion(sanitizedName);
-            return res.status(200).json({
-                success: true,
-                userName: sanitizedName,
-                suggestion: suggestion,
-                isFallback: true,
-                timestamp: new Date().toISOString()
-            });
+        if (process.env.OPENAI_API_KEY) {
+            try {
+                console.log('Calling OpenAI API...');
+                const OpenAI = require('openai');
+                const openai = new OpenAI({
+                    apiKey: process.env.OPENAI_API_KEY
+                });
+
+                const completion = await openai.chat.completions.create({
+                    model: 'gpt-3.5-turbo',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are a creative Halloween costume consultant. Give personalized costume suggestions based on the person\'s name. Keep it under 200 words, make it fun and spooky! Format your response in HTML with inline styles.'
+                        },
+                        {
+                            role: 'user',
+                            content: `My name is ${sanitizedName}. What Halloween costume should I wear?`
+                        }
+                    ],
+                    max_tokens: 300,
+                    temperature: 0.9,
+                });
+
+                suggestion = completion.choices[0].message.content;
+                usedOpenAI = true;
+                console.log('✅ OpenAI success');
+            } catch (openaiError) {
+                console.error('❌ OpenAI error:', openaiError.message);
+                // Will use fallback below
+            }
+        } else {
+            console.log('⚠️ No API key configured');
         }
 
-        // Call OpenAI API
-        const completion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            messages: [
-                {
-                    role: 'system',
-                    content: `You are a creative Halloween costume consultant for the Pump Fun Halloween Party. 
-Give personalized, creative, and fun Halloween costume suggestions based on the person's name. 
-Make it spooky, creative, and exciting! Include why the costume fits them and some tips for making it amazing. 
-Keep it under 200 words and make it entertaining! Format your response in HTML with proper styling using inline styles.`
-                },
-                {
-                    role: 'user',
-                    content: `My name is ${sanitizedName}. What Halloween costume should I wear to the Pump Fun Halloween Party?`
-                }
-            ],
-            max_tokens: 300,
-            temperature: 0.9,
-        });
+        // Use fallback if OpenAI failed or unavailable
+        if (!suggestion) {
+            suggestion = generateFallbackSuggestion(sanitizedName);
+            usedOpenAI = false;
+            console.log('📦 Using fallback suggestion');
+        }
 
-        const suggestion = completion.choices[0].message.content;
-
-        console.log(`Successfully generated suggestion for: ${sanitizedName}`);
-
+        // Return success
         return res.status(200).json({
             success: true,
             userName: sanitizedName,
             suggestion: suggestion,
+            usedOpenAI: usedOpenAI,
             timestamp: new Date().toISOString()
         });
 
     } catch (error) {
-        console.error('Error:', error);
-
-        // Gunakan fallback jika error
-        const sanitizedName = req.body?.userName?.trim() || 'Guest';
-        const suggestion = generateFallbackSuggestion(sanitizedName);
+        console.error('💥 Server error:', error);
+        
+        // Emergency fallback - always return something
+        const safeName = req.body?.userName?.trim() || 'Guest';
+        const emergencySuggestion = generateFallbackSuggestion(safeName);
 
         return res.status(200).json({
             success: true,
-            userName: sanitizedName,
-            suggestion: suggestion,
+            userName: safeName,
+            suggestion: emergencySuggestion,
+            usedOpenAI: false,
             isFallback: true,
-            error: 'Used fallback due to API error',
             timestamp: new Date().toISOString()
         });
     }

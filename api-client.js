@@ -20,6 +20,9 @@ async function getCostumeFromBackend(userName) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
     
+    console.log('🎃 Calling backend API...');
+    console.log('URL:', `${API_CONFIG.baseURL}${API_CONFIG.endpoints.costumeSuggestion}`);
+    
     try {
         const response = await fetch(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.costumeSuggestion}`, {
             method: 'POST',
@@ -32,28 +35,39 @@ async function getCostumeFromBackend(userName) {
         
         clearTimeout(timeoutId);
         
+        console.log('Response status:', response.status);
+        
         const data = await response.json();
+        console.log('Response data:', data);
         
         if (!response.ok) {
+            console.error('Backend error response:', data);
             // Jika backend error, coba fallback
             if (data.fallback) {
                 console.log('Backend error, using fallback...');
                 return await getFallbackFromBackend(userName);
             }
-            throw new Error(data.message || 'Failed to get suggestion');
+            throw new Error(data.message || `Server error: ${response.status}`);
         }
         
-        return data.suggestion;
+        if (data.success && data.suggestion) {
+            console.log('✅ Got suggestion from backend!');
+            return data.suggestion;
+        } else {
+            throw new Error('Invalid response format');
+        }
         
     } catch (error) {
         clearTimeout(timeoutId);
-        console.error('Backend API error:', error);
+        console.error('❌ Backend API error:', error);
         
         // Jika backend tidak available, gunakan local fallback
         if (error.name === 'AbortError') {
-            console.log('Request timeout, using local fallback...');
+            console.log('⏱️ Request timeout, using local fallback...');
+        } else if (error.message.includes('fetch')) {
+            console.log('🔌 Network error, using local fallback...');
         } else {
-            console.log('Backend unavailable, using local fallback...');
+            console.log('⚠️ Backend unavailable, using local fallback...');
         }
         
         return getFallbackCostumeSuggestion(userName);
