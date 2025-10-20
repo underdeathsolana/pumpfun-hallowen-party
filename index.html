@@ -37,11 +37,35 @@
     <header class="header">
         <nav class="nav">
             <div class="logo">
-                <span class="pumpkin-logo">🎃</span>
+                <img src="logo/1.png" alt="Pump Fun Halloween Logo" class="logo-image">
                 <h1 class="logo-text">PUMP FUN HALLOWEEN PARTY</h1>
-                <span class="pumpkin-logo">🎃</span>
+            </div>
+            <div class="nav-links">
+                <a href="#costumeSection" class="nav-link">Costume AI</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="https://twitter.com/yourhandle" target="_blank" class="nav-link twitter-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                    Twitter
+                </a>
             </div>
         </nav>
+        
+        <!-- Contract Address Banner -->
+        <div class="contract-banner">
+            <div class="container">
+                <span class="contract-label">🔥 Contract Address:</span>
+                <code class="contract-address" id="contractAddress">0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb</code>
+                <button class="copy-btn" onclick="copyContract()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy
+                </button>
+            </div>
+        </div>
     </header>
 
     <!-- Hero Section -->
@@ -76,7 +100,7 @@
                     <label for="userName">Enter Your Name:</label>
                     <input type="text" id="userName" placeholder="e.g., Sarah, Michael, Luna..." class="input-field" maxlength="50">
                     <small class="input-help">
-                        ✨ Powered by AI - No API key needed! Just enter your name and get instant costume suggestions! ✨
+                        ✨ Type your name to get started! and see Miracle ✨
                     </small>
                 </div>
                 
@@ -167,25 +191,83 @@
     </section>
 
     <!-- Gallery Section -->
-    <section class="gallery-section">
+    <section class="gallery-section" id="gallery">
         <div class="container">
-            <h2 class="section-title">📸 Last Year's Horror 📸</h2>
+            <h2 class="section-title">🎃 Halloween Collection 🎃</h2>
+            <p class="section-subtitle">Explore our spooky collection of Halloween NFTs</p>
+            
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">🎃</div>
-                    <p>Best Costume Winner</p>
+                    <img src="images/3.png" alt="Halloween NFT 1" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #001</h3>
+                    </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">👻</div>
-                    <p>Haunted Dance Floor</p>
+                    <img src="images/4.png" alt="Halloween NFT 2" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #002</h3>
+                    </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">🧛</div>
-                    <p>Vampire VIP Lounge</p>
+                    <img src="images/5.png" alt="Halloween NFT 3" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #003</h3>
+                    </div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-placeholder">🧟</div>
-                    <p>Zombie Zone</p>
+                    <img src="images/6.png" alt="Halloween NFT 4" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #004</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/7.png" alt="Halloween NFT 5" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #005</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/8.png" alt="Halloween NFT 6" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #006</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/9.png" alt="Halloween NFT 7" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #007</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/10.png" alt="Halloween NFT 8" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #008</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/11.png" alt="Halloween NFT 9" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #009</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/12.png" alt="Halloween NFT 10" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #010</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/13.png" alt="Halloween NFT 11" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #011</h3>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/14.png" alt="Halloween NFT 12" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3>Spooky #012</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -194,14 +276,54 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="footer-text">🎃 Pump Fun Halloween Party 2025 🎃</p>
-            <p class="footer-subtitle">Dare to have fun... if you survive!</p>
-            <div class="footer-icons">
-                <span>👻</span>
-                <span>🦇</span>
-                <span>🕷️</span>
-                <span>💀</span>
-                <span>🧛</span>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="logo/2.png" alt="Pump Fun Halloween" class="footer-logo-img">
+                    <h3>Pump Fun Halloween Party</h3>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="#costumeSection">Costume AI</a>
+                    <a href="#gallery">Gallery</a>
+                    <a href="#countdown">Countdown</a>
+                </div>
+                
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="https://t.me/yourhandle" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-contract">
+                    <h4>Contract Address</h4>
+                    <div class="contract-box">
+                        <code>0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb</code>
+                        <button class="copy-btn-small" onclick="copyContract()">📋</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-text">🎃 Pump Fun Halloween Party 2025 🎃</p>
+                <p class="footer-subtitle">Dare to have fun... if you survive!</p>
+                <div class="footer-icons">
+                    <span>👻</span>
+                    <span>🦇</span>
+                    <span>🕷️</span>
+                    <span>💀</span>
+                    <span>🧛</span>
+                </div>
             </div>
         </div>
     </footer>

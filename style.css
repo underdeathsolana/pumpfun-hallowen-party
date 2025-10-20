@@ -878,6 +878,329 @@ section {
     border-radius: 6px;
 }
 
+/* ===== NEW ADDITIONS ===== */
+
+/* Logo Image in Header */
+.logo-image {
+    height: 60px;
+    width: auto;
+    margin-right: 15px;
+    filter: drop-shadow(0 0 10px var(--primary-color));
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Navigation Links */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--ghost-white);
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 107, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+}
+
+.twitter-link {
+    background: rgba(29, 161, 242, 0.1);
+    border-color: #1da1f2;
+}
+
+.twitter-link:hover {
+    background: rgba(29, 161, 242, 0.2);
+    box-shadow: 0 5px 15px rgba(29, 161, 242, 0.4);
+}
+
+/* Contract Address Banner */
+.contract-banner {
+    background: linear-gradient(90deg, rgba(255, 107, 0, 0.1) 0%, rgba(139, 0, 255, 0.1) 100%);
+    padding: 15px 0;
+    border-top: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    margin-top: 20px;
+}
+
+.contract-banner .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.contract-label {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 14px;
+}
+
+.contract-address {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--secondary-color);
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--ghost-white);
+    letter-spacing: 0.5px;
+}
+
+.copy-btn, .copy-btn-small {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.copy-btn:hover, .copy-btn-small:hover {
+    background: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+.copy-btn-small {
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+/* Gallery Images */
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    aspect-ratio: 1;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h3 {
+    color: var(--primary-color);
+    font-size: 18px;
+    margin: 0;
+}
+
+/* Footer Updates */
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 2px solid rgba(255, 107, 0, 0.3);
+}
+
+.footer-logo-img {
+    height: 80px;
+    width: auto;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px var(--primary-color));
+}
+
+.footer-logo h3 {
+    color: var(--primary-color);
+    font-size: 20px;
+    margin: 0;
+}
+
+.footer-links, .footer-social, .footer-contract {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-links h4, .footer-social h4, .footer-contract h4 {
+    color: var(--primary-color);
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--ghost-white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+    padding-left: 10px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 107, 0, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-5px) rotate(360deg);
+    box-shadow: 0 5px 20px rgba(255, 107, 0, 0.5);
+}
+
+.contract-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--secondary-color);
+}
+
+.contract-box code {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--ghost-white);
+    word-break: break-all;
+    flex: 1;
+}
+
+.footer-bottom {
+    text-align: center;
+}
+
+/* Mobile Responsive Updates */
+@media (max-width: 768px) {
+    .logo-image {
+        height: 40px;
+    }
+    
+    .logo-text {
+        font-size: 18px;
+    }
+    
+    .nav {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .contract-banner {
+        padding: 10px 0;
+    }
+    
+    .contract-banner .container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .contract-address {
+        font-size: 10px;
+        padding: 6px 10px;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .footer-logo-img {
+        height: 60px;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
+    
+    .contract-box {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .contract-address {
+        font-size: 9px;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
 }

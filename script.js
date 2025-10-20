@@ -748,3 +748,95 @@ function activateSecretMode() {
         }, i * 50);
     }
 }
+
+// Copy Contract Address Function
+function copyContract() {
+    const contractAddress = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb';
+    
+    // Try modern clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(contractAddress).then(() => {
+            showCopyNotification('✅ Contract address copied!');
+        }).catch(() => {
+            // Fallback method
+            fallbackCopy(contractAddress);
+        });
+    } else {
+        // Fallback for older browsers
+        fallbackCopy(contractAddress);
+    }
+}
+
+function fallbackCopy(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopyNotification('✅ Contract address copied!');
+    } catch (err) {
+        showCopyNotification('❌ Failed to copy');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+function showCopyNotification(message) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: ${message.includes('✅') ? 'rgba(0, 255, 0, 0.9)' : 'rgba(255, 0, 0, 0.9)'};
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-weight: bold;
+        z-index: 10000;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        animation: slideInRight 0.3s ease-out;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Add animations for notification
+const notificationStyle = document.createElement('style');
+notificationStyle.textContent = `
+    @keyframes slideInRight {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(notificationStyle);

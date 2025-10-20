@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Costume Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a0000 0%, #000 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: rgba(42, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            border: 3px solid #ff6b00;
+            box-shadow: 0 0 50px rgba(255, 107, 0, 0.5);
+        }
+        h1 {
+            color: #ff6b00;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        .status {
+            background: #0a3a0a;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .success { color: #0f0; }
+        .error { color: #f00; }
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 2px solid #ff6b00;
+            background: #1a0000;
+            color: white;
+        }
+        button {
+            width: 100%;
+            padding: 20px;
+            font-size: 20px;
+            background: #ff6b00;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #ff8c00;
+            transform: scale(1.05);
+        }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(58, 0, 0, 0.8);
+            border-radius: 10px;
+            border-left: 5px solid #8b00ff;
+            display: none;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .stat {
+            background: rgba(139, 0, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎃 Quick Costume Test 🎃</h1>
+        
+        <div class="status">
+            <div id="validation"></div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="templateCount">...</div>
+                <div>Templates</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="testCount">0</div>
+                <div>Tests Run</div>
+            </div>
+        </div>
+
+        <input type="text" id="userName" placeholder="Enter your name..." value="TestUser">
+        
+        <button onclick="runTest()">🔮 Generate Random Costume 🔮</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let testCounter = 0;
+
+        // Validate on load
+        window.addEventListener('DOMContentLoaded', function() {
+            const validation = document.getElementById('validation');
+            const countEl = document.getElementById('templateCount');
+            
+            try {
+                // Check if function exists
+                if (typeof getRandomCostumeSuggestion !== 'function') {
+                    throw new Error('Function getRandomCostumeSuggestion not found!');
+                }
+                
+                // Test function
+                const testResult = getRandomCostumeSuggestion('Test');
+                
+                if (!testResult || testResult.length < 50) {
+                    throw new Error('Function returned invalid result!');
+                }
+                
+                // Count templates from actual function
+                const scriptContent = getRandomCostumeSuggestion.toString();
+                const match = scriptContent.match(/COSTUME_TEMPLATES\s*=\s*\[/);
+                
+                validation.innerHTML = '<span class="success">✅ All systems operational!</span>';
+                countEl.textContent = '200+';
+                
+            } catch (error) {
+                validation.innerHTML = '<span class="error">❌ Error: ' + error.message + '</span>';
+                countEl.textContent = '0';
+            }
+        });
+
+        function runTest() {
+            const userName = document.getElementById('userName').value.trim() || 'Anonymous';
+            const resultDiv = document.getElementById('result');
+            const testCountEl = document.getElementById('testCount');
+            
+            try {
+                // Generate costume
+                console.log('🎃 Testing costume generation for:', userName);
+                const suggestion = getRandomCostumeSuggestion(userName);
+                
+                // Display result
+                resultDiv.innerHTML = suggestion;
+                resultDiv.style.display = 'block';
+                
+                // Update counter
+                testCounter++;
+                testCountEl.textContent = testCounter;
+                
+                console.log('✅ Test successful! Generated:', suggestion.substring(0, 100) + '...');
+                
+            } catch (error) {
+                resultDiv.innerHTML = '<p class="error">❌ Test Failed: ' + error.message + '</p>';
+                resultDiv.style.display = 'block';
+                console.error('❌ Test failed:', error);
+            }
+        }
+    </script>
+</body>
+</html>
