@@ -328,11 +328,16 @@ function initializeCostumeAI() {
             console.log('🎃 Generating costume suggestion for:', userName);
             const suggestion = getRandomCostumeSuggestion(userName);
             
-            // Simulate typing effect
+            // Show result with fade-in effect (no typing for HTML content)
             setTimeout(() => {
                 typingIndicator.style.display = 'none';
                 resultText.style.display = 'block';
-                typeWriter(suggestion, resultText);
+                resultText.innerHTML = suggestion; // Direct HTML rendering
+                resultText.style.opacity = '0';
+                setTimeout(() => {
+                    resultText.style.transition = 'opacity 0.5s ease-in';
+                    resultText.style.opacity = '1';
+                }, 10);
             }, 1500);
             
         } catch (error) {
