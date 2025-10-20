@@ -1,0 +1,36 @@
+# Vercel ignore - files not needed in deployment
+
+# Local development
+node_modules
+.env
+.env.local
+
+# Development server
+server.js
+
+# Scripts
+start.ps1
+start.bat
+prepare-vercel.ps1
+prepare-vercel.bat
+
+# Documentation (tidak perlu di production)
+DEPLOY_VERCEL.md
+BACKEND_SETUP.md
+FINAL_SUMMARY.md
+
+# Git
+.git
+.gitignore
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
