@@ -3,7 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧟 Zombie Survival Game 🧟</title>
+    <title>🧟 pumpfun hallowen party game 🧟</title>
+    
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="music/halloween-horror-atmosphere-193645.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Sound Effects -->
+    <audio id="shootSound" preload="auto">
+        <source src="music/click sound logo.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="killSound" preload="auto">
+        <source src="music/scream 1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="reloadSound" preload="auto">
+        <source src="music/efect click collection card.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="gameOverSound" preload="auto">
+        <source src="music/scream 2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="waveSound" preload="auto">
+        <source src="music/transition.mp3" type="audio/mpeg">
+    </audio>
+    
     <style>
         * {
             margin: 0;
@@ -186,6 +209,26 @@
             font-size: 40px;
             margin-bottom: 5px;
         }
+
+        .sound-toggle {
+            position: fixed;
+            top: 20px;
+            right: 280px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff6b00;
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .sound-toggle:hover {
+            background: rgba(255, 107, 0, 0.3);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -213,6 +256,10 @@
         <p>🔄 Reload: R</p>
         <p>⚡ Survive waves!</p>
     </div>
+
+    <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">
+        <span id="soundIcon">🔊</span>
+    </button>
 
     <div class="weapon-indicator">
         <div class="weapon-icon">🔫</div>
@@ -274,9 +321,61 @@
         let mouseX = canvas.width / 2;
         let mouseY = canvas.height / 2;
 
-        // Audio (silent for now, can add later)
+        // Load player logo image
+        const playerImage = new Image();
+        playerImage.src = 'logo/1.png';
+
+        // Audio elements
+        const bgMusic = document.getElementById('backgroundMusic');
+        const shootSound = document.getElementById('shootSound');
+        const killSound = document.getElementById('killSound');
+        const reloadSound = document.getElementById('reloadSound');
+        const gameOverSound = document.getElementById('gameOverSound');
+        const waveSound = document.getElementById('waveSound');
+
+        // Start background music on first interaction
+        let musicStarted = false;
+        function startMusic() {
+            if (!musicStarted) {
+                bgMusic.volume = 0.3;
+                bgMusic.play().catch(() => {});
+                musicStarted = true;
+            }
+        }
+
+        // Play sound effect
         function playSound(type) {
-            // Placeholder for sound effects
+            startMusic(); // Start music on first interaction
+            
+            let sound;
+            switch(type) {
+                case 'shoot':
+                    sound = shootSound;
+                    sound.volume = 0.2;
+                    break;
+                case 'kill':
+                    sound = killSound;
+                    sound.volume = 0.3;
+                    break;
+                case 'reload':
+                    sound = reloadSound;
+                    sound.volume = 0.4;
+                    break;
+                case 'gameover':
+                    sound = gameOverSound;
+                    sound.volume = 0.5;
+                    bgMusic.pause();
+                    break;
+                case 'wave':
+                    sound = waveSound;
+                    sound.volume = 0.4;
+                    break;
+            }
+            
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {});
+            }
         }
 
         // Create zombie
@@ -489,14 +588,36 @@
                 ctx.shadowBlur = 0;
             });
 
-            // Draw player
-            ctx.fillStyle = '#ff6b00';
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#ff6b00';
-            ctx.beginPath();
-            ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
+            // Draw player (logo image)
+            if (playerImage.complete) {
+                const imgSize = player.radius * 2.5; // Make logo bigger
+                ctx.save();
+                
+                // Add glow effect
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#ff6b00';
+                
+                // Draw logo image
+                ctx.drawImage(
+                    playerImage,
+                    player.x - imgSize / 2,
+                    player.y - imgSize / 2,
+                    imgSize,
+                    imgSize
+                );
+                
+                ctx.shadowBlur = 0;
+                ctx.restore();
+            } else {
+                // Fallback to circle if image not loaded
+                ctx.fillStyle = '#ff6b00';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#ff6b00';
+                ctx.beginPath();
+                ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
 
             // Draw crosshair
             const angle = Math.atan2(mouseY - player.y, mouseX - player.x);
@@ -569,6 +690,11 @@
             bullets.length = 0;
             particles.length = 0;
             document.getElementById('gameOver').style.display = 'none';
+            
+            // Restart background music
+            bgMusic.currentTime = 0;
+            bgMusic.play().catch(() => {});
+            
             updateUI();
         }
 
@@ -608,6 +734,18 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
+
+        // Toggle sound function
+        function toggleSound() {
+            const icon = document.getElementById('soundIcon');
+            if (bgMusic.paused) {
+                bgMusic.play().catch(() => {});
+                icon.textContent = '🔊';
+            } else {
+                bgMusic.pause();
+                icon.textContent = '🔇';
+            }
+        }
 
         // Start game
         updateUI();
