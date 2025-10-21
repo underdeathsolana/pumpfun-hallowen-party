@@ -13,19 +13,41 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeHorrorEffects();
     initializeHorrorTestButton(); // Add test button
     initializeGalleryHorror(); // Add gallery horror effects
+    setRandomBackgroundMusic(); // Set random background music
     console.log('✅ All systems ready!');
     console.log('👻 Horror mode activated - prepare to be scared!');
 });
+
+// 🎵 BACKGROUND MUSIC PLAYLIST (Random Selection)
+const backgroundMusicPlaylist = [
+    'music/main background.mp3',
+    'music/main background 2.mp3',
+    'music/main backgroun 3.mp3'
+];
 
 // Sound Effects Management
 let soundEnabled = false;
 let backgroundMusic, screamSound, screamSound2, screamSound3;
 let thunderSound, ghostSound, doorCreak, windSound, chainSound, costumeRevealSound;
+let clickCardSound, clickGallerySound;
 let screamSounds = [];
 let ambientSounds = [];
 
+// 🎵 Set Random Background Music
+function setRandomBackgroundMusic() {
+    const randomIndex = Math.floor(Math.random() * backgroundMusicPlaylist.length);
+    const selectedMusic = backgroundMusicPlaylist[randomIndex];
+    
+    backgroundMusic = document.getElementById('backgroundMusic');
+    if (backgroundMusic) {
+        backgroundMusic.src = selectedMusic;
+        backgroundMusic.load();
+        console.log('🎵 Random background music selected:', selectedMusic);
+    }
+}
+
 function initializeSoundEffects() {
-    console.log('🔊 Initializing sound effects...');
+    console.log('🔊 Initializing LOCAL sound effects...');
     
     // Get all audio elements
     backgroundMusic = document.getElementById('backgroundMusic');
@@ -38,15 +60,18 @@ function initializeSoundEffects() {
     windSound = document.getElementById('windSound');
     chainSound = document.getElementById('chainSound');
     costumeRevealSound = document.getElementById('costumeRevealSound');
+    clickCardSound = document.getElementById('clickCardSound');
+    clickGallerySound = document.getElementById('clickGallerySound');
     
     // Array of all scream sounds for variety
     screamSounds = [screamSound, screamSound2, screamSound3];
     ambientSounds = [ghostSound, doorCreak, windSound, chainSound];
     
-    console.log('✅ Audio elements loaded:', {
+    console.log('✅ LOCAL Audio elements loaded:', {
         backgroundMusic: !!backgroundMusic,
         screams: screamSounds.length,
-        ambient: ambientSounds.length
+        ambient: ambientSounds.length,
+        clicks: 2
     });
     
     const soundToggle = document.getElementById('soundToggle');
@@ -99,11 +124,31 @@ function initializeSoundEffects() {
                 bloodSplatter: !!bloodSplatterSound
             });
             
-            // Play background music
-            backgroundMusic.play().then(() => {
-                console.log('✅ Background music started');
-                console.log('🎵 Now playing...');
-            }).catch(e => console.error('❌ Audio play failed:', e));
+            // Play random background music
+            if (backgroundMusic) {
+                backgroundMusic.play().then(() => {
+                    console.log('✅ Background music started');
+                    console.log('🎵 Now playing:', backgroundMusic.src);
+                }).catch(e => {
+                    console.error('❌ Background music failed:', e);
+                    // Fallback: try playing without await
+                    setTimeout(() => {
+                        backgroundMusic.play().catch(() => {
+                            console.log('⚠️ Background music needs user interaction');
+                        });
+                    }, 100);
+                });
+                
+                // Auto switch to next random song when current ends
+                backgroundMusic.addEventListener('ended', function() {
+                    if (soundEnabled) {
+                        setRandomBackgroundMusic();
+                        setTimeout(() => {
+                            backgroundMusic.play().catch(e => console.log('Next song failed:', e));
+                        }, 500);
+                    }
+                });
+            }
             
             // Play random scream sounds more frequently
             setInterval(() => {
