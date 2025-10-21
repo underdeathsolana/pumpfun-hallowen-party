@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Halloween Adventure - NFT Collection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Poppins:wght@300;400;600;700;900&family=Bebas+Neue&family=Bungee+Shade&family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        /* Adventure Page Specific Styles */
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a00 50%, #000000 100%);
+            overflow-x: hidden;
+        }
+
+        .adventure-hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .adventure-title {
+            font-family: 'Nosifer', cursive;
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: #ff6b00;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 
+                0 0 20px rgba(255, 107, 0, 0.8),
+                0 0 40px rgba(255, 107, 0, 0.6),
+                0 0 60px rgba(255, 107, 0, 0.4);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px rgba(255, 107, 0, 0.8),
+                    0 0 40px rgba(255, 107, 0, 0.6),
+                    0 0 60px rgba(255, 107, 0, 0.4);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 30px rgba(255, 107, 0, 1),
+                    0 0 60px rgba(255, 107, 0, 0.8),
+                    0 0 90px rgba(255, 107, 0, 0.6);
+            }
+        }
+
+        .adventure-subtitle {
+            font-family: 'Butcherman', cursive;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: #00ff88;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+            animation: subtitlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes subtitlePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        /* Launch Banner */
+        .launch-banner {
+            background: linear-gradient(135deg, #8b0000 0%, #ff6b00 100%);
+            border: 3px solid #ff6b00;
+            border-radius: 20px;
+            padding: 30px 50px;
+            margin: 30px auto 50px;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 
+                0 10px 40px rgba(255, 107, 0, 0.5),
+                inset 0 0 30px rgba(0, 0, 0, 0.3);
+            animation: bannerFloat 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launch-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            animation: bannerShine 3s linear infinite;
+        }
+
+        @keyframes bannerFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        @keyframes bannerShine {
+            0% { transform: rotate(0deg) translateX(-100%); }
+            100% { transform: rotate(0deg) translateX(100%); }
+        }
+
+        .launch-logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+            animation: logoSpin 10s linear infinite;
+        }
+
+        @keyframes logoSpin {
+            0%, 90%, 100% { transform: rotate(0deg); }
+            95% { transform: rotate(360deg); }
+        }
+
+        .launch-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin: 10px 0;
+            letter-spacing: 2px;
+        }
+
+        .launch-date {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: #ffff00;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 0, 0.8),
+                2px 2px 10px rgba(0, 0, 0, 0.8);
+            margin: 15px 0;
+            animation: dateGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes dateGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 0, 0.8),
+                    2px 2px 10px rgba(0, 0, 0, 0.8);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 40px rgba(255, 255, 0, 1),
+                    2px 2px 15px rgba(0, 0, 0, 0.9);
+            }
+        }
+
+        .launch-countdown {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: #fff;
+            margin-top: 15px;
+            opacity: 0.9;
+        }
+
+        /* NFT Collection Grid */
+        .nft-collection {
+            padding: 50px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .collection-title {
+            font-family: 'Creepster', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #ff6b00;
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 0 0 20px rgba(255, 107, 0, 0.8);
+        }
+
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 20px;
+        }
+
+        /* NFT Card */
+        .nft-card {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            border-radius: 20px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        .nft-card:nth-child(1) { animation-delay: 0s; }
+        .nft-card:nth-child(2) { animation-delay: 0.5s; }
+        .nft-card:nth-child(3) { animation-delay: 1s; }
+        .nft-card:nth-child(4) { animation-delay: 1.5s; }
+        .nft-card:nth-child(5) { animation-delay: 2s; }
+        .nft-card:nth-child(6) { animation-delay: 2.5s; }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(1deg); }
+            50% { transform: translateY(-5px) rotate(-1deg); }
+            75% { transform: translateY(-15px) rotate(0.5deg); }
+        }
+
+        .nft-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 107, 0, 0.1),
+                transparent
+            );
+            animation: cardShine 8s linear infinite;
+        }
+
+        @keyframes cardShine {
+            0% { transform: rotate(0deg) translateX(-100%); }
+            100% { transform: rotate(0deg) translateX(100%); }
+        }
+
+        .nft-card:hover {
+            transform: translateY(-20px) scale(1.05) rotate(2deg);
+            border-color: rgba(255, 107, 0, 0.8);
+            box-shadow: 
+                0 20px 60px rgba(255, 107, 0, 0.5),
+                0 0 40px rgba(139, 0, 0, 0.6),
+                inset 0 0 30px rgba(255, 0, 0, 0.2);
+            animation: cardHoverGlow 1s ease-in-out infinite;
+        }
+
+        @keyframes cardHoverGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 20px 60px rgba(255, 107, 0, 0.5),
+                    0 0 40px rgba(139, 0, 0, 0.6),
+                    inset 0 0 30px rgba(255, 0, 0, 0.2);
+            }
+            50% { 
+                box-shadow: 
+                    0 25px 70px rgba(255, 107, 0, 0.7),
+                    0 0 50px rgba(139, 0, 0, 0.8),
+                    inset 0 0 40px rgba(255, 0, 0, 0.3);
+            }
+        }
+
+        .nft-image-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .nft-card:hover .nft-image {
+            transform: scale(1.2) rotate(2deg);
+            filter: brightness(1.2) contrast(1.3) saturate(1.4);
+        }
+
+        .nft-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ff6b00 0%, #8b0000 100%);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            animation: badgePulse 2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .nft-info {
+            padding: 25px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
+        }
+
+        .nft-title {
+            font-family: 'Butcherman', cursive;
+            font-size: 1.8rem;
+            color: #ff6b00;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
+        }
+
+        .nft-description {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .nft-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 107, 0, 0.3);
+        }
+
+        .nft-stat {
+            text-align: center;
+        }
+
+        .nft-stat-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .nft-stat-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #ff6b00 0%, #8b0000 100%);
+            color: #fff;
+            padding: 15px 30px;
+            border: 2px solid #ff6b00;
+            border-radius: 50px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(255, 107, 0, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.6);
+            background: linear-gradient(135deg, #ff8c00 0%, #a00000 100%);
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+            animation: particleFloat 15s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Coming Soon Badge */
+        .coming-soon {
+            background: linear-gradient(135deg, #ffff00 0%, #ff6b00 100%);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+            animation: comingSoonGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes comingSoonGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(255, 255, 0, 0.9);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .adventure-title {
+                font-size: 2.5rem;
+            }
+            
+            .adventure-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .launch-banner {
+                padding: 20px 30px;
+            }
+            
+            .launch-date {
+                font-size: 2rem;
+            }
+            
+            .nft-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .back-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="fog"></div>
+    <div class="fog fog-2"></div>
+    <canvas id="spiders"></canvas>
+
+    <!-- Floating Particles -->
+    <div class="particle" style="left: 10%; animation-delay: 0s;">🎃</div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;">👻</div>
+    <div class="particle" style="left: 50%; animation-delay: 4s;">💀</div>
+    <div class="particle" style="left: 70%; animation-delay: 6s;">🦇</div>
+    <div class="particle" style="left: 90%; animation-delay: 8s;">🎮</div>
+    <div class="particle" style="left: 20%; animation-delay: 10s;">🕷️</div>
+    <div class="particle" style="left: 60%; animation-delay: 12s;">🔮</div>
+    <div class="particle" style="left: 80%; animation-delay: 14s;">⚡</div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <span>←</span>
+        <span>Back to Home</span>
+    </a>
+
+    <!-- Hero Section -->
+    <section class="adventure-hero">
+        <h1 class="adventure-title">🎮 HALLOWEEN ADVENTURE 🎮</h1>
+        <p class="adventure-subtitle">NFT Collection Coming Soon</p>
+
+        <!-- Launch Banner -->
+        <div class="launch-banner">
+            <img src="logo/1.png" alt="Magic Eden" class="launch-logo">
+            <div class="launch-text">🚀 LAUNCHING ON MAGIC EDEN 🚀</div>
+            <div class="launch-date">Q2 2026</div>
+            <div class="launch-countdown">⏰ Stay tuned for exact date announcement!</div>
+            <div class="coming-soon">✨ PRE-REGISTRATION COMING SOON ✨</div>
+        </div>
+    </section>
+
+    <!-- NFT Collection Grid -->
+    <section class="nft-collection">
+        <h2 class="collection-title">👻 Exclusive NFT Collection 👻</h2>
+        
+        <div class="nft-grid">
+            <!-- NFT Card 1 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">LEGENDARY</div>
+                    <img src="logo/1.png" alt="Pumpkin Overlord" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🎃 Pumpkin Overlord</h3>
+                    <p class="nft-description">
+                        Di malam bulan purnama 1666, seorang petani menemukan labu raksasa yang tumbuh di kuburan tua. Saat ia memotongnya, darah segar mengalir keluar dan membentuk wajah tersenyum mengerikan. Kini roh jahat itu bangkit setiap Halloween, mencari korban untuk mengisi labu kosongnya dengan jiwa manusia. Mereka yang berani memiliki NFT ini diklaim bisa mendengar bisikan labu di tengah malam...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">LEGENDARY</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 2 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">LEGENDARY</div>
+                    <img src="logo/2.png" alt="Cursed Token Master" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">👻 Cursed Token Master</h3>
+                    <p class="nft-description">
+                        Legend bercerita tentang developer yang membuat smart contract menggunakan kode kuno dari grimoire abad pertengahan. Contractnya hidup dan mendapatkan kesadaran sendiri. Setiap holder NFT ini melaporkan melihat kode binary muncul di cermin mereka tengah malam, dan wallet mereka sering menunjukkan transaksi phantom yang menghilang saat di-refresh...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">LEGENDARY</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 3 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">EPIC</div>
+                    <img src="images/3.png" alt="Witch of Forgotten Spells" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🔮 Witch of Forgotten Spells</h3>
+                    <p class="nft-description">
+                        Terbakar hidup-hidup di Salem tahun 1692, jiwa penyihir ini terjebak di antara dimensi. Sebelum mati, ia mengutuk bahwa siapa pun yang memiliki gambarnya akan diberkahi kekuatan ramalan, tapi juga dikutuk untuk bermimpi tentang eksekusinya setiap malam. Holders melaporkan feeling déjà vu yang intens dan kemampuan memprediksi market crash dengan akurasi menakutkan...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">EPIC</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">250</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 4 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">EPIC</div>
+                    <img src="images/4.png" alt="Vampire Count of Crypto" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🦇 Vampire Count of Crypto</h3>
+                    <p class="nft-description">
+                        Count Vladislav trading sejak tahun 1800an, mengumpulkan kekayaan dengan cara supernatural. Dia mengubah form menjadi digital pada tahun 2009 saat Bitcoin lahir. NFT ini adalah perjanjian dengannya - holders mendapat "insider knowledge" tentang coin pumps, tapi sebagai exchange, mereka harus trading setiap full moon atau kehilangan 10% portfolio mereka. Some say dia masih feeding on paper hands...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">EPIC</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">250</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 5 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">RARE</div>
+                    <img src="images/5.png" alt="Skeleton of Ancient Wealth" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">💀 Skeleton of Ancient Wealth</h3>
+                    <p class="nft-description">
+                        Remains dari Captain Bones, bajak laut yang mengubur treasure-nya dan membunuh seluruh crew-nya agar tak ada yang tahu lokasinya. Sebelum mati dieksekusi, ia berkata "whoever holds my bones, shall find my gold, but lose their soul." Holders NFT ini claiming menemukan hidden wallets dengan crypto lama, tapi mereka juga melaporkan melihat skeleton hand reaching out dari screen mereka at 3 AM...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">RARE</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 6 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">RARE</div>
+                    <img src="images/6.png" alt="Zombie Degen Army" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🧟 Zombie Degen Army</h3>
+                    <p class="nft-description">
+                        Tahun 2021, sekelompok degens ape into scam coin dan lost everything. Mereka tidak bisa move on, jiwa mereka stuck di blockchain forever. Kini mereka roam sebagai zombie army, menginfeksi holders dengan "ape fever" - uncontrollable urge untuk buy every dip. Holders report waking up to find mereka accidentally bought random shitcoins in their sleep. Zombification is real on chain...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">RARE</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 7 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">RARE</div>
+                    <img src="images/7.png" alt="Ghost of Lost Keys" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">👤 Ghost of Lost Keys</h3>
+                    <p class="nft-description">
+                        Spirit dari early Bitcoin miner yang forgot his seed phrase sebelum meninggal, meninggalkan 10,000 BTC locked forever. Ghostnya haunts blockchain, desperately searching untuk private keys. Holders melaporkan mysterious text files appearing di desktop mereka dengan random seed words. Beberapa kombinasi actually unlock old wallets dengan forgotten crypto. But ada price - ghost follows you forever asking "did you write it down?"
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">RARE</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 8 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">RARE</div>
+                    <img src="images/8.png" alt="Demon of Leverage" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">😈 Demon of Leverage</h3>
+                    <p class="nft-description">
+                        Summoned dari depths of hell oleh desperate trader yang sold soul for one winning trade. Demon granted wish tapi mengutuk semua future trades. This NFT is contract dengan demon - holders get supernatural trading instincts untuk short-term plays, tapi tidak boleh hold overnight or face liquidation by mysterious force. Many tried to outsmart demon using DeFi smart contracts. All got rekt. Demon always collects.
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">RARE</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 9 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">UNCOMMON</div>
+                    <img src="images/9.png" alt="Werewolf of Wall Street" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🐺 Werewolf of Wall Street</h3>
+                    <p class="nft-description">
+                        Cursed stockbroker yang transformed into werewolf after making deal dengan insider trading ring di tahun 1987. Every full moon, dia transforms dan makes wildly aggressive trades. Holders get afflicted dengan same curse - uncontrollable urge untuk open leveraged positions saat full moon. Profit or loss is completely random, seperti wrestling dengan beast within. Community calls it "moon sickness" - tapi gains bisa astronomical...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">UNCOMMON</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">1000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 10 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">UNCOMMON</div>
+                    <img src="images/10.png" alt="Mummy of Ancient Protocols" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🏺 Mummy of Ancient Protocols</h3>
+                    <p class="nft-description">
+                        Preserved remains dari first cryptocurrency developer tahun 2009. Before death, dia encrypt knowledge tentang future of crypto dalam hieroglyphics on bandagesnya. Holders randomly receive "visions" dari upcoming protocol upgrades dan network forks. Tapi vision datang dalam bentuk ancient Egyptian dreams yang harus di-decode. Salah decode = FUD spreading curse. Community memiliki dedicated translation team untuk interpret visions...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">UNCOMMON</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">1000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 11 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">UNCOMMON</div>
+                    <img src="images/11.png" alt="Banshee of Bear Markets" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">👻 Banshee of Bear Markets</h3>
+                    <p class="nft-description">
+                        Irish spirit yang screams sebelum major market crash. Legend says dia adalah trader yang jumped dari building during 2008 crisis. Suaranya terdengar sebagai "REEEEEE" saat market about to dump. Holders granted ability untuk hear banshee scream 24 hours sebelum crash - ultimate insider edge. Tapi curse-nya? You must sell atau bantuin orang lain untuk avoid crash, atau dia akan haunt portfolio forever. Suara scream-nya never stops...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">UNCOMMON</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">1000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 12 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">UNCOMMON</div>
+                    <img src="images/12.png" alt="Poltergeist of Paper Hands" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🌪️ Poltergeist of Paper Hands</h3>
+                    <p class="nft-description">
+                        Collective ghost dari thousands of paper hands yang sold Bitcoin di $100, ETH di $10, dll. Kini mereka exist sebagai angry poltergeist force. NFT ini adalah protection charm - poltergeist will haunt dan scare you AWAY dari selling during dips. Holders report phones flying dari hands saat about to panic sell. Trading apps crash mysteriously. Some say it's annoying, others say it made them millionaires dengan forcing diamond hands...
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">UNCOMMON</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">1000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio Elements (same as main page) -->
+    <audio id="backgroundMusic" loop preload="auto"></audio>
+    <audio id="clickSound" preload="auto">
+        <source src="music/click card.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+    <script>
+        // Adventure Page Specific JS
+        console.log('🎮 Adventure page loaded!');
+        
+        // Hover sound effects for NFT cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const nftCards = document.querySelectorAll('.nft-card');
+            const clickSound = document.getElementById('clickSound');
+            
+            nftCards.forEach((card, index) => {
+                // Hover effect
+                card.addEventListener('mouseenter', function() {
+                    if (clickSound) {
+                        clickSound.currentTime = 0;
+                        clickSound.volume = 0.2;
+                        clickSound.play().catch(() => {});
+                    }
+                    
+                    // Random rotation on hover
+                    const randomRotate = (Math.random() - 0.5) * 4;
+                    this.style.transform = `translateY(-20px) scale(1.05) rotate(${randomRotate}deg)`;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+                
+                // Click effect
+                card.addEventListener('click', function() {
+                    // Scale animation
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                    
+                    // Play louder click sound
+                    if (clickSound) {
+                        clickSound.currentTime = 0;
+                        clickSound.volume = 0.4;
+                        clickSound.play().catch(() => {});
+                    }
+                });
+            });
+            
+            // Random background music
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            if (backgroundMusic) {
+                const musicPlaylist = [
+                    'music/main background.mp3',
+                    'music/main background 2.mp3',
+                    'music/main backgroun 3.mp3'
+                ];
+                const randomMusic = musicPlaylist[Math.floor(Math.random() * musicPlaylist.length)];
+                backgroundMusic.src = randomMusic;
+            }
+            
+            console.log('✅ Adventure interactivity initialized!');
+        });
+
+        // Countdown to Q2 2026
+        function updateCountdown() {
+            const targetDate = new Date('2026-04-01T00:00:00');
+            const now = new Date();
+            const diff = targetDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            const countdownElement = document.querySelector('.launch-countdown');
+            if (countdownElement && days > 0) {
+                countdownElement.textContent = `⏰ ${days} days, ${hours} hours, ${minutes} minutes until Q2 2026!`;
+            }
+        }
+        
+        // Update countdown every minute
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+    </script>
+</body>
+</html>

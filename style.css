@@ -1032,7 +1032,7 @@ section {
     color: var(--ghost-white);
     text-decoration: none;
     padding: 12px 25px;
-    border: 2px solid transparent;
+    border: 2px solid rgba(255, 107, 0, 0.3); /* Visible border untuk semua nav-link */
     border-radius: 25px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
@@ -1044,6 +1044,9 @@ section {
     letter-spacing: 1px;
     position: relative;
     overflow: hidden;
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.05), rgba(139, 0, 0, 0.05));
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .nav-link::before {
@@ -1067,13 +1070,15 @@ section {
 
 .nav-link:hover {
     border-color: var(--primary-color);
+    border-width: 2px;
     color: white;
     transform: translateY(-3px) scale(1.05);
     box-shadow: 
-        0 5px 15px rgba(255, 107, 0, 0.4),
-        0 0 20px rgba(255, 107, 0, 0.2),
-        inset 0 0 20px rgba(255, 107, 0, 0.1);
+        0 5px 15px rgba(255, 107, 0, 0.6),
+        0 0 25px rgba(255, 107, 0, 0.4),
+        inset 0 0 20px rgba(255, 107, 0, 0.2);
     text-shadow: 0 0 10px rgba(255, 107, 0, 0.8);
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.3), rgba(139, 0, 0, 0.2));
 }
 
 .nav-link:active {
@@ -1081,16 +1086,61 @@ section {
 }
 
 .twitter-link {
-    background: linear-gradient(135deg, rgba(29, 161, 242, 0.1), rgba(29, 161, 242, 0.05));
-    border-color: #1da1f2;
+    background: linear-gradient(135deg, rgba(29, 161, 242, 0.2), rgba(29, 161, 242, 0.1));
+    border: 2px solid rgba(29, 161, 242, 0.5); /* Solid border untuk Twitter */
 }
 
 .twitter-link:hover {
-    background: linear-gradient(135deg, #1da1f2, #0d8bd9);
+    background: linear-gradient(135deg, rgba(29, 161, 242, 0.8), rgba(13, 139, 217, 0.6));
+    border-color: #1da1f2;
     box-shadow: 
-        0 5px 20px rgba(29, 161, 242, 0.5),
-        0 0 30px rgba(29, 161, 242, 0.3);
+        0 5px 20px rgba(29, 161, 242, 0.6),
+        0 0 30px rgba(29, 161, 242, 0.4);
     animation: pulse 1.5s infinite;
+}
+
+/* Adventure Link */
+.adventure-link {
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.3), rgba(139, 0, 0, 0.2));
+    border: 2px solid rgba(255, 107, 0, 0.6); /* Solid border untuk Adventure */
+    font-weight: 700;
+    position: relative;
+    overflow: hidden;
+}
+
+.adventure-link::after {
+    content: '🎮';
+    position: absolute;
+    right: -30px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.adventure-link:hover {
+    background: linear-gradient(135deg, #ff6b00, #8b0000);
+    box-shadow: 
+        0 5px 20px rgba(255, 107, 0, 0.6),
+        0 0 30px rgba(255, 107, 0, 0.4);
+    animation: adventurePulse 1.5s infinite;
+    padding-right: 40px;
+}
+
+.adventure-link:hover::after {
+    right: 10px;
+    opacity: 1;
+}
+
+@keyframes adventurePulse {
+    0%, 100% {
+        box-shadow: 
+            0 5px 20px rgba(255, 107, 0, 0.6),
+            0 0 30px rgba(255, 107, 0, 0.4);
+    }
+    50% {
+        box-shadow: 
+            0 5px 30px rgba(255, 107, 0, 0.9),
+            0 0 40px rgba(255, 107, 0, 0.6);
+    }
 }
 
 @keyframes pulse {

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Halloween Adventure - NFT Collection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Poppins:wght@300;400;600;700;900&family=Bebas+Neue&family=Bungee+Shade&family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        /* Adventure Page Specific Styles */
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a00 50%, #000000 100%);
+            overflow-x: hidden;
+        }
+
+        .adventure-hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .adventure-title {
+            font-family: 'Nosifer', cursive;
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: #ff6b00;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 
+                0 0 20px rgba(255, 107, 0, 0.8),
+                0 0 40px rgba(255, 107, 0, 0.6),
+                0 0 60px rgba(255, 107, 0, 0.4);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px rgba(255, 107, 0, 0.8),
+                    0 0 40px rgba(255, 107, 0, 0.6),
+                    0 0 60px rgba(255, 107, 0, 0.4);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 30px rgba(255, 107, 0, 1),
+                    0 0 60px rgba(255, 107, 0, 0.8),
+                    0 0 90px rgba(255, 107, 0, 0.6);
+            }
+        }
+
+        .adventure-subtitle {
+            font-family: 'Butcherman', cursive;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: #00ff88;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+            animation: subtitlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes subtitlePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        /* Launch Banner */
+        .launch-banner {
+            background: linear-gradient(135deg, #8b0000 0%, #ff6b00 100%);
+            border: 3px solid #ff6b00;
+            border-radius: 20px;
+            padding: 30px 50px;
+            margin: 30px auto 50px;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 
+                0 10px 40px rgba(255, 107, 0, 0.5),
+                inset 0 0 30px rgba(0, 0, 0, 0.3);
+            animation: bannerFloat 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launch-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            animation: bannerShine 3s linear infinite;
+        }
+
+        @keyframes bannerFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        @keyframes bannerShine {
+            0% { transform: rotate(0deg) translateX(-100%); }
+            100% { transform: rotate(0deg) translateX(100%); }
+        }
+
+        .launch-logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+            animation: logoSpin 10s linear infinite;
+        }
+
+        @keyframes logoSpin {
+            0%, 90%, 100% { transform: rotate(0deg); }
+            95% { transform: rotate(360deg); }
+        }
+
+        .launch-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin: 10px 0;
+            letter-spacing: 2px;
+        }
+
+        .launch-date {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: #ffff00;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 0, 0.8),
+                2px 2px 10px rgba(0, 0, 0, 0.8);
+            margin: 15px 0;
+            animation: dateGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes dateGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 0, 0.8),
+                    2px 2px 10px rgba(0, 0, 0, 0.8);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 40px rgba(255, 255, 0, 1),
+                    2px 2px 15px rgba(0, 0, 0, 0.9);
+            }
+        }
+
+        .launch-countdown {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: #fff;
+            margin-top: 15px;
+            opacity: 0.9;
+        }
+
+        /* NFT Collection Grid */
+        .nft-collection {
+            padding: 50px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .collection-title {
+            font-family: 'Creepster', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #ff6b00;
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 0 0 20px rgba(255, 107, 0, 0.8);
+        }
+
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 20px;
+        }
+
+        /* NFT Card */
+        .nft-card {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            border-radius: 20px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        .nft-card:nth-child(1) { animation-delay: 0s; }
+        .nft-card:nth-child(2) { animation-delay: 0.5s; }
+        .nft-card:nth-child(3) { animation-delay: 1s; }
+        .nft-card:nth-child(4) { animation-delay: 1.5s; }
+        .nft-card:nth-child(5) { animation-delay: 2s; }
+        .nft-card:nth-child(6) { animation-delay: 2.5s; }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(1deg); }
+            50% { transform: translateY(-5px) rotate(-1deg); }
+            75% { transform: translateY(-15px) rotate(0.5deg); }
+        }
+
+        .nft-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 107, 0, 0.1),
+                transparent
+            );
+            animation: cardShine 8s linear infinite;
+        }
+
+        @keyframes cardShine {
+            0% { transform: rotate(0deg) translateX(-100%); }
+            100% { transform: rotate(0deg) translateX(100%); }
+        }
+
+        .nft-card:hover {
+            transform: translateY(-20px) scale(1.05) rotate(2deg);
+            border-color: rgba(255, 107, 0, 0.8);
+            box-shadow: 
+                0 20px 60px rgba(255, 107, 0, 0.5),
+                0 0 40px rgba(139, 0, 0, 0.6),
+                inset 0 0 30px rgba(255, 0, 0, 0.2);
+            animation: cardHoverGlow 1s ease-in-out infinite;
+        }
+
+        @keyframes cardHoverGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 20px 60px rgba(255, 107, 0, 0.5),
+                    0 0 40px rgba(139, 0, 0, 0.6),
+                    inset 0 0 30px rgba(255, 0, 0, 0.2);
+            }
+            50% { 
+                box-shadow: 
+                    0 25px 70px rgba(255, 107, 0, 0.7),
+                    0 0 50px rgba(139, 0, 0, 0.8),
+                    inset 0 0 40px rgba(255, 0, 0, 0.3);
+            }
+        }
+
+        .nft-image-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .nft-card:hover .nft-image {
+            transform: scale(1.2) rotate(2deg);
+            filter: brightness(1.2) contrast(1.3) saturate(1.4);
+        }
+
+        .nft-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ff6b00 0%, #8b0000 100%);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            animation: badgePulse 2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .nft-info {
+            padding: 25px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
+        }
+
+        .nft-title {
+            font-family: 'Butcherman', cursive;
+            font-size: 1.8rem;
+            color: #ff6b00;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
+        }
+
+        .nft-description {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .nft-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 107, 0, 0.3);
+        }
+
+        .nft-stat {
+            text-align: center;
+        }
+
+        .nft-stat-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .nft-stat-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #ff6b00 0%, #8b0000 100%);
+            color: #fff;
+            padding: 15px 30px;
+            border: 2px solid #ff6b00;
+            border-radius: 50px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(255, 107, 0, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.6);
+            background: linear-gradient(135deg, #ff8c00 0%, #a00000 100%);
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+            animation: particleFloat 15s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Coming Soon Badge */
+        .coming-soon {
+            background: linear-gradient(135deg, #ffff00 0%, #ff6b00 100%);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+            animation: comingSoonGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes comingSoonGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(255, 255, 0, 0.9);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .adventure-title {
+                font-size: 2.5rem;
+            }
+            
+            .adventure-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .launch-banner {
+                padding: 20px 30px;
+            }
+            
+            .launch-date {
+                font-size: 2rem;
+            }
+            
+            .nft-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .back-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="fog"></div>
+    <div class="fog fog-2"></div>
+    <canvas id="spiders"></canvas>
+
+    <!-- Floating Particles -->
+    <div class="particle" style="left: 10%; animation-delay: 0s;">🎃</div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;">👻</div>
+    <div class="particle" style="left: 50%; animation-delay: 4s;">💀</div>
+    <div class="particle" style="left: 70%; animation-delay: 6s;">🦇</div>
+    <div class="particle" style="left: 90%; animation-delay: 8s;">🎮</div>
+    <div class="particle" style="left: 20%; animation-delay: 10s;">🕷️</div>
+    <div class="particle" style="left: 60%; animation-delay: 12s;">🔮</div>
+    <div class="particle" style="left: 80%; animation-delay: 14s;">⚡</div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <span>←</span>
+        <span>Back to Home</span>
+    </a>
+
+    <!-- Hero Section -->
+    <section class="adventure-hero">
+        <h1 class="adventure-title">🎮 HALLOWEEN ADVENTURE 🎮</h1>
+        <p class="adventure-subtitle">NFT Collection Coming Soon</p>
+
+        <!-- Launch Banner -->
+        <div class="launch-banner">
+            <img src="logo/1.png" alt="Magic Eden" class="launch-logo">
+            <div class="launch-text">🚀 LAUNCHING ON MAGIC EDEN 🚀</div>
+            <div class="launch-date">Q2 2026</div>
+            <div class="launch-countdown">⏰ Stay tuned for exact date announcement!</div>
+            <div class="coming-soon">✨ PRE-REGISTRATION COMING SOON ✨</div>
+        </div>
+    </section>
+
+    <!-- NFT Collection Grid -->
+    <section class="nft-collection">
+        <h2 class="collection-title">👻 Exclusive NFT Collection 👻</h2>
+        
+        <div class="nft-grid">
+            <!-- NFT Card 1 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">LEGENDARY</div>
+                    <img src="images/1.jpg" alt="Pumpkin King" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🎃 Pumpkin King</h3>
+                    <p class="nft-description">
+                        The ruler of Halloween night, wielding ancient magic and commanding an army of jack-o'-lanterns.
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">LEGENDARY</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 2 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">EPIC</div>
+                    <img src="images/2.jpg" alt="Ghost Hunter" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">👻 Ghost Hunter</h3>
+                    <p class="nft-description">
+                        A fearless warrior equipped with spectral weapons, hunting supernatural entities across dimensions.
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">EPIC</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">250</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 3 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">EPIC</div>
+                    <img src="images/3.jpg" alt="Witch Queen" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🔮 Witch Queen</h3>
+                    <p class="nft-description">
+                        Master of dark arts and potions, brewing spells that control the fabric of reality itself.
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">EPIC</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">250</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 4 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">RARE</div>
+                    <img src="images/4.jpg" alt="Vampire Lord" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🦇 Vampire Lord</h3>
+                    <p class="nft-description">
+                        An immortal being of the night, commanding legions of bats and wielding blood magic.
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">RARE</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 5 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">RARE</div>
+                    <img src="images/5.jpg" alt="Skeleton Warrior" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">💀 Skeleton Warrior</h3>
+                    <p class="nft-description">
+                        Undead champion risen from ancient battlefields, wielding cursed weapons of mass destruction.
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">RARE</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NFT Card 6 -->
+            <div class="nft-card">
+                <div class="nft-image-container">
+                    <div class="nft-badge">RARE</div>
+                    <img src="images/6.jpg" alt="Zombie Horde" class="nft-image">
+                </div>
+                <div class="nft-info">
+                    <h3 class="nft-title">🧟 Zombie Horde</h3>
+                    <p class="nft-description">
+                        Unstoppable legion of the undead, spreading chaos and corruption wherever they march.
+                    </p>
+                    <div class="nft-stats">
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Rarity</div>
+                            <div class="nft-stat-value">RARE</div>
+                        </div>
+                        <div class="nft-stat">
+                            <div class="nft-stat-label">Supply</div>
+                            <div class="nft-stat-value">500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio Elements (same as main page) -->
+    <audio id="backgroundMusic" loop preload="auto"></audio>
+    <audio id="clickSound" preload="auto">
+        <source src="music/click card.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+    <script>
+        // Adventure Page Specific JS
+        console.log('🎮 Adventure page loaded!');
+        
+        // Hover sound effects for NFT cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const nftCards = document.querySelectorAll('.nft-card');
+            const clickSound = document.getElementById('clickSound');
+            
+            nftCards.forEach((card, index) => {
+                // Hover effect
+                card.addEventListener('mouseenter', function() {
+                    if (clickSound) {
+                        clickSound.currentTime = 0;
+                        clickSound.volume = 0.2;
+                        clickSound.play().catch(() => {});
+                    }
+                    
+                    // Random rotation on hover
+                    const randomRotate = (Math.random() - 0.5) * 4;
+                    this.style.transform = `translateY(-20px) scale(1.05) rotate(${randomRotate}deg)`;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+                
+                // Click effect
+                card.addEventListener('click', function() {
+                    // Scale animation
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                    
+                    // Play louder click sound
+                    if (clickSound) {
+                        clickSound.currentTime = 0;
+                        clickSound.volume = 0.4;
+                        clickSound.play().catch(() => {});
+                    }
+                });
+            });
+            
+            // Random background music
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            if (backgroundMusic) {
+                const musicPlaylist = [
+                    'music/main background.mp3',
+                    'music/main background 2.mp3',
+                    'music/main backgroun 3.mp3'
+                ];
+                const randomMusic = musicPlaylist[Math.floor(Math.random() * musicPlaylist.length)];
+                backgroundMusic.src = randomMusic;
+            }
+            
+            console.log('✅ Adventure interactivity initialized!');
+        });
+
+        // Countdown to Q2 2026
+        function updateCountdown() {
+            const targetDate = new Date('2026-04-01T00:00:00');
+            const now = new Date();
+            const diff = targetDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            const countdownElement = document.querySelector('.launch-countdown');
+            if (countdownElement && days > 0) {
+                countdownElement.textContent = `⏰ ${days} days, ${hours} hours, ${minutes} minutes until Q2 2026!`;
+            }
+        }
+        
+        // Update countdown every minute
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+    </script>
+</body>
+</html>
