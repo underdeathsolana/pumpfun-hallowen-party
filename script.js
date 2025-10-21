@@ -1103,7 +1103,7 @@ function goToPumpFun() {
     
     // You can uncomment this when you have actual Pump.fun link
     // setTimeout(() => {
-    //     window.open('https://pump.fun/your-token-address', '_blank');
+    //     window.open('', '_blank');
     // }, 2000);
 }
 
