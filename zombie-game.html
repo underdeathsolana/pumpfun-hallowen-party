@@ -229,6 +229,216 @@
             background: rgba(255, 107, 0, 0.3);
             transform: scale(1.1);
         }
+
+        /* Mobile Controls */
+        .mobile-controls {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+
+        .mobile-joystick {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 120px;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 3px solid #ff6b00;
+            border-radius: 50%;
+            z-index: 100;
+            display: none;
+        }
+
+        .joystick-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background: #ff6b00;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s;
+        }
+
+        .mobile-shoot-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 0, 0, 0.7);
+            border: 3px solid #ff0000;
+            border-radius: 50%;
+            font-size: 36px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-shoot-btn:active {
+            background: rgba(255, 0, 0, 1);
+            transform: scale(0.9);
+        }
+
+        .mobile-reload-btn {
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 107, 0, 0.7);
+            border: 3px solid #ff6b00;
+            border-radius: 50%;
+            font-size: 28px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-reload-btn:active {
+            background: rgba(255, 107, 0, 1);
+            transform: scale(0.9);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                cursor: default;
+            }
+
+            .game-ui {
+                top: 10px;
+                left: 10px;
+                font-size: 14px;
+            }
+
+            .stat-bar {
+                padding: 5px 10px;
+                margin-bottom: 5px;
+            }
+
+            .health-bar {
+                width: 120px;
+                height: 15px;
+            }
+
+            .instructions {
+                display: none;
+            }
+
+            .sound-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 20px;
+            }
+
+            .weapon-indicator {
+                bottom: 200px;
+                right: 10px;
+                padding: 10px;
+            }
+
+            .weapon-indicator .weapon-icon {
+                font-size: 30px;
+            }
+
+            .back-button {
+                bottom: 10px;
+                left: 10px;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .mobile-joystick {
+                display: block;
+            }
+
+            .mobile-shoot-btn {
+                display: flex;
+            }
+
+            .mobile-reload-btn {
+                display: flex;
+            }
+
+            .game-over {
+                padding: 20px;
+                width: 90%;
+                max-width: 400px;
+            }
+
+            .game-over h1 {
+                font-size: 40px;
+            }
+
+            .game-over .score {
+                font-size: 20px;
+            }
+
+            .restart-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-ui {
+                font-size: 12px;
+            }
+
+            .stat-bar {
+                padding: 4px 8px;
+            }
+
+            .health-bar {
+                width: 100px;
+                height: 12px;
+            }
+
+            .mobile-joystick {
+                width: 100px;
+                height: 100px;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .joystick-inner {
+                width: 40px;
+                height: 40px;
+            }
+
+            .mobile-shoot-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 30px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .mobile-reload-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                bottom: 100px;
+                right: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -746,6 +956,111 @@
                 icon.textContent = '🔇';
             }
         }
+
+        // Mobile touch controls
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        let joystickActive = false;
+        let joystickCenter = { x: 0, y: 0 };
+        let touchMove = { x: 0, y: 0 };
+
+        const mobileJoystick = document.createElement('div');
+        mobileJoystick.className = 'mobile-joystick';
+        const joystickInner = document.createElement('div');
+        joystickInner.className = 'joystick-inner';
+        mobileJoystick.appendChild(joystickInner);
+
+        const shootBtn = document.createElement('div');
+        shootBtn.className = 'mobile-shoot-btn';
+        shootBtn.textContent = '🔫';
+
+        const reloadBtn = document.createElement('div');
+        reloadBtn.className = 'mobile-reload-btn';
+        reloadBtn.textContent = '🔄';
+
+        document.body.appendChild(mobileJoystick);
+        document.body.appendChild(shootBtn);
+        document.body.appendChild(reloadBtn);
+
+        // Joystick touch handler
+        mobileJoystick.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            joystickActive = true;
+            const rect = mobileJoystick.getBoundingClientRect();
+            joystickCenter.x = rect.left + rect.width / 2;
+            joystickCenter.y = rect.top + rect.height / 2;
+        });
+
+        mobileJoystick.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!joystickActive) return;
+
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - joystickCenter.x;
+            const deltaY = touch.clientY - joystickCenter.y;
+            
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const maxDistance = 35;
+            
+            if (distance > maxDistance) {
+                touchMove.x = (deltaX / distance) * maxDistance;
+                touchMove.y = (deltaY / distance) * maxDistance;
+            } else {
+                touchMove.x = deltaX;
+                touchMove.y = deltaY;
+            }
+
+            joystickInner.style.transform = `translate(calc(-50% + ${touchMove.x}px), calc(-50% + ${touchMove.y}px))`;
+            
+            // Move player
+            if (gameState === 'playing') {
+                player.x += (touchMove.x / maxDistance) * player.speed;
+                player.y += (touchMove.y / maxDistance) * player.speed;
+                
+                player.x = Math.max(player.size, Math.min(canvas.width - player.size, player.x));
+                player.y = Math.max(player.size, Math.min(canvas.height - player.size, player.y));
+            }
+        });
+
+        mobileJoystick.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            joystickActive = false;
+            touchMove.x = 0;
+            touchMove.y = 0;
+            joystickInner.style.transform = 'translate(-50%, -50%)';
+        });
+
+        // Shoot button handler
+        let shootInterval = null;
+        shootBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (gameState === 'playing') {
+                shoot();
+                shootInterval = setInterval(() => {
+                    if (gameState === 'playing') shoot();
+                }, 200);
+            }
+        });
+
+        shootBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (shootInterval) {
+                clearInterval(shootInterval);
+                shootInterval = null;
+            }
+        });
+
+        // Reload button handler
+        reloadBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            reload();
+        });
+
+        // Prevent default touch behaviors on mobile controls
+        [mobileJoystick, shootBtn, reloadBtn].forEach(el => {
+            el.addEventListener('touchstart', (e) => e.preventDefault());
+            el.addEventListener('touchmove', (e) => e.preventDefault());
+            el.addEventListener('touchend', (e) => e.preventDefault());
+        });
 
         // Start game
         updateUI();
