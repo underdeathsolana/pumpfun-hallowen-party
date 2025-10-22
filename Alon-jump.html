@@ -2,7 +2,9 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>🦘 Alon Jump - Pump Fun Halloween Party 🦘</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,8 +12,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Poppins:wght@300;400;600;700;900&family=Bebas+Neue&family=Bungee+Shade&family=Fredoka+One&display=swap" rel="stylesheet">
     <style>
         /* Game Specific Styles */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+        }
+        
         body {
             overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overscroll-behavior: none;
         }
         
         .game-container {
@@ -258,6 +280,9 @@
             box-shadow: 0 0 30px var(--blood-red);
             z-index: 2000;
             display: none;
+            max-width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
         }
         
         .game-over h2 {
@@ -285,10 +310,16 @@
             cursor: pointer;
             font-size: 16px;
             transition: transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         
         .restart-btn:hover, .menu-btn:hover {
             transform: scale(1.05);
+        }
+        
+        .restart-btn:active, .menu-btn:active {
+            transform: scale(0.95);
         }
         
         .instructions {
@@ -303,6 +334,10 @@
             border: 3px solid var(--accent-color);
             box-shadow: 0 0 30px var(--accent-color);
             z-index: 2000;
+            max-width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .instructions h2 {
@@ -317,11 +352,13 @@
             text-align: left;
             margin: 20px 0;
             color: white;
+            padding-left: 20px;
         }
         
         .instructions li {
             margin: 10px 0;
             font-size: 16px;
+            line-height: 1.5;
         }
         
         .start-btn {
@@ -335,10 +372,16 @@
             font-size: 18px;
             transition: transform 0.2s;
             margin-top: 20px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         
         .start-btn:hover {
             transform: scale(1.05);
+        }
+        
+        .start-btn:active {
+            transform: scale(0.95);
         }
         
         .combo-display {
@@ -368,41 +411,50 @@
         /* Mobile Controls */
         .mobile-controls {
             position: fixed;
-            bottom: 20px;
+            bottom: 140px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1000;
+            z-index: 1001;
             display: none;
+            pointer-events: auto;
         }
         
         .jump-btn {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border: 3px solid white;
+            border: 4px solid white;
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 0 20px var(--primary-color);
+            box-shadow: 0 4px 15px rgba(255, 103, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             -webkit-user-select: none;
             user-select: none;
             touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .jump-btn:active {
-            transform: scale(0.9);
+            transform: scale(0.95);
             box-shadow: 0 0 30px var(--primary-color);
         }
         
         /* Mobile Responsive Design */
         @media (max-width: 768px) {
+            body {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+            }
+            
             .game-ui {
-                flex-direction: column;
+                flex-direction: row;
+                flex-wrap: wrap;
                 gap: 10px;
                 top: 10px;
                 left: 10px;
@@ -412,19 +464,22 @@
             .back-btn {
                 padding: 8px 16px;
                 font-size: 14px;
+                flex-shrink: 0;
             }
             
             .score-board {
                 padding: 8px 16px;
                 font-size: 14px;
+                flex: 1;
+                min-width: 150px;
             }
             
             .score-text {
-                font-size: 14px;
+                font-size: 13px;
             }
             
             .combo-display {
-                top: 80px;
+                top: 70px;
                 right: 10px;
                 padding: 8px 16px;
                 font-size: 14px;
@@ -434,22 +489,29 @@
                 display: block;
             }
             
+            .ground {
+                height: 100px;
+            }
+            
             .player {
                 width: 50px;
                 height: 50px;
                 left: 60px;
+                bottom: 100px;
             }
             
             .obstacle {
                 width: 40px;
                 height: 40px;
                 font-size: 32px;
+                bottom: 100px;
             }
             
             .power-up {
                 width: 35px;
                 height: 35px;
                 font-size: 25px;
+                bottom: 180px;
             }
             
             .meme-text {
@@ -459,6 +521,7 @@
             .instructions {
                 padding: 20px;
                 margin: 10px;
+                max-width: calc(100% - 20px);
                 max-height: 90vh;
                 overflow-y: auto;
             }
@@ -479,6 +542,7 @@
             .game-over {
                 padding: 20px;
                 margin: 10px;
+                max-width: calc(100% - 20px);
                 max-height: 90vh;
                 overflow-y: auto;
             }
@@ -503,6 +567,7 @@
                 top: 5px;
                 left: 5px;
                 right: 5px;
+                gap: 8px;
             }
             
             .back-btn {
@@ -512,36 +577,43 @@
             
             .score-board {
                 padding: 6px 12px;
+                min-width: 120px;
             }
             
             .score-text {
-                font-size: 12px;
+                font-size: 11px;
             }
             
             .combo-display {
-                top: 60px;
+                top: 55px;
                 right: 5px;
                 padding: 6px 12px;
                 font-size: 12px;
+            }
+            
+            .ground {
+                height: 80px;
             }
             
             .player {
                 width: 40px;
                 height: 40px;
                 left: 40px;
+                bottom: 80px;
             }
             
             .obstacle {
                 width: 35px;
                 height: 35px;
                 font-size: 28px;
+                bottom: 80px;
             }
             
             .power-up {
                 width: 30px;
                 height: 30px;
                 font-size: 20px;
-                bottom: 180px;
+                bottom: 150px;
             }
             
             .meme-text {
@@ -549,9 +621,13 @@
             }
             
             .jump-btn {
-                width: 70px;
-                height: 70px;
-                font-size: 20px;
+                width: 90px;
+                height: 90px;
+                font-size: 18px;
+            }
+            
+            .mobile-controls {
+                bottom: 100px;
             }
             
             .instructions {
@@ -735,6 +811,17 @@
             }
             
             initEventListeners() {
+                // Prevent default touch behaviors
+                document.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
+                
+                document.addEventListener('touchstart', (e) => {
+                    if (e.target.closest('.game-container') && !e.target.closest('.instructions') && !e.target.closest('.game-over')) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
                 // Jump controls - Keyboard
                 document.addEventListener('keydown', (e) => {
                     if (e.code === 'Space' && this.gameStarted && !this.gameOver) {
@@ -743,56 +830,50 @@
                     }
                 });
                 
-                // Jump controls - Mouse click (desktop)
-                document.addEventListener('click', (e) => {
-                    if (this.gameStarted && !this.gameOver && 
-                        !e.target.closest('.back-btn') && 
-                        !e.target.closest('.restart-btn') && 
-                        !e.target.closest('.menu-btn') &&
-                        !e.target.closest('.start-btn') &&
-                        !e.target.closest('.jump-btn')) {
-                        this.jump();
-                    }
-                });
-                
-                // Mobile jump button
+                // Mobile jump button - Touch
                 const jumpBtn = document.getElementById('jumpBtn');
                 if (jumpBtn) {
                     jumpBtn.addEventListener('touchstart', (e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         if (this.gameStarted && !this.gameOver) {
                             this.jump();
                         }
-                    });
+                    }, { passive: false });
                     
                     jumpBtn.addEventListener('click', (e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         if (this.gameStarted && !this.gameOver) {
                             this.jump();
                         }
                     });
                 }
                 
-                // Touch controls for game area (mobile)
-                this.gameWorld.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    if (this.gameStarted && !this.gameOver) {
-                        this.jump();
-                    }
-                });
+                // Desktop click controls
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (!isMobile) {
+                    document.addEventListener('click', (e) => {
+                        if (this.gameStarted && !this.gameOver && 
+                            !e.target.closest('.back-btn') && 
+                            !e.target.closest('.restart-btn') && 
+                            !e.target.closest('.menu-btn') &&
+                            !e.target.closest('.start-btn') &&
+                            !e.target.closest('.jump-btn')) {
+                            this.jump();
+                        }
+                    });
+                }
                 
-                // Prevent scrolling and zooming on mobile
-                document.addEventListener('touchstart', (e) => {
-                    if (e.target.closest('.game-container')) {
+                // Touch controls for game area (mobile only)
+                if (isMobile) {
+                    this.gameWorld.addEventListener('touchstart', (e) => {
                         e.preventDefault();
-                    }
-                }, { passive: false });
-                
-                document.addEventListener('touchmove', (e) => {
-                    if (e.target.closest('.game-container')) {
-                        e.preventDefault();
-                    }
-                }, { passive: false });
+                        if (this.gameStarted && !this.gameOver && !e.target.closest('.jump-btn')) {
+                            this.jump();
+                        }
+                    }, { passive: false });
+                }
                 
                 // Prevent scrolling on space
                 document.addEventListener('keydown', (e) => {
@@ -808,6 +889,10 @@
                     }, 100);
                 });
                 
+                window.addEventListener('resize', () => {
+                    this.adjustForOrientation();
+                });
+                
                 // Initial orientation adjustment
                 this.adjustForOrientation();
             }
@@ -815,15 +900,15 @@
             adjustForOrientation() {
                 // Adjust game elements based on screen orientation and size
                 const isPortrait = window.innerHeight > window.innerWidth;
-                const isMobile = window.innerWidth <= 768;
+                const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
                 
                 if (isMobile) {
                     // Show mobile controls
                     document.getElementById('mobileControls').style.display = 'block';
                     
                     // Adjust game speed for mobile
-                    if (isPortrait) {
-                        this.obstacleFrequency = Math.max(this.obstacleFrequency, 2000);
+                    if (isPortrait && this.obstacleFrequency < 2000) {
+                        this.obstacleFrequency = Math.max(2000, this.obstacleFrequency);
                     }
                 } else {
                     // Hide mobile controls on desktop
@@ -890,6 +975,7 @@
                 this.memesDodged = 0;
                 this.combo = 1;
                 this.speed = 2;
+                this.obstacleFrequency = 3000;
                 this.updateScore();
                 
                 // Adjust for mobile

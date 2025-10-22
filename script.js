@@ -911,7 +911,7 @@ function activateSecretMode() {
 
 // Copy Contract Address Function
 function copyContract() {
-    const contractAddress = 'Az67LERsWLK4XJW8YycKx6MHSSigGRjU7bVzkJSwpump';
+    const contractAddress = 'SOON';
     
     // Try modern clipboard API first
     if (navigator.clipboard && navigator.clipboard.writeText) {
