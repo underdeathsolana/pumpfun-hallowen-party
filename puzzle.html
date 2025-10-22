@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧩 Halloween Puzzle Game - Pump Fun</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0000 0%, #1a0a00 50%, #000000 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .puzzle-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 50px;
+            text-align: center;
+        }
+
+        .puzzle-title {
+            font-family: 'Nosifer', cursive;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: #ff6b00;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 
+                0 0 20px rgba(255, 107, 0, 0.8),
+                0 0 40px rgba(255, 107, 0, 0.6),
+                0 0 60px rgba(255, 107, 0, 0.4);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px rgba(255, 107, 0, 0.8),
+                    0 0 40px rgba(255, 107, 0, 0.6),
+                    0 0 60px rgba(255, 107, 0, 0.4);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 30px rgba(255, 107, 0, 1),
+                    0 0 60px rgba(255, 107, 0, 0.8),
+                    0 0 90px rgba(255, 107, 0, 0.6);
+            }
+        }
+
+        .puzzle-subtitle {
+            font-family: 'Butcherman', cursive;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: #00ff88;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-select {
+            padding: 12px 20px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #ff6b00 0%, #8b0000 100%);
+            color: white;
+            border: 2px solid #ff6b00;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .difficulty-select:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.6);
+        }
+
+        .image-select {
+            padding: 12px 20px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #00ff88 0%, #008844 100%);
+            color: #000;
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .image-select:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+        }
+
+        .new-game-btn {
+            padding: 12px 30px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #8b0000 0%, #ff0000 100%);
+            color: white;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Butcherman', cursive;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .new-game-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 2px solid #ff6b00;
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #00ff88;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            color: #ff6b00;
+            font-weight: bold;
+            font-family: 'Bebas Neue', cursive;
+        }
+
+        .puzzle-board {
+            display: inline-grid;
+            gap: 2px;
+            background: #000;
+            padding: 10px;
+            border-radius: 15px;
+            border: 3px solid #ff6b00;
+            box-shadow: 
+                0 0 30px rgba(255, 107, 0, 0.5),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+            margin: 0 auto 30px;
+        }
+
+        .puzzle-piece {
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            border: 2px solid #333;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .puzzle-piece:hover {
+            border-color: #ff6b00;
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(255, 107, 0, 0.8);
+        }
+
+        .puzzle-piece.empty {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px dashed #666;
+        }
+
+        .puzzle-piece.correct {
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+        }
+
+        .completion-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .completion-content {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #1a0a00 0%, #2a1500 100%);
+            border-radius: 20px;
+            border: 3px solid #ff6b00;
+            box-shadow: 0 0 50px rgba(255, 107, 0, 0.8);
+            max-width: 600px;
+            animation: scaleIn 0.5s;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .completion-content h2 {
+            font-family: 'Nosifer', cursive;
+            font-size: 3rem;
+            color: #ff6b00;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 107, 0, 0.8);
+        }
+
+        .completion-content p {
+            font-size: 1.2rem;
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+
+        .completion-image {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            border-radius: 10px;
+            border: 3px solid #00ff88;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        .play-again-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: linear-gradient(135deg, #ff6b00 0%, #8b0000 100%);
+            color: white;
+            border: 2px solid #ff6b00;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Butcherman', cursive;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .play-again-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.8);
+        }
+
+        .back-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            padding: 12px 25px;
+            background: rgba(139, 0, 0, 0.9);
+            color: white;
+            border: 2px solid #ff6b00;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            z-index: 100;
+        }
+
+        .back-btn:hover {
+            background: #ff6b00;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .puzzle-container {
+                padding: 80px 10px 30px;
+            }
+
+            .puzzle-title {
+                font-size: 2rem;
+            }
+
+            .puzzle-subtitle {
+                font-size: 1rem;
+            }
+
+            .game-controls {
+                gap: 10px;
+            }
+
+            .difficulty-select,
+            .image-select,
+            .new-game-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .game-stats {
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 10px 20px;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+
+            .puzzle-board {
+                padding: 5px;
+                gap: 1px;
+            }
+
+            .back-btn {
+                bottom: 15px;
+                left: 15px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Elements -->
+    <audio id="moveSound" preload="auto">
+        <source src="music/click card.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="winSound" preload="auto">
+        <source src="music/click costume ai.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="puzzle-container">
+        <h1 class="puzzle-title">🧩 Halloween Puzzle Game</h1>
+        <p class="puzzle-subtitle">Arrange the pieces to reveal the spooky image!</p>
+
+        <div class="game-controls">
+            <select class="difficulty-select" id="difficulty">
+                <option value="3">Easy (3x3)</option>
+                <option value="4" selected>Medium (4x4)</option>
+                <option value="5">Hard (5x5)</option>
+                <option value="6">Expert (6x6)</option>
+            </select>
+
+            <select class="image-select" id="imageSelect">
+                <option value="3">Spooky Image 1</option>
+                <option value="4">Spooky Image 2</option>
+                <option value="5">Spooky Image 3</option>
+                <option value="6">Spooky Image 4</option>
+                <option value="7">Spooky Image 5</option>
+                <option value="8">Spooky Image 6</option>
+                <option value="9">Spooky Image 7</option>
+                <option value="10">Spooky Image 8</option>
+                <option value="11">Spooky Image 9</option>
+                <option value="12">Spooky Image 10</option>
+            </select>
+
+            <button class="new-game-btn" onclick="startNewGame()">🎮 New Game</button>
+        </div>
+
+        <div class="game-stats">
+            <div class="stat-item">
+                <div class="stat-label">⏱️ Time</div>
+                <div class="stat-value" id="timer">00:00</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">🔄 Moves</div>
+                <div class="stat-value" id="moves">0</div>
+            </div>
+        </div>
+
+        <div class="puzzle-board" id="puzzleBoard"></div>
+    </div>
+
+    <a href="index.html" class="back-btn">← Back to Home</a>
+
+    <!-- Completion Overlay -->
+    <div class="completion-overlay" id="completionOverlay">
+        <div class="completion-content">
+            <h2>🎉 Congratulations! 🎉</h2>
+            <p>You completed the puzzle!</p>
+            <p>⏱️ Time: <span id="finalTime">00:00</span></p>
+            <p>🔄 Moves: <span id="finalMoves">0</span></p>
+            <img id="completedImage" src="" alt="Completed Puzzle" class="completion-image">
+            <br>
+            <button class="play-again-btn" onclick="playAgain()">👻 Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        let gridSize = 4;
+        let tiles = [];
+        let emptyIndex = 0;
+        let moves = 0;
+        let seconds = 0;
+        let timerInterval = null;
+        let currentImage = '3';
+        let isGameStarted = false;
+
+        const moveSound = document.getElementById('moveSound');
+        const winSound = document.getElementById('winSound');
+        const puzzleBoard = document.getElementById('puzzleBoard');
+        const movesDisplay = document.getElementById('moves');
+        const timerDisplay = document.getElementById('timer');
+        const difficultySelect = document.getElementById('difficulty');
+        const imageSelect = document.getElementById('imageSelect');
+
+        // Initialize game
+        function initGame() {
+            gridSize = parseInt(difficultySelect.value);
+            currentImage = imageSelect.value;
+            moves = 0;
+            seconds = 0;
+            isGameStarted = false;
+            
+            movesDisplay.textContent = '0';
+            timerDisplay.textContent = '00:00';
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            createPuzzle();
+        }
+
+        // Create puzzle board
+        function createPuzzle() {
+            puzzleBoard.innerHTML = '';
+            puzzleBoard.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+            
+            const pieceSize = Math.min(500 / gridSize, 100);
+            puzzleBoard.style.width = `${pieceSize * gridSize}px`;
+            
+            // Create tiles array
+            tiles = [];
+            const totalTiles = gridSize * gridSize;
+            
+            for (let i = 0; i < totalTiles; i++) {
+                tiles.push(i);
+            }
+            
+            // Set empty tile at the end
+            emptyIndex = totalTiles - 1;
+            
+            // Shuffle tiles
+            shuffleTiles();
+            
+            // Render tiles
+            renderTiles();
+        }
+
+        // Shuffle tiles with solvable configuration
+        function shuffleTiles() {
+            // Simple shuffle - make 100 random moves
+            for (let i = 0; i < 100; i++) {
+                const neighbors = getNeighbors(emptyIndex);
+                const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+                [tiles[emptyIndex], tiles[randomNeighbor]] = [tiles[randomNeighbor], tiles[emptyIndex]];
+                emptyIndex = randomNeighbor;
+            }
+        }
+
+        // Get valid neighbor indices
+        function getNeighbors(index) {
+            const neighbors = [];
+            const row = Math.floor(index / gridSize);
+            const col = index % gridSize;
+            
+            if (row > 0) neighbors.push(index - gridSize); // Up
+            if (row < gridSize - 1) neighbors.push(index + gridSize); // Down
+            if (col > 0) neighbors.push(index - 1); // Left
+            if (col < gridSize - 1) neighbors.push(index + 1); // Right
+            
+            return neighbors;
+        }
+
+        // Render tiles
+        function renderTiles() {
+            puzzleBoard.innerHTML = '';
+            const pieceSize = Math.min(500 / gridSize, 100);
+            
+            tiles.forEach((tileValue, index) => {
+                const piece = document.createElement('div');
+                piece.className = 'puzzle-piece';
+                piece.style.width = `${pieceSize}px`;
+                piece.style.height = `${pieceSize}px`;
+                
+                if (index === emptyIndex) {
+                    piece.classList.add('empty');
+                } else {
+                    const row = Math.floor(tileValue / gridSize);
+                    const col = tileValue % gridSize;
+                    
+                    piece.style.backgroundImage = `url('images/${currentImage}.png')`;
+                    piece.style.backgroundSize = `${pieceSize * gridSize}px ${pieceSize * gridSize}px`;
+                    piece.style.backgroundPosition = `-${col * pieceSize}px -${row * pieceSize}px`;
+                    
+                    // Check if piece is in correct position
+                    if (tileValue === index) {
+                        piece.classList.add('correct');
+                    }
+                }
+                
+                piece.addEventListener('click', () => moveTile(index));
+                puzzleBoard.appendChild(piece);
+            });
+        }
+
+        // Move tile
+        function moveTile(index) {
+            if (!isGameStarted) {
+                startTimer();
+                isGameStarted = true;
+            }
+            
+            const neighbors = getNeighbors(emptyIndex);
+            
+            if (neighbors.includes(index)) {
+                // Swap tiles
+                [tiles[emptyIndex], tiles[index]] = [tiles[index], tiles[emptyIndex]];
+                emptyIndex = index;
+                moves++;
+                
+                movesDisplay.textContent = moves;
+                
+                // Play move sound
+                moveSound.currentTime = 0;
+                moveSound.play().catch(() => {});
+                
+                renderTiles();
+                
+                // Check if puzzle is solved
+                if (isPuzzleSolved()) {
+                    setTimeout(showCompletion, 500);
+                }
+            }
+        }
+
+        // Check if puzzle is solved
+        function isPuzzleSolved() {
+            for (let i = 0; i < tiles.length - 1; i++) {
+                if (tiles[i] !== i) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Start timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                timerDisplay.textContent = 
+                    `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Show completion overlay
+        function showCompletion() {
+            clearInterval(timerInterval);
+            
+            winSound.currentTime = 0;
+            winSound.play().catch(() => {});
+            
+            document.getElementById('finalTime').textContent = timerDisplay.textContent;
+            document.getElementById('finalMoves').textContent = moves;
+            document.getElementById('completedImage').src = `images/${currentImage}.png`;
+            
+            document.getElementById('completionOverlay').style.display = 'flex';
+        }
+
+        // Play again
+        function playAgain() {
+            document.getElementById('completionOverlay').style.display = 'none';
+            startNewGame();
+        }
+
+        // Start new game
+        function startNewGame() {
+            document.getElementById('completionOverlay').style.display = 'none';
+            initGame();
+        }
+
+        // Change difficulty
+        difficultySelect.addEventListener('change', () => {
+            initGame();
+        });
+
+        // Change image
+        imageSelect.addEventListener('change', () => {
+            initGame();
+        });
+
+        // Initialize game on load
+        window.addEventListener('load', () => {
+            initGame();
+        });
+    </script>
+</body>
+</html>
