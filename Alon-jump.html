@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦘 Alon Jump - Pump Fun Halloween Party 🦘</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Poppins:wght@300;400;600;700;900&family=Bebas+Neue&family=Bungee+Shade&family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        /* Game Specific Styles */
+        body {
+            overflow: hidden;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #87CEEB 0%, #98FB98 100%);
+            overflow: hidden;
+        }
+        
+        .game-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .back-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            font-size: 16px;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .score-board {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+        
+        .score-text {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .game-world {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            bottom: 0;
+        }
+        
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(45deg, #8B4513, #CD853F);
+            border-top: 5px solid #654321;
+        }
+        
+        .clouds {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: moveCloud 15s linear infinite;
+        }
+        
+        .cloud:before {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+        }
+        
+        .cloud1 {
+            width: 80px;
+            height: 40px;
+            top: 20px;
+            animation-delay: 0s;
+        }
+        
+        .cloud1:before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+        
+        .cloud2 {
+            width: 60px;
+            height: 30px;
+            top: 80px;
+            animation-delay: -5s;
+        }
+        
+        .cloud2:before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 15px;
+        }
+        
+        .cloud3 {
+            width: 100px;
+            height: 50px;
+            top: 50px;
+            animation-delay: -10s;
+        }
+        
+        .cloud3:before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 20px;
+        }
+        
+        @keyframes moveCloud {
+            0% {
+                left: -100px;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .player {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            bottom: 120px;
+            left: 100px;
+            background-image: url('alons/pill.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 10px;
+            border: 3px solid white;
+            box-shadow: 0 0 20px var(--primary-color);
+            z-index: 100;
+            transition: transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .player.jumping {
+            animation: jump 0.6s ease-in-out;
+        }
+        
+        @keyframes jump {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-150px) scale(1.1);
+            }
+        }
+        
+        .obstacle {
+            position: absolute;
+            bottom: 120px;
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: moveObstacle linear;
+            z-index: 50;
+        }
+        
+        @keyframes moveObstacle {
+            0% {
+                right: -60px;
+            }
+            100% {
+                right: 100%;
+            }
+        }
+        
+        .power-up {
+            position: absolute;
+            bottom: 200px;
+            width: 40px;
+            height: 40px;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: movePowerUp linear, bounce 1s ease-in-out infinite;
+            z-index: 50;
+            background: rgba(255, 255, 0, 0.3);
+            border-radius: 50%;
+        }
+        
+        @keyframes movePowerUp {
+            0% {
+                right: -50px;
+            }
+            100% {
+                right: 100%;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid var(--blood-red);
+            box-shadow: 0 0 30px var(--blood-red);
+            z-index: 2000;
+            display: none;
+        }
+        
+        .game-over h2 {
+            color: var(--blood-red);
+            font-family: 'Creepster', cursive;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--blood-red);
+        }
+        
+        .game-over p {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .restart-btn, .menu-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 15px 30px;
+            margin: 0 10px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+        
+        .restart-btn:hover, .menu-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 0 30px var(--accent-color);
+            z-index: 2000;
+        }
+        
+        .instructions h2 {
+            color: var(--accent-color);
+            font-family: 'Creepster', cursive;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+        
+        .instructions ul {
+            text-align: left;
+            margin: 20px 0;
+            color: white;
+        }
+        
+        .instructions li {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+        .start-btn {
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+        
+        .start-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .combo-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 215, 0, 0.9);
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 2px solid gold;
+            color: black;
+            font-weight: bold;
+            font-size: 16px;
+            display: none;
+        }
+        
+        .meme-text {
+            position: absolute;
+            font-size: 12px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            pointer-events: none;
+            z-index: 60;
+            white-space: nowrap;
+        }
+        
+        /* Mobile Controls */
+        .mobile-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .jump-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: 3px solid white;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 20px var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        
+        .jump-btn:active {
+            transform: scale(0.9);
+            box-shadow: 0 0 30px var(--primary-color);
+        }
+        
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .game-ui {
+                flex-direction: column;
+                gap: 10px;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+            }
+            
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .score-board {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .score-text {
+                font-size: 14px;
+            }
+            
+            .combo-display {
+                top: 80px;
+                right: 10px;
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .mobile-controls {
+                display: block;
+            }
+            
+            .player {
+                width: 50px;
+                height: 50px;
+                left: 60px;
+            }
+            
+            .obstacle {
+                width: 40px;
+                height: 40px;
+                font-size: 32px;
+            }
+            
+            .power-up {
+                width: 35px;
+                height: 35px;
+                font-size: 25px;
+            }
+            
+            .meme-text {
+                font-size: 10px;
+            }
+            
+            .instructions {
+                padding: 20px;
+                margin: 10px;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            
+            .instructions h2 {
+                font-size: 24px;
+            }
+            
+            .instructions ul {
+                font-size: 14px;
+            }
+            
+            .instructions li {
+                font-size: 14px;
+                margin: 8px 0;
+            }
+            
+            .game-over {
+                padding: 20px;
+                margin: 10px;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            
+            .game-over h2 {
+                font-size: 28px;
+            }
+            
+            .game-over p {
+                font-size: 16px;
+            }
+            
+            .restart-btn, .menu-btn, .start-btn {
+                padding: 12px 24px;
+                font-size: 14px;
+                margin: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-ui {
+                top: 5px;
+                left: 5px;
+                right: 5px;
+            }
+            
+            .back-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .score-board {
+                padding: 6px 12px;
+            }
+            
+            .score-text {
+                font-size: 12px;
+            }
+            
+            .combo-display {
+                top: 60px;
+                right: 5px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .player {
+                width: 40px;
+                height: 40px;
+                left: 40px;
+            }
+            
+            .obstacle {
+                width: 35px;
+                height: 35px;
+                font-size: 28px;
+            }
+            
+            .power-up {
+                width: 30px;
+                height: 30px;
+                font-size: 20px;
+                bottom: 180px;
+            }
+            
+            .meme-text {
+                font-size: 8px;
+            }
+            
+            .jump-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 20px;
+            }
+            
+            .instructions {
+                padding: 15px;
+                margin: 5px;
+            }
+            
+            .instructions h2 {
+                font-size: 20px;
+            }
+            
+            .game-over {
+                padding: 15px;
+                margin: 5px;
+            }
+            
+            .game-over h2 {
+                font-size: 24px;
+            }
+        }
+        
+        /* Touch interaction improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .back-btn:hover, .restart-btn:hover, .menu-btn:hover, .start-btn:hover {
+                transform: none;
+            }
+            
+            .back-btn:active, .restart-btn:active, .menu-btn:active, .start-btn:active {
+                transform: scale(0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects (same as main site) -->
+    <div class="fog"></div>
+    <div class="fog fog-2"></div>
+    
+    <!-- Game Container -->
+    <div class="game-container">
+        <!-- Game UI -->
+        <div class="game-ui">
+            <a href="index.html" class="back-btn">
+                ← Back to Party
+            </a>
+            <div class="score-board">
+                <div class="score-text">Score: <span id="score">0</span></div>
+                <div class="score-text">High Score: <span id="highScore">0</span></div>
+            </div>
+        </div>
+        
+        <!-- Combo Display -->
+        <div class="combo-display" id="comboDisplay">
+            <span id="comboText">Combo x1</span>
+        </div>
+        
+        <!-- Game World -->
+        <div class="game-world">
+            <!-- Background Clouds -->
+            <div class="clouds">
+                <div class="cloud cloud1"></div>
+                <div class="cloud cloud2"></div>
+                <div class="cloud cloud3"></div>
+            </div>
+            
+            <!-- Player -->
+            <div class="player" id="player"></div>
+            
+            <!-- Ground -->
+            <div class="ground"></div>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div class="game-over" id="gameOver">
+            <h2>GAME OVER!</h2>
+            <p>You got rekt by the memes! 💀</p>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <p>Memes Dodged: <span id="memesDodged">0</span></p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+            <button class="menu-btn" onclick="goToMenu()">Back to Party</button>
+        </div>
+        
+        <!-- Mobile Controls -->
+        <div class="mobile-controls" id="mobileControls">
+            <button class="jump-btn" id="jumpBtn">
+                JUMP
+            </button>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instructions" id="instructions">
+            <h2>🦘 ALON JUMP 🦘</h2>
+            <p>Help Alon survive the meme apocalypse!</p>
+            <ul>
+                <li>🦘 <strong>SPACE, CLICK, or TAP JUMP</strong> - Jump over meme obstacles</li>
+                <li>💎 <strong>Collect Power-ups</strong> - Get bonus points</li>
+                <li>🔥 <strong>Chain Jumps</strong> - Build combos for higher scores</li>
+                <li>⚡ <strong>Speed Increases</strong> - Game gets faster as you progress</li>
+                <li>😱 <strong>Avoid Memes</strong> - Don't let the cringe catch you!</li>
+            </ul>
+            <p><strong>Meme Obstacles:</strong></p>
+            <p>🐶 Doge • 🐸 Pepe • 🚀 To The Moon • 💎 Diamond Hands • 📈 Stonks</p>
+            <button class="start-btn" onclick="startGame()">START JUMPING!</button>
+        </div>
+    </div>
+    
+    <!-- Audio for game effects -->
+    <audio id="jumpSound" preload="auto">
+        <source src="music/click sound logo.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="gameOverSound" preload="auto">
+        <source src="music/scream 1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="powerUpSound" preload="auto">
+        <source src="music/click costume ai.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="backgroundGameMusic" preload="auto" loop>
+        <source src="music/1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        class AlonJumpGame {
+            constructor() {
+                this.gameStarted = false;
+                this.gameOver = false;
+                this.score = 0;
+                this.memesDodged = 0;
+                this.combo = 1;
+                this.speed = 2;
+                this.obstacleFrequency = 3000;
+                this.powerUpFrequency = 8000;
+                this.isJumping = false;
+                this.jumpCooldown = false;
+                
+                this.player = document.getElementById('player');
+                this.gameWorld = document.querySelector('.game-world');
+                this.scoreElement = document.getElementById('score');
+                this.highScoreElement = document.getElementById('highScore');
+                this.comboDisplay = document.getElementById('comboDisplay');
+                this.comboText = document.getElementById('comboText');
+                
+                this.obstacles = [];
+                this.powerUps = [];
+                this.animationFrame = null;
+                this.obstacleTimer = null;
+                this.powerUpTimer = null;
+                
+                // Meme obstacles with their texts
+                this.memeObstacles = [
+                    { emoji: '🐶', text: 'Such Wow!' },
+                    { emoji: '🐸', text: 'Feels Bad Man' },
+                    { emoji: '🚀', text: 'To The Moon!' },
+                    { emoji: '💎', text: 'Diamond Hands' },
+                    { emoji: '📈', text: 'Stonks!' },
+                    { emoji: '🦍', text: 'Apes Together!' },
+                    { emoji: '🌙', text: 'Moon Soon!' },
+                    { emoji: '🔥', text: 'This is Fine' },
+                    { emoji: '💸', text: 'Money Printer' },
+                    { emoji: '🤡', text: 'Honk Honk!' }
+                ];
+                
+                this.powerUpTypes = ['💰', '⚡', '🍄', '⭐', '🎃'];
+                
+                this.loadHighScore();
+                this.initEventListeners();
+            }
+            
+            loadHighScore() {
+                const saved = localStorage.getItem('alonJumpHighScore');
+                if (saved) {
+                    this.highScoreElement.textContent = saved;
+                }
+            }
+            
+            saveHighScore() {
+                const current = parseInt(this.highScoreElement.textContent);
+                if (this.score > current) {
+                    this.highScoreElement.textContent = this.score;
+                    localStorage.setItem('alonJumpHighScore', this.score.toString());
+                }
+            }
+            
+            initEventListeners() {
+                // Jump controls - Keyboard
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space' && this.gameStarted && !this.gameOver) {
+                        e.preventDefault();
+                        this.jump();
+                    }
+                });
+                
+                // Jump controls - Mouse click (desktop)
+                document.addEventListener('click', (e) => {
+                    if (this.gameStarted && !this.gameOver && 
+                        !e.target.closest('.back-btn') && 
+                        !e.target.closest('.restart-btn') && 
+                        !e.target.closest('.menu-btn') &&
+                        !e.target.closest('.start-btn') &&
+                        !e.target.closest('.jump-btn')) {
+                        this.jump();
+                    }
+                });
+                
+                // Mobile jump button
+                const jumpBtn = document.getElementById('jumpBtn');
+                if (jumpBtn) {
+                    jumpBtn.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        if (this.gameStarted && !this.gameOver) {
+                            this.jump();
+                        }
+                    });
+                    
+                    jumpBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        if (this.gameStarted && !this.gameOver) {
+                            this.jump();
+                        }
+                    });
+                }
+                
+                // Touch controls for game area (mobile)
+                this.gameWorld.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    if (this.gameStarted && !this.gameOver) {
+                        this.jump();
+                    }
+                });
+                
+                // Prevent scrolling and zooming on mobile
+                document.addEventListener('touchstart', (e) => {
+                    if (e.target.closest('.game-container')) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                document.addEventListener('touchmove', (e) => {
+                    if (e.target.closest('.game-container')) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                // Prevent scrolling on space
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                    }
+                });
+                
+                // Handle device orientation changes
+                window.addEventListener('orientationchange', () => {
+                    setTimeout(() => {
+                        this.adjustForOrientation();
+                    }, 100);
+                });
+                
+                // Initial orientation adjustment
+                this.adjustForOrientation();
+            }
+            
+            adjustForOrientation() {
+                // Adjust game elements based on screen orientation and size
+                const isPortrait = window.innerHeight > window.innerWidth;
+                const isMobile = window.innerWidth <= 768;
+                
+                if (isMobile) {
+                    // Show mobile controls
+                    document.getElementById('mobileControls').style.display = 'block';
+                    
+                    // Adjust game speed for mobile
+                    if (isPortrait) {
+                        this.obstacleFrequency = Math.max(this.obstacleFrequency, 2000);
+                    }
+                } else {
+                    // Hide mobile controls on desktop
+                    document.getElementById('mobileControls').style.display = 'none';
+                }
+            }
+            
+            jump() {
+                if (this.isJumping || this.jumpCooldown) return;
+                
+                this.isJumping = true;
+                this.jumpCooldown = true;
+                this.player.classList.add('jumping');
+                
+                // Play jump sound
+                this.playSound('jumpSound');
+                
+                // Reset jump state
+                setTimeout(() => {
+                    this.player.classList.remove('jumping');
+                    this.isJumping = false;
+                }, 600);
+                
+                setTimeout(() => {
+                    this.jumpCooldown = false;
+                }, 300);
+                
+                // Check for combo
+                this.checkCombo();
+            }
+            
+            checkCombo() {
+                const nearbyObstacles = this.obstacles.filter(obstacle => {
+                    const obstacleRect = obstacle.element.getBoundingClientRect();
+                    const playerRect = this.player.getBoundingClientRect();
+                    const distance = Math.abs(obstacleRect.left - playerRect.left);
+                    return distance < 100;
+                });
+                
+                if (nearbyObstacles.length > 0 && this.isJumping) {
+                    this.combo = Math.min(this.combo + 1, 10);
+                    this.updateComboDisplay();
+                }
+            }
+            
+            updateComboDisplay() {
+                if (this.combo > 1) {
+                    this.comboDisplay.style.display = 'block';
+                    this.comboText.textContent = `Combo x${this.combo}`;
+                    
+                    setTimeout(() => {
+                        if (this.combo <= 1) {
+                            this.comboDisplay.style.display = 'none';
+                        }
+                    }, 2000);
+                }
+            }
+            
+            startGame() {
+                document.getElementById('instructions').style.display = 'none';
+                this.gameStarted = true;
+                this.gameOver = false;
+                this.score = 0;
+                this.memesDodged = 0;
+                this.combo = 1;
+                this.speed = 2;
+                this.updateScore();
+                
+                // Adjust for mobile
+                this.adjustForOrientation();
+                
+                // Start background music
+                this.playSound('backgroundGameMusic');
+                
+                this.startObstacleGeneration();
+                this.startPowerUpGeneration();
+                this.gameLoop();
+            }
+            
+            startObstacleGeneration() {
+                const generateObstacle = () => {
+                    if (!this.gameOver) {
+                        this.createObstacle();
+                        // Increase difficulty over time
+                        this.obstacleFrequency = Math.max(1500, this.obstacleFrequency - 10);
+                        this.obstacleTimer = setTimeout(generateObstacle, this.obstacleFrequency);
+                    }
+                };
+                this.obstacleTimer = setTimeout(generateObstacle, this.obstacleFrequency);
+            }
+            
+            startPowerUpGeneration() {
+                const generatePowerUp = () => {
+                    if (!this.gameOver) {
+                        this.createPowerUp();
+                        this.powerUpTimer = setTimeout(generatePowerUp, this.powerUpFrequency);
+                    }
+                };
+                this.powerUpTimer = setTimeout(generatePowerUp, this.powerUpFrequency);
+            }
+            
+            createObstacle() {
+                const meme = this.memeObstacles[Math.floor(Math.random() * this.memeObstacles.length)];
+                const obstacle = document.createElement('div');
+                obstacle.className = 'obstacle';
+                obstacle.innerHTML = meme.emoji;
+                obstacle.style.animationDuration = `${3 / this.speed}s`;
+                
+                // Add meme text
+                const memeText = document.createElement('div');
+                memeText.className = 'meme-text';
+                memeText.textContent = meme.text;
+                memeText.style.bottom = '60px';
+                memeText.style.right = '5px';
+                obstacle.appendChild(memeText);
+                
+                this.gameWorld.appendChild(obstacle);
+                
+                const obstacleObj = {
+                    element: obstacle,
+                    passed: false
+                };
+                this.obstacles.push(obstacleObj);
+                
+                // Remove obstacle after animation
+                setTimeout(() => {
+                    if (obstacle.parentNode) {
+                        obstacle.parentNode.removeChild(obstacle);
+                    }
+                    this.obstacles = this.obstacles.filter(o => o !== obstacleObj);
+                }, (3 / this.speed) * 1000);
+            }
+            
+            createPowerUp() {
+                const powerUpType = this.powerUpTypes[Math.floor(Math.random() * this.powerUpTypes.length)];
+                const powerUp = document.createElement('div');
+                powerUp.className = 'power-up';
+                powerUp.innerHTML = powerUpType;
+                powerUp.style.animationDuration = `${4 / this.speed}s`;
+                
+                this.gameWorld.appendChild(powerUp);
+                
+                const powerUpObj = {
+                    element: powerUp,
+                    type: powerUpType,
+                    collected: false
+                };
+                this.powerUps.push(powerUpObj);
+                
+                // Remove power-up after animation
+                setTimeout(() => {
+                    if (powerUp.parentNode) {
+                        powerUp.parentNode.removeChild(powerUp);
+                    }
+                    this.powerUps = this.powerUps.filter(p => p !== powerUpObj);
+                }, (4 / this.speed) * 1000);
+            }
+            
+            gameLoop() {
+                if (!this.gameOver) {
+                    this.checkCollisions();
+                    this.checkPowerUpCollection();
+                    this.updateSpeed();
+                    this.animationFrame = requestAnimationFrame(() => this.gameLoop());
+                }
+            }
+            
+            checkCollisions() {
+                const playerRect = this.player.getBoundingClientRect();
+                
+                this.obstacles.forEach(obstacle => {
+                    const obstacleRect = obstacle.element.getBoundingClientRect();
+                    
+                    // Check if obstacle passed the player
+                    if (!obstacle.passed && obstacleRect.right < playerRect.left) {
+                        obstacle.passed = true;
+                        this.memesDodged++;
+                        this.score += 10 * this.combo;
+                        this.updateScore();
+                        
+                        // Reset combo if no jump for a while
+                        setTimeout(() => {
+                            if (this.combo > 1) {
+                                this.combo = Math.max(1, this.combo - 1);
+                                this.updateComboDisplay();
+                            }
+                        }, 1000);
+                    }
+                    
+                    // Check collision
+                    if (this.isColliding(playerRect, obstacleRect) && !this.isJumping) {
+                        this.endGame();
+                    }
+                });
+            }
+            
+            checkPowerUpCollection() {
+                const playerRect = this.player.getBoundingClientRect();
+                
+                this.powerUps.forEach(powerUp => {
+                    if (!powerUp.collected) {
+                        const powerUpRect = powerUp.element.getBoundingClientRect();
+                        
+                        if (this.isColliding(playerRect, powerUpRect)) {
+                            powerUp.collected = true;
+                            this.collectPowerUp(powerUp);
+                            
+                            // Remove power-up visually
+                            if (powerUp.element.parentNode) {
+                                powerUp.element.parentNode.removeChild(powerUp.element);
+                            }
+                        }
+                    }
+                });
+            }
+            
+            collectPowerUp(powerUp) {
+                this.playSound('powerUpSound');
+                
+                switch(powerUp.type) {
+                    case '💰':
+                        this.score += 50 * this.combo;
+                        break;
+                    case '⚡':
+                        this.score += 30 * this.combo;
+                        this.combo = Math.min(this.combo + 2, 10);
+                        break;
+                    case '🍄':
+                        this.score += 100;
+                        break;
+                    case '⭐':
+                        this.score += 25 * this.combo;
+                        this.combo = Math.min(this.combo + 1, 10);
+                        break;
+                    case '🎃':
+                        this.score += 75 * this.combo;
+                        break;
+                }
+                
+                this.updateScore();
+                this.updateComboDisplay();
+            }
+            
+            isColliding(rect1, rect2) {
+                return !(rect1.right < rect2.left || 
+                        rect1.left > rect2.right || 
+                        rect1.bottom < rect2.top || 
+                        rect1.top > rect2.bottom);
+            }
+            
+            updateSpeed() {
+                this.speed = Math.min(4, 2 + (this.score / 1000));
+            }
+            
+            updateScore() {
+                this.scoreElement.textContent = this.score;
+            }
+            
+            endGame() {
+                this.gameOver = true;
+                this.gameStarted = false;
+                
+                // Stop timers
+                if (this.obstacleTimer) clearTimeout(this.obstacleTimer);
+                if (this.powerUpTimer) clearTimeout(this.powerUpTimer);
+                if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+                
+                // Stop music
+                document.getElementById('backgroundGameMusic').pause();
+                
+                // Play game over sound
+                this.playSound('gameOverSound');
+                
+                // Save high score
+                this.saveHighScore();
+                
+                // Show game over screen
+                document.getElementById('finalScore').textContent = this.score;
+                document.getElementById('memesDodged').textContent = this.memesDodged;
+                document.getElementById('gameOver').style.display = 'block';
+            }
+            
+            playSound(soundId) {
+                const sound = document.getElementById(soundId);
+                if (sound) {
+                    sound.currentTime = 0;
+                    sound.play().catch(e => console.log('Audio play failed:', e));
+                }
+            }
+            
+            restart() {
+                // Reset game state
+                this.gameOver = false;
+                this.gameStarted = false;
+                this.score = 0;
+                this.memesDodged = 0;
+                this.combo = 1;
+                this.speed = 2;
+                this.obstacleFrequency = 3000;
+                this.isJumping = false;
+                this.jumpCooldown = false;
+                
+                // Clear existing obstacles and power-ups
+                this.obstacles.forEach(obstacle => {
+                    if (obstacle.element.parentNode) {
+                        obstacle.element.parentNode.removeChild(obstacle.element);
+                    }
+                });
+                this.obstacles = [];
+                
+                this.powerUps.forEach(powerUp => {
+                    if (powerUp.element.parentNode) {
+                        powerUp.element.parentNode.removeChild(powerUp.element);
+                    }
+                });
+                this.powerUps = [];
+                
+                // Hide UI elements
+                document.getElementById('gameOver').style.display = 'none';
+                document.getElementById('comboDisplay').style.display = 'none';
+                
+                // Reset player
+                this.player.classList.remove('jumping');
+                
+                // Update display
+                this.updateScore();
+                
+                // Adjust for mobile
+                this.adjustForOrientation();
+                
+                // Start new game
+                this.startGame();
+            }
+        }
+        
+        // Initialize game
+        const game = new AlonJumpGame();
+        
+        // Global functions for buttons
+        function startGame() {
+            game.startGame();
+        }
+        
+        function restartGame() {
+            game.restart();
+        }
+        
+        function goToMenu() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
