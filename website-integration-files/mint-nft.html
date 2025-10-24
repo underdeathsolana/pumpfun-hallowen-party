@@ -5,14 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎃 Mint Halloween NFT - Pump Halloween Party 2025</title>
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Poppins:wght@300;400;600;700;900&family=Bebas+Neue&family=Bungee+Shade&family=Fredoka+One&display=swap" rel="stylesheet">
   
-  <!-- Solana Web3.js -->
-  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-  <script src="https://unpkg.com/@solana/spl-token@latest/lib/index.iife.min.js"></script>
+  <!-- Solana Web3.js Libraries -->
+  <script src="https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@solana/spl-token@0.3.9/lib/index.iife.min.js" crossorigin></script>
+  
+  <!-- Verify Libraries Loaded -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      console.log('🎃 Checking Solana libraries...');
+      
+      // Check Solana Web3
+      if (typeof solanaWeb3 === 'undefined') {
+        console.error('❌ Solana Web3.js failed to load');
+        alert('Failed to load Solana Web3 library. Please check your internet connection and refresh.');
+        return;
+      }
+      console.log('✅ Solana Web3.js loaded:', solanaWeb3.VERSION || 'version unknown');
+      
+      // Check SPL Token - try multiple global names
+      const splTokenLib = window.splToken || window.spl || window.SPLToken;
+      if (typeof splTokenLib === 'undefined') {
+        console.error('❌ SPL Token library failed to load');
+        console.log('Available globals:', Object.keys(window).filter(k => k.toLowerCase().includes('spl') || k.toLowerCase().includes('token')));
+      } else {
+        console.log('✅ SPL Token library loaded successfully');
+        console.log('SPL Token available as:', splTokenLib);
+        // Make it available as window.splToken for consistency
+        window.splToken = splTokenLib;
+      }
+    });
+  </script>
   
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/mint-page.css">
@@ -114,13 +144,24 @@
 
     <!-- Info Section -->
     <div class="mint-info">
-      <p>⚠️ Make sure your wallet is switched to <strong>Devnet</strong></p>
-      <p>Need test SOL? Run: <code>https://faucet.solana.com/</code></p>
+      <p>⚠️ Make sure your wallet is switched to <strong>Devnet/TESTNET</strong></p>
+      <p>💰 Need test SOL? Visit: <code>https://faucet.solana.com/</code></p>
+      <p>🎃 Total Supply: 16 Unique Halloween NFTs</p>
     </div>
   </div>
 
-  <!-- JavaScript -->
+  <!-- JavaScript Files -->
+  <script>
+    // Initialize app when page loads
+    console.log('🎃 Pump Halloween Party - NFT Mint Page');
+    console.log('Program ID: 2QHgBJFgBcsBCuHfPezqdZRDjFNu2Du2p1JGR6Dk6zKf');
+    console.log('Network: Devnet');
+  </script>
+  
+  <!-- Background Effects -->
   <script src="js/mint-page-effects.js"></script>
+  
+  <!-- Solana Integration -->
   <script src="js/solana-config.js"></script>
   <script src="js/solana-wallet.js"></script>
   <script src="js/solana-mint.js"></script>
