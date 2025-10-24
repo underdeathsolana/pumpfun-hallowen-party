@@ -1231,6 +1231,50 @@ section {
     }
 }
 
+/* Mint NFT Link */
+.mint-link {
+    background: linear-gradient(135deg, rgba(255, 107, 0, 0.4), rgba(255, 140, 0, 0.3));
+    border: 2px solid rgba(255, 107, 0, 0.7);
+    font-weight: 700;
+    position: relative;
+    overflow: hidden;
+}
+
+.mint-link::after {
+    content: '🎃';
+    position: absolute;
+    right: -30px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.mint-link:hover {
+    background: linear-gradient(135deg, #ff6b00, #ff8c00);
+    box-shadow: 
+        0 5px 20px rgba(255, 107, 0, 0.7),
+        0 0 30px rgba(255, 140, 0, 0.5);
+    animation: mintPulse 1.5s infinite;
+    padding-right: 40px;
+}
+
+.mint-link:hover::after {
+    right: 10px;
+    opacity: 1;
+}
+
+@keyframes mintPulse {
+    0%, 100% {
+        box-shadow: 
+            0 5px 20px rgba(255, 107, 0, 0.7),
+            0 0 30px rgba(255, 140, 0, 0.5);
+    }
+    50% {
+        box-shadow: 
+            0 5px 30px rgba(255, 107, 0, 1),
+            0 0 40px rgba(255, 140, 0, 0.8);
+    }
+}
+
 @keyframes pulse {
     0%, 100% {
         box-shadow: 0 5px 20px rgba(29, 161, 242, 0.5);
